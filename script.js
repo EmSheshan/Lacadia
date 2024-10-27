@@ -23,8 +23,8 @@ function loadPokemonData() {
   
     pokemonList.forEach(pokemon => {
       // Construct the image paths for regular and shiny forms
-      const regularImage = `images/${pokemon.number}_${pokemon.name}.png`;
-      const shinyImage = `images/${pokemon.number}_${pokemon.name}_Shiny.png`;
+      const regularImage = `Images/${pokemon.number}_${pokemon.name}.png`;
+      const shinyImage = `Images/${pokemon.number}_${pokemon.name}_Shiny.png`;
   
       // Create a card for each Pokémon
       const pokemonCard = document.createElement("div");
