@@ -32,7 +32,7 @@ function loadPokemonData() {
       pokemonCard.innerHTML = `
         <img src="${regularImage}" alt="${pokemon.name}" class="pokemon-image">
         <div class="name">${pokemon.name}</div>
-        <div class="type">${pokemon.type}</div>
+        <div class="type">${pokemon.type1}</div>
         <button onclick="toggleShiny('${pokemon.number}', '${pokemon.name}')">Toggle Shiny</button>
       `;
       pokedex.appendChild(pokemonCard);
@@ -45,8 +45,8 @@ function loadPokemonData() {
     if (imageElement) {
       const isShiny = imageElement.src.includes("_Shiny");
       imageElement.src = isShiny 
-        ? `images/${number}_${name}.png`
-        : `images/${number}_${name}_Shiny.png`;
+        ? `Images/${number}_${name}.png`
+        : `Images/${number}_${name}_Shiny.png`;
     }
   }
   
