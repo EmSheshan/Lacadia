@@ -22,22 +22,26 @@ function loadPokemonData() {
     pokedex.innerHTML = ""; // Clear existing content
   
     pokemonList.forEach(pokemon => {
-      // Construct the image paths for regular and shiny forms
+      // Construct image paths
       const regularImage = `Images/${pokemon.number}_${pokemon.name}.png`;
       const shinyImage = `Images/${pokemon.number}_${pokemon.name}_Shiny.png`;
   
-      // Create a card for each Pokémon
+      // Handle type display: Show both types if type2 is not "na"
+      const types = pokemon.type2 && pokemon.type2.toLowerCase() !== "na" ? `${pokemon.type1} / ${pokemon.type2}` : pokemon.type1;
+  
+      // Create the Pokémon card
       const pokemonCard = document.createElement("div");
       pokemonCard.classList.add("pokemon");
       pokemonCard.innerHTML = `
         <img src="${regularImage}" alt="${pokemon.name}" class="pokemon-image">
         <div class="name">${pokemon.name}</div>
-        <div class="type">${pokemon.type1}</div>
+        <div class="type">${types}</div>
         <button onclick="toggleShiny('${pokemon.number}', '${pokemon.name}')">Toggle Shiny</button>
       `;
       pokedex.appendChild(pokemonCard);
     });
   }
+  
   
   // Function to toggle shiny image
   function toggleShiny(number, name) {
