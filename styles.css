@@ -186,7 +186,7 @@ body {
 
 .arrow-right {
   display: flex;
-  justify-content: flex-end; /* Aligns the content to the right */
+  justify-content: center;
   align-items: center; /* Vertically centers the content */
   position: absolute; /* Make sure it stays in position */
   right: 60px; /* Add some padding from the right edge */
@@ -206,9 +206,8 @@ body {
 }
 
 .pokemon-info {
-    font-size: 1.2rem;
-    text-align: center;
-    flex-grow: 1; /* Ensure the Pokémon info is centered in the remaining space */
+  text-align: center;
+  flex-grow: 1;
 }
 
 /* Optional: Make sure the arrows are aligned nicely with the text */

@@ -24,18 +24,23 @@ function displaySelectedPokemon(pokemonData) {
     const selectedPokemon = pokemonData[pokemonNumber - 1];
 
     if (selectedPokemon) {
-        
         const regularImage = `Images/${selectedPokemon.name}.png`;
         const shinyImage = `Images/${selectedPokemon.name}_Shiny.png`;
         const errorImage = `Images/Missingno.png`;
         const type1Image = `Types/${selectedPokemon.type1}.png`;
-        const type2Image = selectedPokemon.type2 && selectedPokemon.type2.toLowerCase() !== "na" ? `Types/${selectedPokemon.type2}.png` : null; 
+        const type2Image = selectedPokemon.type2 && selectedPokemon.type2.toLowerCase() !== "na" ? `Types/${selectedPokemon.type2}.png` : null;
 
         document.getElementById("previousPokemonNumber").innerText = pokemonNumber - 1; // For previous Pokémon
         document.getElementById("previousPokemonName").innerText = pokemonData[pokemonNumber - 2]?.name || ''; // If a previous Pokémon exists
         document.getElementById("nextPokemonNumber").innerText = pokemonNumber + 1; // For next Pokémon
         document.getElementById("nextPokemonName").innerText = pokemonData[pokemonNumber]?.name || ''; // If a next Pokémon exists
 
+        // Hide previous Pokémon if we're on the first page
+        if (pokemonNumber === 1) {
+            document.querySelector(".arrow-left").style.display = 'none'; // Hide the "previous" button
+        } else {
+            document.querySelector(".arrow-left").style.display = 'block'; // Show it otherwise
+        }
 
         document.getElementById("pokemonCard").innerHTML = `
             <div class="pokemon-details">
@@ -66,6 +71,7 @@ function displaySelectedPokemon(pokemonData) {
         console.error("No Pokémon data found for this number.");
     }
 }
+
 
 
 
