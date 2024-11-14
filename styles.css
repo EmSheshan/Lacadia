@@ -1,27 +1,33 @@
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f5f5f5;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 0;
-  }
+  background-image: url("Graphics/bg3.jpg"); /* Background for other pages */
+  background-size: 500px 500px;
+  background-repeat: repeat;
+  font-family: "Faculty Glyphic", sans-serif;
+  background-color: #f5f5f5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0;
+}
+
+#card-page {
+  background-image: url("Graphics/bg4.jpg"); /* Background for the card page */
+  background-size: 500px 500px;
+  background-repeat: repeat;
+  background-color: #f5f5f5;
+}
+
   
   header {
+    font-family: "Faculty Glyphic", sans-serif;
     text-align: center;
-    padding: 20px;
+    padding: 0px;
   }
   
   h1 {
-    font-size: 2.5rem;
-    color: #ff3333;
-  }
-  
-  #searchBar {
-    padding: 10px;
-    width: 300px;
-    font-size: 1rem;
-    margin-top: 10px;
+    font-family: "Faculty Glyphic", sans-serif;
+    font-size: 5rem;
+    color: #D81159;
   }
   
   #pokedex {
@@ -32,27 +38,227 @@ body {
     max-width: 1200px;
     margin-top: 20px;
   }
+
+  .footer {
+    background-color: #f1f1f1;
+    text-align: center;
+    padding: 10px;
+    font-size: 0.9em;
+    color: #555;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    border-top: 1px solid #ddd;
+  }
+  
+  .footer p {
+    margin: 0;
+  }
   
   .pokemon {
-    background-color: white;
+    width: 200px; /* Set a fixed width for each card */
+    height: 200px; /* Set a fixed height for each card */
+    border: 1px solid #b9e6e2;
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    padding: 10px;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    background-color: #ffffff;
   }
   
-  .pokemon img {
-    width: 100px;
-    height: 100px;
+  .pokemon-image {
+    max-width: 100%;
+    max-height: 150px;
+    transition: transform 0.3s ease; /* Smooth scaling transition */
+  }
+
+  .pokemon-image-large {
+    max-width: 100%;
+    max-height: 500px;
+    transition: transform 0.3s ease; /* Smooth scaling transition */
   }
   
-  .pokemon .name {
+  .pokemon-image:hover {
+    transform: scale(1.1); /* Increase size by 10% on hover */
+  }
+  
+  
+  .name {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-top: 8px;
+    color: #218380
+  }
+  
+  .types {
+    display: flex;
+    gap: 5px;
+    justify-content: center; /* Centers the types horizontally */
+  }
+  
+  .type-image {
+    max-height: 30px; /* Limits the type icon height */
+    width: auto;
+  }
+  
+
+
+  .stat-bar {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.stat-name {
+    width: 70px;
+    font-weight: bold;
+}
+
+.stat-value {
+    width: 30px;
+    text-align: right;
+    margin-right: 10px;
+}
+
+.bar-container {
+    width: 200px;
+    height: 10px;
+    background-color: #eee;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.bar-fill {
+    height: 100%;
+    transition: width 0.3s ease;
+}
+
+
+  
+      .exit-button {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background-color: #FF5959;
+        color: white;
+        font-size: 32px;
+        font-weight: bold;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        border: none;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        z-index: 10;
+        transition: background-color 0.3s ease;
+    }
+
+    .exit-button:hover {
+        background-color: #FF2A2A;
+    }
+
+/* Banner styling */
+.banner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%; /* Ensure the banner spans the full width of the screen */
+    position: fixed; /* Make the banner stay at the top of the screen */
+    top: 0;
+    left: 0;
+    padding: 10px 20px;
+    background-color: #ff90b9; /* Optional: semi-transparent background */
+    z-index: 1000; /* Ensure it appears above other content */
+}
+
+.arrow-left {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.arrow-right {
+  display: flex;
+  justify-content: flex-end; /* Aligns the content to the right */
+  align-items: center; /* Vertically centers the content */
+  position: absolute; /* Make sure it stays in position */
+  right: 60px; /* Add some padding from the right edge */
+  top: 50%; /* Center it vertically */
+  transform: translateY(-50%); /* Center it exactly in the middle */
+}
+
+
+.arrow {
+    font-size: 2rem;
+    cursor: pointer;
+    transition: color 0.3s ease
+}
+
+.arrow:hover {
+    color:#D81159
+}
+
+.pokemon-info {
     font-size: 1.2rem;
-    color: #333;
+    text-align: center;
+    flex-grow: 1; /* Ensure the Pokémon info is centered in the remaining space */
+}
+
+/* Optional: Make sure the arrows are aligned nicely with the text */
+#previousPokemonInfo,
+#nextPokemonInfo {
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+
+    .pokemon-details {
+      display: flex;
+      align-items: center; /* Center the stats vertically */
+      justify-content: space-between; /* Push stats to the right */
+      gap: 20px; /* Spacing between image and stats */
   }
   
-  .pokemon .type {
-    font-size: 1rem;
-    color: #666;
+  .pokemon-info {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+  }
+  
+  .pokemon-stats {
+      display: flex;
+      flex-direction: column;
+      gap: 10px; /* Spacing between each stat bar */
+      max-width: 250px; /* Adjust as needed */
+  }
+  
+  .stat-bar {
+      display: flex;
+      align-items: center;
+  }
+  
+  .stat-name {
+      width: 80px;
+      font-weight: bold;
+  }
+  
+  .bar-container {
+      width: 150px; /* Width of the stat bar */
+      height: 10px;
+      background-color: #eee;
+      border-radius: 5px;
+      overflow: hidden;
+  }
+  
+  .bar-fill {
+      height: 100%;
+      background-color: #4CAF50;
   }
   

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Faculty+Glyphic&display=swap" rel="stylesheet">
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokémon Card</title>
+    <link rel="stylesheet" href="styles.css">
+
+</head>
+<body id="card-page">
+    <div class="banner">
+        <div class="arrow-left">
+          <span class="arrow" onclick="navigatePokemon('previous')">
+            &#8592; #<span id="previousPokemonNumber"></span> <span id="previousPokemonName"></span>
+        </span>
+            <span id="previousPokemonInfo" class="pokemon-info"></span>
+        </div>
+        <div class="pokemon-info" id="currentPokemonInfo"></div>
+        <div class="arrow-right">
+            <span class="arrow" onclick="navigatePokemon('next')">
+              #<span id="nextPokemonNumber"></span> <span id="nextPokemonName"> </span> &#8594;
+
+          </span>
+            <span id="nextPokemonInfo" class="pokemon-info"></span>
+        </div>
+    </div>
+
+    <div id="pokemonCard"></div>
+
+    <button class="exit-button" onclick="window.location.href='index.html'">X</button>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+    <script src="cardPage.js">
+
+    </script>
+</body>
+</html>

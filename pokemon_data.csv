@@ -1,4 +1,24 @@
-number,name,type1,type2
-1,Springbun,Grass,na
-4,Basilly,Fire,na
-7,Purluxe,Water,na
+name,type1,type2,hp,atk,def,spatk,spdef,speed
+Springbun,Grass,na,200,50,50,50,50,30
+Snapbun,Grass,na,50,50,50,50,50,50
+Faestalk,Grass,Fairy,50,50,50,50,50,50
+Basilly,Fire,na,50,50,50,50,50,50
+Knaviper,Fire,na,50,50,50,50,50,50
+Basilox,Fire,Poison,200,50,50,50,50,30
+Purluxe,Water,na,200,50,50,50,50,30
+Lyonite,Water,na,200,50,50,50,50,30
+Enkidros,Water,Ground,50,50,50,50,50,50
+Grubble,Bug,Normal,50,50,50,50,50,50
+Big Top,Bug,Normal,50,50,50,50,50,50
+Ringleader,Bug,Normal,50,50,50,50,50,50
+Mochu,Ice,Electric,50,50,50,50,50,50
+Snochu,Ice,Electric,50,50,50,50,50,50
+Inuit Bird,Flying,Ice,50,50,50,50,50,50
+Inuit Whale,Flying,Ice,50,50,50,50,50,50
+Cryocone,Ice,Poison,50,50,50,50,50,50
+Cryoconda,Ice,Poison,50,50,50,50,50,50
+Grub,Bug,na,50,50,50,50,50,50
+Wasp Needle,Bug,na,50,50,50,50,50,50
+Jenova,Bug,Dragon,50,50,50,50,50,50
+Terra God,Ground,Dragon,50,50,50,50,50,50
+Astra God,Psychic,Dragon,50,50,50,50,50,50
