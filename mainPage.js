@@ -18,6 +18,7 @@ function loadPokemonData() {
 }
 
 function displayPokemon(pokemonList) {
+  
   const pokedex = document.getElementById("pokedex");
   pokedex.innerHTML = ""; // Clear existing content
 
@@ -33,6 +34,9 @@ function displayPokemon(pokemonList) {
     // Create the Pokémon card
     const pokemonCard = document.createElement("div");
     pokemonCard.classList.add("pokemon");
+
+    pokemonCard.style.animationDelay = `${0.1 * (index + 1)}s`; // Add delay to create staggered animation
+
 
     // Redirect to card page with pokemonNumber parameter on click
     pokemonCard.addEventListener("click", () => {

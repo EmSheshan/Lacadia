@@ -7,8 +7,11 @@ function updatePageTitle(pokemonName, pokemonNumber) {
     document.title = `#${pokemonNumber} ${pokemonName}` || "Pokémon Card"; // Fallback if name is missing
 }
 
-function displayStatBar(stat, value, color) {
-    const maxStatValue = 255;
+function displayStatBar(stat, value, color, BST=false) {
+    let maxStatValue = 255;
+    if (BST) {
+        maxStatValue = 700
+    }
     const percentageWidth = (value / maxStatValue) * 100;
 
     return `
@@ -55,7 +58,7 @@ function displaySelectedPokemon(pokemonData) {
             <div class="pokemon-details">
                 <div class="pokemon-info">
 <div class="title-type-container">
-    <h1>#${pokemonNumber} ${selectedPokemon.name}</h1>
+    <h2>#${pokemonNumber} ${selectedPokemon.name}</h2>
     <div class="type-stack">
         <img src="${type1Image}" alt="${selectedPokemon.type1}" class="type-bar" onerror="this.src='${errorImage}'">
         ${type2Image ? `<img src="${type2Image}" alt="${selectedPokemon.type2}" class="type-bar" onerror="this.src='${errorImage}'">` : ""}
@@ -76,6 +79,19 @@ function displaySelectedPokemon(pokemonData) {
                     ${displayStatBar("Sp.Atk", selectedPokemon.spatk, "#9DB7F5")}
                     ${displayStatBar("Sp.Def", selectedPokemon.spdef, "#A7DB8D")}
                     ${displayStatBar("Speed", selectedPokemon.speed, "#FA92B2")}
+                    ${displayStatBar("BST", Number(
+                        selectedPokemon.hp
+                    ) + Number(
+                        selectedPokemon.atk
+                    ) + Number(
+                        selectedPokemon.def
+                    ) + Number(
+                        selectedPokemon.spatk
+                    ) + Number(
+                        selectedPokemon.spdef
+                    ) + Number(
+                        selectedPokemon.speed
+                    ), "#CA72F2", true)}
                 </div>
             </div>
         `;

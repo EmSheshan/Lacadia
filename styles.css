@@ -1,35 +1,59 @@
+:root {
+  /* Color Palette */
+  --cream: #fbf3e3;   
+  --teal: #2ba098; 
+  --green: #849800;     
+  --dark-green: #3c4e1b;     
+  --dark-cream: #e3d9be; 
+  --black:#191818;        
+}
+
+
+
+
 body {
-  background-image: url("Graphics/bg3.jpg"); /* Background for other pages */
+  background-image: url("Graphics/bg.png"); /* Background for other pages */
   background-size: 500px 500px;
   background-repeat: repeat;
   font-family: "Faculty Glyphic", sans-serif;
-  background-color: #f5f5f5;
+  background-color: var(--cream);
   display: flex;
   flex-direction: column;
+  margin-top: 110px;
   align-items: center;
-  margin: 0;
+  overflow-x: hidden; /* Prevent horizontal scrolling */
 }
 
 #card-page {
-  background-image: url("Graphics/bg4.jpg"); /* Background for the card page */
-  background-size: 500px 500px;
+  background-image: url("Graphics/bg2.png"); /* Background for the card page */
+  background-size: 250px 250px;
   background-repeat: repeat;
-  background-color: #f5f5f5;
+  background-color: var(--cream);
+  margin-top: 0px;
 }
 
   
   header {
     font-family: "Faculty Glyphic", sans-serif;
-    text-align: center;
+    text-align: left;
     padding: 0px;
   }
   
   h1 {
     font-family: "Faculty Glyphic", sans-serif;
     font-size: 5rem;
-    color: #D81159;
+    color: #fff;
     text-align: left; /* Align text to the left */
-    margin-left: 0; /* Remove any additional left margin */
+    margin: 0; /* Remove any additional left margin */
+    padding: 0;
+}
+
+h2 {
+  font-family: "Faculty Glyphic", sans-serif;
+  font-size: 5rem;
+  color: var(--teal);
+  text-align: left; /* Align text to the left */
+  margin-left: 0; /* Remove any additional left margin */
 }
 
   #pokedex {
@@ -42,25 +66,36 @@ body {
   }
 
   .footer {
-    background-color: #f1f1f1;
+    background-color: var(--dark-cream);
     text-align: center;
     padding: 10px;
     font-size: 0.9em;
-    color: #555;
+    color: var(--black);
     position: relative;
     bottom: 0;
     width: 100%;
-    border-top: 1px solid #ddd;
+    margin-top: 20px; /* Adjust the value as needed */
   }
   
   .footer p {
     margin: 0;
   }
+
+  /* Keyframes for the fade and slide animation */
+@keyframes fadeInSlide {
+  0% {
+    opacity: 0;
+    transform: translateY(20px); /* Start 20px below */
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0); /* End in normal position */
+  }
+}
   
   .pokemon {
     width: 200px; /* Set a fixed width for each card */
     height: 200px; /* Set a fixed height for each card */
-    border: 1px solid #b9e6e2;
     border-radius: 8px;
     text-align: center;
     display: flex;
@@ -70,6 +105,9 @@ body {
     padding: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     background-color: #ffffff;
+
+    opacity: 0; /* Start with the card hidden */
+    animation: fadeInSlide 0.6s ease-out forwards; /* Apply animation */
   }
   
   .pokemon-image {
@@ -93,7 +131,7 @@ body {
     font-size: 1.2em;
     font-weight: bold;
     margin-top: 8px;
-    color: #218380
+    color: var(--black);
   }
   
   .types {
@@ -103,7 +141,7 @@ body {
   }
   
   .type-image {
-    max-height: 30px; /* Limits the type icon height */
+    max-height: 20px; /* Limits the type icon height */
     width: auto;
   }
   
@@ -167,7 +205,7 @@ body {
         position: fixed;
         bottom: 20px;
         right: 20px;
-        background-color: #FF5959;
+        background-color: var(--green);
         color: white;
         font-size: 32px;
         font-weight: bold;
@@ -185,11 +223,28 @@ body {
     }
 
     .exit-button:hover {
-        background-color: #FF2A2A;
+        background-color: var(--dark-green);
     }
 
 /* Banner styling: consistent across all pages */
-.banner {
+.banner-main {
+  display: flex;
+  align-items: center;
+  width: 100%; /* Ensure the banner spans the full width of the screen */
+  position: fixed; /* Make the banner stay at the top of the screen */
+  top: 0;
+  left: 0;
+  padding: 10px 100px;
+  background-color: var(--teal);
+  z-index: 1000; /* Ensure it appears above other content */
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
+  color: #fff; /* Adjust text color if needed */
+  height: 80px; /* Fixed height for the banner */
+  margin-bottom: 200px; /* Adjust margin to create space below */
+}
+
+/* Banner styling: consistent across all pages */
+.banner-card {
   display: flex;
   align-items: center;
   justify-content: space-between; /* Add this to spread content evenly */
@@ -198,11 +253,13 @@ body {
   top: 0;
   left: 0;
   padding: 10px 20px;
-  background-color: #ff90b9; /* Optional: background color */
+  background-color: var(--green);
   z-index: 1000; /* Ensure it appears above other content */
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
   color: #fff; /* Adjust text color if needed */
 }
+
+
 
 .arrow-left {
     display: flex;
@@ -227,7 +284,7 @@ body {
 }
 
 .arrow:hover {
-    color:#D81159
+    color: var(--dark-green);
 }
 
 .pokemon-info {
@@ -251,10 +308,9 @@ body {
 
 
 /* Optional: Make sure the arrows are aligned nicely with the text */
-#previousPokemonInfo,
-#nextPokemonInfo {
+#previousPokemonInfo, #nextPokemonInfo {
     font-weight: bold;
-    font-size: 1.5rem;
+    font-size: 1rem;
 }
 
 
@@ -271,33 +327,30 @@ body {
       align-items: center;
   }
   
-  .pokemon-stats {
-      display: flex;
-      flex-direction: column;
-      gap: 10px; /* Spacing between each stat bar */
-      max-width: 250px; /* Adjust as needed */
-  }
+
   
-  .stat-bar {
-      display: flex;
-      align-items: center;
-  }
+
   
-  .stat-name {
-      width: 80px;
-      font-weight: bold;
-  }
-  
-  .bar-container {
-      width: 150px; /* Width of the stat bar */
-      height: 10px;
-      background-color: #eee;
-      border-radius: 5px;
-      overflow: hidden;
-  }
-  
-  .bar-fill {
-      height: 100%;
-      background-color: #4CAF50;
-  }
-  
+/* Customize the entire scrollbar */
+::-webkit-scrollbar {
+  width: 12px; /* Horizontal scrollbar width */
+  height: 12px; /* Vertical scrollbar height */
+}
+
+/* Customize the track (the area the thumb moves along) */
+::-webkit-scrollbar-track {
+  background: var(--dark-cream);
+  border-radius: 0px;
+}
+
+/* Customize the thumb (the draggable part of the scrollbar) */
+::-webkit-scrollbar-thumb {
+  background: var(--green);
+  border-radius: 10px; /* Rounded corners */
+  transition: background 0.3s ease; /* Easing animation for color change */
+}
+
+/* Add hover effect for the thumb */
+::-webkit-scrollbar-thumb:hover {
+  background: var(--dark-green);
+}
