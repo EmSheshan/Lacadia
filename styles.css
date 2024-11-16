@@ -12,8 +12,7 @@
 
 
 body {
-  background-image: url("Graphics/bg.png"); /* Background for other pages */
-  background-size: 500px 500px;
+  background-image: url("data:image/svg+xml,<svg id='patternId' width='100%' height='100%' xmlns='http://www.w3.org/2000/svg'><defs><pattern id='a' patternUnits='userSpaceOnUse' width='40' height='40' patternTransform='scale(3) rotate(45)'><rect x='0' y='0' width='100%' height='100%' fill='%23ffffffff'/><path d='M15 5h10v30H15zM35-5V5H5V-5zM35 35v10H5V35zM35-15h10v30H35zM55 15v10H25V15zM15 15v10h-30V15zM35 25h10v30H35zM-5 25H5v30H-5zM-5-15H5v30H-5z'  stroke-width='4' stroke='%23f3ecd8ff' fill='none'/></pattern></defs><rect width='800%' height='800%' transform='translate(0,0)' fill='url(%23a)'/></svg>");
   background-repeat: repeat;
   font-family: "Faculty Glyphic", sans-serif;
   background-color: var(--cream);
@@ -25,11 +24,18 @@ body {
 }
 
 #card-page {
-  background-image: url("Graphics/bg2.png"); /* Background for the card page */
-  background-size: 250px 250px;
-  background-repeat: repeat;
-  background-color: var(--cream);
+
+    background-image: url("data:image/svg+xml,<svg id='patternId' width='200%' height='200%' xmlns='http://www.w3.org/2000/svg'><defs><pattern id='a' patternUnits='userSpaceOnUse' width='40' height='40' patternTransform='scale(4) rotate(45)'><rect x='0' y='0' width='100%' height='100%' fill='%23f3ecd8ff'/><path d='M15 5h10v30H15zM35-5V5H5V-5zM35 35v10H5V35zM35-15h10v30H35zM55 15v10H25V15zM15 15v10h-30V15zM35 25h10v30H35zM-5 25H5v30H-5zM-5-15H5v30H-5z' stroke-width='4' stroke='%23ffffffff' fill='none'/></pattern></defs><rect width='800%' height='800%' transform='translate(0,0)' fill='url(%23a)'/></svg>") !important;
+    background-size: 790px 1000px; /* Replace with the desired size */
+  
   margin-top: 0px;
+
+  font-family: "Faculty Glyphic", sans-serif;
+  background-color: var(--cream);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-x: hidden; /* Prevent horizontal scrolling */
 }
 
   
@@ -120,6 +126,7 @@ h2 {
     max-width: 100%;
     max-height: 500px;
     transition: transform 0.3s ease; /* Smooth scaling transition */
+    animation: fadeInSlide 0.6s ease-out forwards; /* Apply animation */
   }
   
   .pokemon-image:hover {
