@@ -1,12 +1,16 @@
 function getPokemonNumberFromURL() {
     const urlParams = new URLSearchParams(window.location.search);
-    return parseInt(urlParams.get("pokemonNumber"));
+    return parseInt(urlParams.get("pokemonNumber")) || 1; // Default to Pokémon #1 if no number is in the URL
+}
+
+function updatePageTitle(pokemonName, pokemonNumber) {
+    document.title = `#${pokemonNumber} ${pokemonName}` || "Pokémon Card"; // Fallback if name is missing
 }
 
 function displayStatBar(stat, value, color) {
     const maxStatValue = 255;
     const percentageWidth = (value / maxStatValue) * 100;
-    
+
     return `
         <div class="stat-bar">
             <div class="stat-name">${stat}</div>
@@ -18,51 +22,59 @@ function displayStatBar(stat, value, color) {
     `;
 }
 
-
 function displaySelectedPokemon(pokemonData) {
     const pokemonNumber = getPokemonNumberFromURL();
     const selectedPokemon = pokemonData[pokemonNumber - 1];
 
+    const totalPokemon = pokemonData.length;
+    const previousPokemon = pokemonData[pokemonNumber - 2];
+    const nextPokemon = pokemonData[pokemonNumber];
+
     if (selectedPokemon) {
+        updatePageTitle(selectedPokemon.name, getPokemonNumberFromURL());
+
         const regularImage = `Images/${selectedPokemon.name}.png`;
         const shinyImage = `Images/${selectedPokemon.name}_Shiny.png`;
         const errorImage = `Images/Missingno.png`;
-        const type1Image = `Types/${selectedPokemon.type1}.png`;
-        const type2Image = selectedPokemon.type2 && selectedPokemon.type2.toLowerCase() !== "na" ? `Types/${selectedPokemon.type2}.png` : null;
+        const type1Image = `TypeBars/${selectedPokemon.type1}.png`;
+        const type2Image =
+            selectedPokemon.type2 && selectedPokemon.type2.toLowerCase() !== "na"
+                ? `TypeBars/${selectedPokemon.type2}.png`
+                : null;
 
-        document.getElementById("previousPokemonNumber").innerText = pokemonNumber - 1; // For previous Pokémon
-        document.getElementById("previousPokemonName").innerText = pokemonData[pokemonNumber - 2]?.name || ''; // If a previous Pokémon exists
-        document.getElementById("nextPokemonNumber").innerText = pokemonNumber + 1; // For next Pokémon
-        document.getElementById("nextPokemonName").innerText = pokemonData[pokemonNumber]?.name || ''; // If a next Pokémon exists
+        document.getElementById("previousPokemonNumber").innerText = pokemonNumber - 1;
+        document.getElementById("previousPokemonName").innerText = previousPokemon?.name || "";
+        document.getElementById("nextPokemonNumber").innerText = pokemonNumber + 1;
+        document.getElementById("nextPokemonName").innerText = nextPokemon?.name || "";
 
-        // Hide previous Pokémon if we're on the first page
-        if (pokemonNumber === 1) {
-            document.querySelector(".arrow-left").style.display = 'none'; // Hide the "previous" button
-        } else {
-            document.querySelector(".arrow-left").style.display = 'block'; // Show it otherwise
-        }
+        // Hide or disable navigation buttons
+        document.querySelector(".arrow-left").style.display = previousPokemon ? "block" : "none";
+        document.querySelector(".arrow-right").style.display = nextPokemon ? "block" : "none";
 
         document.getElementById("pokemonCard").innerHTML = `
             <div class="pokemon-details">
                 <div class="pokemon-info">
-                    <h1>#${pokemonNumber} ${selectedPokemon.name}</h1>
+<div class="title-type-container">
+    <h1>#${pokemonNumber} ${selectedPokemon.name}</h1>
+    <div class="type-stack">
+        <img src="${type1Image}" alt="${selectedPokemon.type1}" class="type-bar" onerror="this.src='${errorImage}'">
+        ${type2Image ? `<img src="${type2Image}" alt="${selectedPokemon.type2}" class="type-bar" onerror="this.src='${errorImage}'">` : ""}
+    </div>
+</div>
+
                     <img src="${regularImage}" 
                         alt="${selectedPokemon.name}" 
                         class="pokemon-image-large"
                         onmouseover="this.src='${shinyImage}'"
                         onmouseout="this.src='${regularImage}'"
                         onerror="this.src='${errorImage}'">
-                    <div class="types">
-                        <img src="${type1Image}" alt="${selectedPokemon.type1}" class="type-image" onerror="this.src='${errorImage}'"> 
-                        ${type2Image ? `<img src="${type2Image}" alt="${selectedPokemon.type2}" class="type-image" onerror="this.src='${errorImage}'">` : ''}
-                    </div>
                 </div>
                 <div class="pokemon-stats">
                     ${displayStatBar("HP", selectedPokemon.hp, "#FF5959")}
-                    ${displayStatBar("Attack", selectedPokemon.atk, "#F5AC78")}
-                    ${displayStatBar("Defense", selectedPokemon.def, "#FAE078")}
-                    ${displayStatBar("Special Attack", selectedPokemon.spatk, "#9DB7F5")}
-                    ${displayStatBar("Special Defense", selectedPokemon.spdef, "#A7DB8D")}
+                    ${displayStatBar("Atk", selectedPokemon.atk, "#F5AC78")}
+                    ${displayStatBar("Def", selectedPokemon.def, "#FAE078")}
+                    ${displayStatBar("Sp.Atk", selectedPokemon.spatk, "#9DB7F5")}
+                    ${displayStatBar("Sp.Def", selectedPokemon.spdef, "#A7DB8D")}
                     ${displayStatBar("Speed", selectedPokemon.speed, "#FA92B2")}
                 </div>
             </div>
@@ -72,22 +84,19 @@ function displaySelectedPokemon(pokemonData) {
     }
 }
 
-
-
-
 function loadPokemonDataForCardPage() {
     Papa.parse("pokemon_data.csv", {
         download: true,
         header: true,
         skipEmptyLines: true,
-        complete: function(results) {
+        complete: function (results) {
             if (results.errors.length > 0) {
                 console.error("Errors during CSV parsing:", results.errors);
             } else {
                 displaySelectedPokemon(results.data);
             }
         },
-        error: function(error) {
+        error: function (error) {
             console.error("Failed to load the CSV file:", error);
         }
     });
@@ -95,12 +104,27 @@ function loadPokemonDataForCardPage() {
 
 function navigatePokemon(direction) {
     const currentNumber = getPokemonNumberFromURL();
-    const newNumber = direction === 'next' ? currentNumber + 1 : currentNumber - 1;
+    const newNumber = direction === "next" ? currentNumber + 1 : currentNumber - 1;
 
-    // Adjust bounds if needed (e.g., if there's a max number of Pokémon in your dataset)
-    if (newNumber > 0) {
-        window.location.href = `pokemon_card.html?pokemonNumber=${newNumber}`;
-    }
+    Papa.parse("pokemon_data.csv", {
+        download: true,
+        header: true,
+        skipEmptyLines: true,
+        complete: function (results) {
+            const totalLines = results.data.length;
+
+            if (newNumber <= 0 || newNumber > totalLines) {
+                console.warn("No Pokémon exists in this direction!");
+                return; // Prevent navigation
+            }
+
+            // Navigate to the valid Pokémon
+            window.location.href = `pokemon_card.html?pokemonNumber=${newNumber}`;
+        },
+        error: function (error) {
+            console.error("Failed to load the CSV file:", error);
+        },
+    });
 }
 
 loadPokemonDataForCardPage();

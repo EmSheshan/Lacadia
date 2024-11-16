@@ -28,8 +28,10 @@ body {
     font-family: "Faculty Glyphic", sans-serif;
     font-size: 5rem;
     color: #D81159;
-  }
-  
+    text-align: left; /* Align text to the left */
+    margin-left: 0; /* Remove any additional left margin */
+}
+
   #pokedex {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -137,6 +139,28 @@ body {
     transition: width 0.3s ease;
 }
 
+.title-type-container {
+  display: flex; /* Align children in a row */
+  align-items: center; /* Vertically align items */
+  gap: 10px; /* Space between the title and the type stack */
+}
+
+.type-stack {
+  display: flex;
+  flex-direction: column; /* Stack the type bars vertically */
+  align-items: flex-start; /* Align the stack to the left */
+}
+
+.type-bar {
+  height: 24px; /* Adjust height of the type bars */
+  margin-bottom: 4px; /* Add some spacing between bars */
+}
+
+.type-bar:last-child {
+  margin-bottom: 0; /* Remove margin for the last bar */
+}
+
+
 
   
       .exit-button {
@@ -164,34 +188,35 @@ body {
         background-color: #FF2A2A;
     }
 
-/* Banner styling */
+/* Banner styling: consistent across all pages */
 .banner {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%; /* Ensure the banner spans the full width of the screen */
-    position: fixed; /* Make the banner stay at the top of the screen */
-    top: 0;
-    left: 0;
-    padding: 10px 20px;
-    background-color: #ff90b9; /* Optional: semi-transparent background */
-    z-index: 1000; /* Ensure it appears above other content */
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Add this to spread content evenly */
+  width: 100%; /* Ensure the banner spans the full width of the screen */
+  position: fixed; /* Make the banner stay at the top of the screen */
+  top: 0;
+  left: 0;
+  padding: 10px 20px;
+  background-color: #ff90b9; /* Optional: background color */
+  z-index: 1000; /* Ensure it appears above other content */
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
+  color: #fff; /* Adjust text color if needed */
 }
 
 .arrow-left {
     display: flex;
     justify-content: center;
     align-items: center;
+    top: 50%; /* Center it vertically */
 }
 
 .arrow-right {
   display: flex;
   justify-content: center;
   align-items: center; /* Vertically centers the content */
-  position: absolute; /* Make sure it stays in position */
-  right: 60px; /* Add some padding from the right edge */
+  padding-right: 40px;
   top: 50%; /* Center it vertically */
-  transform: translateY(-50%); /* Center it exactly in the middle */
 }
 
 
@@ -209,6 +234,21 @@ body {
   text-align: center;
   flex-grow: 1;
 }
+
+.types-stacked {
+  display: flex;
+  flex-direction: column; /* Stacks the type bars vertically */
+  align-items: center; /* Centers the bars horizontally */
+  gap: 5px; /* Adds space between the type bars */
+  margin-top: 10px; /* Adds some space above the type bars */
+}
+
+.type-bar {
+  width: 100px; /* Adjust the width as needed */
+  height: 20px; /* Adjust the height as needed */
+  object-fit: contain; /* Ensures the type bar image scales properly */
+}
+
 
 /* Optional: Make sure the arrows are aligned nicely with the text */
 #previousPokemonInfo,

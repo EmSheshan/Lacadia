@@ -3,7 +3,7 @@ function loadPokemonData() {
     download: true,
     header: true,
     skipEmptyLines: true,
-    complete: function(results) {
+    complete: function (results) {
       if (results.errors.length > 0) {
         console.error("Errors during CSV parsing:", results.errors);
       } else {
@@ -11,7 +11,7 @@ function loadPokemonData() {
         displayPokemon(pokemonData);
       }
     },
-    error: function(error) {
+    error: function (error) {
       console.error("Failed to load the CSV file:", error);
     }
   });
@@ -27,8 +27,8 @@ function displayPokemon(pokemonList) {
     const regularImage = `Images/${pokemon.name}.png`;
     const shinyImage = `Images/${pokemon.name}_Shiny.png`;
     const errorImage = `Images/Missingno.png`;
-    const type1Image = `Types/${pokemon.type1}.png`;
-    const type2Image = pokemon.type2 && pokemon.type2.toLowerCase() !== "na" ? `Types/${pokemon.type2}.png` : null;
+    const type1Image = `TypeIcons/${pokemon.type1}.png`;
+    const type2Image = pokemon.type2 && pokemon.type2.toLowerCase() !== "na" ? `TypeIcons/${pokemon.type2}.png` : null;
 
     // Create the Pokémon card
     const pokemonCard = document.createElement("div");
