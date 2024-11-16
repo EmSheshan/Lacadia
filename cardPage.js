@@ -7,7 +7,7 @@ function updatePageTitle(pokemonName, pokemonNumber) {
     document.title = `#${pokemonNumber} ${pokemonName}` || "Pokémon Card"; // Fallback if name is missing
 }
 
-function displayStatBar(stat, value, color, BST=false) {
+function displayStatBar(stat, value, color, BST = false) {
     let maxStatValue = 255;
     if (BST) {
         maxStatValue = 700
@@ -55,9 +55,9 @@ function displaySelectedPokemon(pokemonData) {
         document.querySelector(".arrow-right").style.display = nextPokemon ? "block" : "none";
 
         document.getElementById("pokemonCard").innerHTML = `
-            <div class="pokemon-details">
-                <div class="pokemon-info">
-<div class="title-type-container">
+
+
+                    <div class="title-type-container">
     <h2>#${pokemonNumber} ${selectedPokemon.name}</h2>
     <div class="type-stack">
         <img src="${type1Image}" alt="${selectedPokemon.type1}" class="type-bar" onerror="this.src='${errorImage}'">
@@ -65,13 +65,19 @@ function displaySelectedPokemon(pokemonData) {
     </div>
 </div>
 
-                    <img src="${regularImage}" 
-                        alt="${selectedPokemon.name}" 
-                        class="pokemon-image-large"
-                        onmouseover="this.src='${shinyImage}'"
-                        onmouseout="this.src='${regularImage}'"
-                        onerror="this.src='${errorImage}'">
+<div class="pokemon-images-container">
+    <img src="${regularImage}" 
+        alt="${selectedPokemon.name}" 
+        class="pokemon-image-large"
+        onerror="this.src='${errorImage}'">
+    <img src="${shinyImage}" 
+        alt="${selectedPokemon.name} Shiny" 
+        class="pokemon-image-shiny"
+        onerror="this.src='${errorImage}'">
+</div>
                 </div>
+
+
                 <div class="pokemon-stats">
                     ${displayStatBar("HP", selectedPokemon.hp, "#FF5959")}
                     ${displayStatBar("Atk", selectedPokemon.atk, "#F5AC78")}
@@ -80,18 +86,18 @@ function displaySelectedPokemon(pokemonData) {
                     ${displayStatBar("Sp.Def", selectedPokemon.spdef, "#A7DB8D")}
                     ${displayStatBar("Speed", selectedPokemon.speed, "#FA92B2")}
                     ${displayStatBar("BST", Number(
-                        selectedPokemon.hp
-                    ) + Number(
-                        selectedPokemon.atk
-                    ) + Number(
-                        selectedPokemon.def
-                    ) + Number(
-                        selectedPokemon.spatk
-                    ) + Number(
-                        selectedPokemon.spdef
-                    ) + Number(
-                        selectedPokemon.speed
-                    ), "#CA72F2", true)}
+            selectedPokemon.hp
+        ) + Number(
+            selectedPokemon.atk
+        ) + Number(
+            selectedPokemon.def
+        ) + Number(
+            selectedPokemon.spatk
+        ) + Number(
+            selectedPokemon.spdef
+        ) + Number(
+            selectedPokemon.speed
+        ), "#CA72F2", true)}
                 </div>
             </div>
         `;

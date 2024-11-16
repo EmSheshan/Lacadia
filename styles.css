@@ -5,7 +5,8 @@
   --green: #849800;     
   --dark-green: #3c4e1b;     
   --dark-cream: #e3d9be; 
-  --black:#191818;        
+  --black:#191818;     
+  --shadow: rgba(124, 82, 22, 0.308);   
 }
 
 
@@ -18,7 +19,7 @@ body {
   background-color: var(--cream);
   display: flex;
   flex-direction: column;
-  margin-top: 110px;
+  margin-top: 8rem;
   align-items: center;
   overflow-x: hidden; /* Prevent horizontal scrolling */
 }
@@ -28,7 +29,7 @@ body {
     background-image: url("data:image/svg+xml,<svg id='patternId' width='200%' height='200%' xmlns='http://www.w3.org/2000/svg'><defs><pattern id='a' patternUnits='userSpaceOnUse' width='40' height='40' patternTransform='scale(4) rotate(45)'><rect x='0' y='0' width='100%' height='100%' fill='%23f3ecd8ff'/><path d='M15 5h10v30H15zM35-5V5H5V-5zM35 35v10H5V35zM35-15h10v30H35zM55 15v10H25V15zM15 15v10h-30V15zM35 25h10v30H35zM-5 25H5v30H-5zM-5-15H5v30H-5z' stroke-width='4' stroke='%23ffffffff' fill='none'/></pattern></defs><rect width='800%' height='800%' transform='translate(0,0)' fill='url(%23a)'/></svg>") !important;
     background-size: 790px 1000px; /* Replace with the desired size */
   
-  margin-top: 0px;
+  margin-top: 1rem;
 
   font-family: "Faculty Glyphic", sans-serif;
   background-color: var(--cream);
@@ -42,12 +43,12 @@ body {
   header {
     font-family: "Faculty Glyphic", sans-serif;
     text-align: left;
-    padding: 0px;
+    padding: 0rem;
   }
   
   h1 {
     font-family: "Faculty Glyphic", sans-serif;
-    font-size: 5rem;
+    font-size: clamp(2rem, 5vw, 5rem);
     color: #fff;
     text-align: left; /* Align text to the left */
     margin: 0; /* Remove any additional left margin */
@@ -56,31 +57,32 @@ body {
 
 h2 {
   font-family: "Faculty Glyphic", sans-serif;
-  font-size: 5rem;
+  font-size: clamp(2rem, 5vw, 5rem);
   color: var(--teal);
   text-align: left; /* Align text to the left */
   margin-left: 0; /* Remove any additional left margin */
 }
 
-  #pokedex {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 20px;
-    width: 80%;
-    max-width: 1200px;
-    margin-top: 20px;
-  }
+#pokedex {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr)); /* Create responsive tiles */
+  width: 80%; /* Adjust container width */
+  max-width: 200rem; /* Limit container size on large screens */
+  margin: 0 auto; /* Center the grid on the page */
+  gap: 1.5rem; /* Increase spacing between tiles */
+  justify-content: center; /* Ensure grid is centered */
+}
+
 
   .footer {
     background-color: var(--dark-cream);
     text-align: center;
-    padding: 10px;
-    font-size: 0.9em;
+    padding: 0.5rem;
+    font-size: 0.9rem;
     color: var(--black);
     position: relative;
-    bottom: 0;
     width: 100%;
-    margin-top: 20px; /* Adjust the value as needed */
+    margin-top: 1rem; /* Adjust the value as needed */
   }
   
   .footer p {
@@ -91,7 +93,7 @@ h2 {
 @keyframes fadeInSlide {
   0% {
     opacity: 0;
-    transform: translateY(20px); /* Start 20px below */
+    transform: translateY(1rem); 
   }
   100% {
     opacity: 1;
@@ -100,55 +102,74 @@ h2 {
 }
   
   .pokemon {
-    width: 200px; /* Set a fixed width for each card */
-    height: 200px; /* Set a fixed height for each card */
-    border-radius: 8px;
+    width: clamp(100rem, 20vw, 100rem); /* Scales with screen width */
+    width: clamp(100rem, 20vw, 100rem); /* Scales with screen width */
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover; /* Ensures image stays within the card */
+    border-radius: 1rem;
     text-align: center;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-    padding: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 0.5rem;
+    box-shadow: 0 0.5rem 1rem var(--shadow);
     background-color: #ffffff;
 
     opacity: 0; /* Start with the card hidden */
     animation: fadeInSlide 0.6s ease-out forwards; /* Apply animation */
   }
+
+
   
   .pokemon-image {
     max-width: 100%;
-    max-height: 150px;
-    transition: transform 0.3s ease; /* Smooth scaling transition */
+    max-height: 100%;
+    object-fit: cover; /* Ensures image stays within the card */
+    transition: transform 0.3s ease-in-out; /* Adds a smooth ease-in-out effect */
   }
 
-  .pokemon-image-large {
-    max-width: 100%;
-    max-height: 500px;
-    transition: transform 0.3s ease; /* Smooth scaling transition */
-    animation: fadeInSlide 0.6s ease-out forwards; /* Apply animation */
-  }
-  
   .pokemon-image:hover {
     transform: scale(1.1); /* Increase size by 10% on hover */
   }
+
+
+
+
+  .pokemon-images-container {
+    display: flex; /* Align images horizontally */123123
+    align-items: flex-end; /* Align shiny image to the bottom */
+}
+
+  .pokemon-image-large {
+    max-width: 40rem;
+    max-height: 100%;
+    transition: transform 0.3s ease; /* Smooth scaling transition */
+    animation: fadeInSlide 0.6s ease-out forwards; /* Apply animation */
+  }
+
+
+
+  .pokemon-image-shiny {
+    max-width: 20rem;
+    max-height: 100%;
+    transform: scaleX(-1); /* Flip the image horizontally */
+    padding-bottom: 4rem;
+}
+  
+
   
   
   .name {
     font-size: 1.2em;
     font-weight: bold;
-    margin-top: 8px;
     color: var(--black);
   }
   
-  .types {
-    display: flex;
-    gap: 5px;
-    justify-content: center; /* Centers the types horizontally */
-  }
   
   .type-image {
-    max-height: 20px; /* Limits the type icon height */
+    max-height: 1.2rem; /* Limits the type icon height */
     width: auto;
   }
   
@@ -157,25 +178,27 @@ h2 {
   .stat-bar {
     display: flex;
     align-items: center;
-    margin-bottom: 5px;
+    margin-bottom: 0.2rem;
 }
 
 .stat-name {
-    width: 70px;
+    width: 3.5rem;
     font-weight: bold;
+    text-align: right;
+    margin-right: 0.6rem;
 }
 
 .stat-value {
-    width: 30px;
+    width: 2.5rem;
     text-align: right;
-    margin-right: 10px;
+    margin-right: 0rem;
 }
 
 .bar-container {
-    width: 200px;
-    height: 10px;
-    background-color: #eee;
-    border-radius: 5px;
+    width: 10rem;
+    height: 1rem;
+    background-color: var(--dark-cream);
+    border-radius: 1rem;
     overflow: hidden;
 }
 
@@ -187,44 +210,38 @@ h2 {
 .title-type-container {
   display: flex; /* Align children in a row */
   align-items: center; /* Vertically align items */
-  gap: 10px; /* Space between the title and the type stack */
+  gap: 0.5rem; /* Space between the title and the type stack */
 }
 
 .type-stack {
+
   display: flex;
   flex-direction: column; /* Stack the type bars vertically */
   align-items: flex-start; /* Align the stack to the left */
 }
 
-.type-bar {
-  height: 24px; /* Adjust height of the type bars */
-  margin-bottom: 4px; /* Add some spacing between bars */
-}
 
-.type-bar:last-child {
-  margin-bottom: 0; /* Remove margin for the last bar */
-}
 
 
 
   
       .exit-button {
         position: fixed;
-        bottom: 20px;
-        right: 20px;
+        bottom: 0.7rem;
+        right: 0.7rem;
         background-color: var(--green);
         color: white;
-        font-size: 32px;
+        font-size: 2rem;
         font-weight: bold;
-        width: 50px;
-        height: 50px;
+        width: 3rem;
+        height: 3rem;
         border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
         cursor: pointer;
         border: none;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 1rem 1rem var(--shadow);
         z-index: 10;
         transition: background-color 0.3s ease;
     }
@@ -241,13 +258,13 @@ h2 {
   position: fixed; /* Make the banner stay at the top of the screen */
   top: 0;
   left: 0;
-  padding: 10px 100px;
+  padding: 1.3rem;
   background-color: var(--teal);
   z-index: 1000; /* Ensure it appears above other content */
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
+  box-shadow: 0 .5rem .5rem var(--shadow);
   color: #fff; /* Adjust text color if needed */
-  height: 80px; /* Fixed height for the banner */
-  margin-bottom: 200px; /* Adjust margin to create space below */
+  height: 4rem; /* Fixed height for the banner */
+  margin-bottom: 6rem; /* Adjust margin to create space below */
 }
 
 /* Banner styling: consistent across all pages */
@@ -259,10 +276,10 @@ h2 {
   position: fixed; /* Make the banner stay at the top of the screen */
   top: 0;
   left: 0;
-  padding: 10px 20px;
+  padding: 0.3rem;
   background-color: var(--green);
   z-index: 1000; /* Ensure it appears above other content */
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
+  box-shadow: 0 0.2rem 0.5rem var(--shadow);
   color: #fff; /* Adjust text color if needed */
 }
 
@@ -279,13 +296,13 @@ h2 {
   display: flex;
   justify-content: center;
   align-items: center; /* Vertically centers the content */
-  padding-right: 40px;
+  padding-right: 2.1rem;
   top: 50%; /* Center it vertically */
 }
 
 
 .arrow {
-    font-size: 2rem;
+    font-size: 1.5rem;
     cursor: pointer;
     transition: color 0.3s ease
 }
@@ -303,14 +320,16 @@ h2 {
   display: flex;
   flex-direction: column; /* Stacks the type bars vertically */
   align-items: center; /* Centers the bars horizontally */
-  gap: 5px; /* Adds space between the type bars */
-  margin-top: 10px; /* Adds some space above the type bars */
+  gap: 0.5rem; /* Adds space between the type bars */
+  margin-top: 66rem; /* Adds some space above the type bars */
 }
 
 .type-bar {
-  width: 100px; /* Adjust the width as needed */
-  height: 20px; /* Adjust the height as needed */
+  width: 6rem; /* Adjust the width as needed */
+  height: auto;
+  gap: 1rem;
   object-fit: contain; /* Ensures the type bar image scales properly */
+  margin-top: 0.4rem;
 }
 
 
@@ -321,18 +340,8 @@ h2 {
 }
 
 
-    .pokemon-details {
-      display: flex;
-      align-items: center; /* Center the stats vertically */
-      justify-content: space-between; /* Push stats to the right */
-      gap: 20px; /* Spacing between image and stats */
-  }
-  
-  .pokemon-info {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-  }
+
+
   
 
   
@@ -340,24 +349,24 @@ h2 {
   
 /* Customize the entire scrollbar */
 ::-webkit-scrollbar {
-  width: 12px; /* Horizontal scrollbar width */
-  height: 12px; /* Vertical scrollbar height */
+  width: 0.8rem; /* Horizontal scrollbar width */
+  height: 0.5rem; /* Vertical scrollbar height */
 }
 
 /* Customize the track (the area the thumb moves along) */
 ::-webkit-scrollbar-track {
   background: var(--dark-cream);
-  border-radius: 0px;
+  border-radius: 0rem;
 }
 
 /* Customize the thumb (the draggable part of the scrollbar) */
 ::-webkit-scrollbar-thumb {
-  background: var(--green);
-  border-radius: 10px; /* Rounded corners */
+  background: #8b877b;
+  border-radius: 1rem; /* Rounded corners */
   transition: background 0.3s ease; /* Easing animation for color change */
 }
 
 /* Add hover effect for the thumb */
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--dark-green);
+  background: #615e55;
 }
