@@ -138,7 +138,7 @@ h2 {
 
 
   .pokemon-images-container {
-    display: flex; /* Align images horizontally */123123
+    display: flex; /* Align images horizontally */
     align-items: flex-end; /* Align shiny image to the bottom */
 }
 
