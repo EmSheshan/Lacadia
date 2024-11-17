@@ -143,8 +143,8 @@ h2 {
 }
 
   .pokemon-image-large {
-    max-width: 40rem;
-    max-height: 100%;
+    width: 40rem;
+    height: 100%;
     transition: transform 0.3s ease; /* Smooth scaling transition */
     animation: fadeInSlide 0.6s ease-out forwards; /* Apply animation */
   }
@@ -152,8 +152,8 @@ h2 {
 
 
   .pokemon-image-shiny {
-    max-width: 20rem;
-    max-height: 100%;
+    width: 20rem;
+    height: 100%;
     transform: scaleX(-1); /* Flip the image horizontally */
     padding-bottom: 4rem;
 }
