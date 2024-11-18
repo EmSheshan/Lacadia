@@ -1,33 +1,33 @@
-name,type1,type2,hp,atk,def,spatk,spdef,speed
-Springbun,Grass,na,200,50,50,50,50,30
-Snapbun,Grass,na,50,50,50,50,50,50
-Faestalk,Grass,Fairy,50,50,50,50,50,50
-Basilly,Fire,na,50,50,50,50,50,50
-Knaviper,Fire,na,50,50,50,50,50,50
-Gorgalisk,Fire,Poison,200,50,50,50,50,30
-Purluxe,Water,na,200,50,50,50,50,30
-Lyonite,Water,na,200,50,50,50,50,30
-Enkidros,Water,Ground,50,50,50,50,50,50
-Grubble,Bug,Normal,50,50,50,50,50,50
-Tentrilo,Bug,Normal,50,50,50,50,50,50
-Rocazza,Bug,Normal,50,50,50,50,50,50
-Mochu,Ice,Electric,50,50,50,50,50,50
-Snochu,Ice,Electric,50,50,50,50,50,50
-Balite,Flying,Ice,50,50,50,50,50,50
-Baleet,Flying,Ice,50,50,50,50,50,50
-Cryocone,Ice,Poison,50,50,50,50,50,50
-Cryoconda,Ice,Poison,50,50,50,50,50,50
-Lanturnal,Water,Electric,50,50,50,50,50,50
-Shuckler,Bug,Steel,50,50,50,50,50,50
-Heatmost,Fire,Steel,50,50,50,50,50,50
-Pyrant,Bug,Fire,50,50,50,50,50,50
-Larvos,Bug,na,50,50,50,50,50,50
-Injiron,Bug,na,50,50,50,50,50,50
-Stratoclysm,Bug,Dragon,50,50,50,50,50,50
-Idagon,Fighting,Psychic,50,50,50,50,50,50
-Libradon,Fighting,Psychic,50,50,50,50,50,50
-Suprion,Fighting,Psychic,50,50,50,50,50,50
-Gaiax,Ground,na,50,50,50,50,50,50
-Gaiaxion,Ground,Dragon,50,50,50,50,50,50
-Xeles,Psychic,na,50,50,50,50,50,50
-Xelestion,Psychic,Dragon,50,50,50,50,50,50
+name,type1,type2,hp,atk,def,spatk,spdef,speed,title,description
+Springbun,Grass,na,200,50,50,50,50,30,Bunny,
+Snapbun,Grass,na,50,50,50,50,50,50,Thorny,
+Faestalk,Grass,Fairy,50,50,50,50,50,50,Beanstalk,
+Basilly,Fire,na,50,50,50,50,50,50,Timid,
+Knaviper,Fire,na,50,50,50,50,50,50,Cowardly,
+Gorgalisk,Fire,Poison,200,50,50,50,50,30,Craven,
+Purluxe,Water,na,200,50,50,50,50,30,,
+Lyonite,Water,na,200,50,50,50,50,30,,
+Enkidros,Water,Ground,50,50,50,50,50,50,Warrior,
+Grubblo,Bug,Normal,50,50,50,50,50,50,,
+Tentrilo,Bug,Normal,50,50,50,50,50,50,Big Top,
+Rocazzo,Bug,Normal,50,50,50,50,50,50,Showman,"Commanding the stage with dazzling flair, this Pokémon captivates audiences and allies alike. Its booming voice and sweeping gestures inspire loyalty, while its cunning strategies ensure every show ends with it in the spotlight."
+Mochu,Ice,Electric,50,50,50,50,50,50,Snow Bunny,
+Snochu,Ice,Electric,50,50,50,50,50,50,Daikon,
+Balite,Flying,Ice,50,50,50,50,50,50,,
+Baleet,Flying,Ice,50,50,50,50,50,50,,
+Cryocone,Ice,Poison,50,50,50,50,50,50,Poison Snail,
+Cryoconda,Ice,Poison,50,50,50,50,50,50,Poison Serpent,
+Lanturnal,Water,Electric,50,50,50,50,50,50,,
+Shuckler,Bug,Steel,50,50,50,50,50,50,,
+Heatmost,Fire,Steel,50,50,50,50,50,50,,
+Pyrant,Bug,Fire,50,50,50,50,50,50,Foundry,
+Larvos,Bug,na,50,50,50,50,50,50,Sickly,
+Injiron,Bug,na,50,50,50,50,50,50,Injector,
+Stratoclysm,Bug,Dragon,50,50,50,50,50,50,Cataclysm,
+Idagon,Fighting,Psychic,50,50,50,50,50,50,Tantrum,
+Libradon,Fighting,Psychic,50,50,50,50,50,50,Balanced,
+Suprion,Fighting,Psychic,50,50,50,50,50,50,Superego,
+Gaiax,Ground,na,50,50,50,50,50,50,,
+Gaiaxion,Ground,Dragon,50,50,50,50,50,50,Terrestrial,
+Xeles,Psychic,na,50,50,50,50,50,50,,
+Xelestion,Psychic,Dragon,50,50,50,50,50,50,Celestial,

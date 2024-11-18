@@ -29,14 +29,13 @@ body {
     background-image: url("data:image/svg+xml,<svg id='patternId' width='200%' height='200%' xmlns='http://www.w3.org/2000/svg'><defs><pattern id='a' patternUnits='userSpaceOnUse' width='40' height='40' patternTransform='scale(4) rotate(45)'><rect x='0' y='0' width='100%' height='100%' fill='%23f3ecd8ff'/><path d='M15 5h10v30H15zM35-5V5H5V-5zM35 35v10H5V35zM35-15h10v30H35zM55 15v10H25V15zM15 15v10h-30V15zM35 25h10v30H35zM-5 25H5v30H-5zM-5-15H5v30H-5z' stroke-width='4' stroke='%23ffffffff' fill='none'/></pattern></defs><rect width='800%' height='800%' transform='translate(0,0)' fill='url(%23a)'/></svg>") !important;
     background-size: 790px 1000px; /* Replace with the desired size */
   
+    flex-direction: row;
   margin-top: 1rem;
 
-  font-family: "Faculty Glyphic", sans-serif;
   background-color: var(--cream);
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  overflow-x: hidden; /* Prevent horizontal scrolling */
+
+
 }
 
   
@@ -57,10 +56,11 @@ body {
 
 h2 {
   font-family: "Faculty Glyphic", sans-serif;
-  font-size: clamp(2rem, 5vw, 5rem);
+  font-size: 4rem;
   color: var(--teal);
   text-align: left; /* Align text to the left */
-  margin-left: 0; /* Remove any additional left margin */
+  margin-top: 2rem;
+  margin-bottom: 0.5rem;
 }
 
 #pokedex {
@@ -140,6 +140,11 @@ h2 {
   .pokemon-images-container {
     display: flex; /* Align images horizontally */
     align-items: flex-end; /* Align shiny image to the bottom */
+    justify-content: center; /* Center items vertically */
+    align-items: center; /* Center items horizontally */
+    text-align: center; /* Ensure text inside children is centered */
+    gap: 0;
+    margin: auto auto; /* Centers the container itself and adds spacing */
 }
 
   .pokemon-image-large {
@@ -156,6 +161,19 @@ h2 {
     height: 100%;
     transform: scaleX(-1); /* Flip the image horizontally */
     padding-bottom: 4rem;
+    animation: fadeInSlideShiny 0.6s ease-out forwards; /* Apply animation */
+}
+@keyframes fadeInSlideShiny {
+
+  0% {
+    opacity: 0;
+    transform: translateY(1rem) scaleX(-1); 
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scaleX(-1); /* End in normal position */
+  }
+
 }
   
 
@@ -213,11 +231,38 @@ h2 {
   gap: 0.5rem; /* Space between the title and the type stack */
 }
 
+.pokemon-title {
+  font-size: clamp(0.7rem, 5vw, 1.4rem);
+  font-style: italic;
+  margin-top: -1rem;
+  margin-bottom: 4rem;
+
+}
+
+.pokemon-description {
+  font-size: clamp(0.25rem, 5vw, 1rem);
+  margin-top: -1rem;
+  margin-left: 0.5rem;
+  background-color: var(--cream);
+  width: 25rem;
+}
+
+.pokemon-details {
+  display: flex; /* Use flexbox */
+
+  justify-content: center; /* Center items vertically */
+  align-items: center; /* Center items horizontally */
+  text-align: center; /* Ensure text inside children is centered */
+  gap: 1rem; /* Add spacing between the description and stats */
+  height: 100%; /* Optional: Fill the height of the container */
+}
+
+
 .type-stack {
 
   display: flex;
   flex-direction: column; /* Stack the type bars vertically */
-  align-items: flex-start; /* Align the stack to the left */
+  margin-top: 1rem;
 }
 
 
@@ -290,13 +335,14 @@ h2 {
     justify-content: center;
     align-items: center;
     top: 50%; /* Center it vertically */
+    padding-left: 0.5rem;
 }
 
 .arrow-right {
   display: flex;
   justify-content: center;
   align-items: center; /* Vertically centers the content */
-  padding-right: 2.1rem;
+  padding-right: 1rem;
   top: 50%; /* Center it vertically */
 }
 
