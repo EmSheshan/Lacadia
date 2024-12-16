@@ -1,11 +1,19 @@
 :root {
   /* Color Palette */
-  --bg: #1c1f27;   
-  --accent1: #bf4b66; 
-  --green: #d7826b;     
-  --dark-green: #e5a98a;     
-  --bg2: #16181e; 
-  --black:#adacaf;     
+  --bg: #f1e5da;
+  --bg2: #e3d3c6;
+  --bg3: #faf0e7;
+
+  --accent1: #e0794e;
+  --accent2: #9a7a61;
+  --accent3: #c8a592;
+  --accent4: #dcbda3;
+  --accent5: #bfc7be;
+  --accent6: #674f45;
+
+  --main-text: #023e3b;
+  --second-text: #688e8f;
+
   --shadow: rgba(0, 0, 0, 0.308);   
 }
 
@@ -13,7 +21,9 @@
 
 
 body {
-  background-image: url("data:image/svg+xml,<svg id='patternId' width='100%' height='100%' xmlns='http://www.w3.org/2000/svg'><defs><pattern id='a' patternUnits='userSpaceOnUse' width='40' height='40' patternTransform='scale(3) rotate(45)'><rect x='0' y='0' width='100%' height='100%' fill='%231c1f27ff'/><path d='M15 5h10v30H15zM35-5V5H5V-5zM35 35v10H5V35zM35-15h10v30H35zM55 15v10H25V15zM15 15v10h-30V15zM35 25h10v30H35zM-5 25H5v30H-5zM-5-15H5v30H-5z'  stroke-width='4' stroke='%2316181eff' fill='none'/></pattern></defs><rect width='800%' height='800%' transform='translate(0,0)' fill='url(%23a)'/></svg>");
+  background-image: url("data:image/svg+xml,<svg id='patternId' width='100%' height='100%' xmlns='http://www.w3.org/2000/svg'><defs><pattern id='a' patternUnits='userSpaceOnUse' width='40' height='40' patternTransform='scale(3) rotate(45)'><rect x='0' y='0' width='100%' height='100%' fill='%23f1e5daff'/><path d='M15 5h10v30H15zM35-5V5H5V-5zM35 35v10H5V35zM35-15h10v30H35zM55 15v10H25V15zM15 15v10h-30V15zM35 25h10v30H35zM-5 25H5v30H-5zM-5-15H5v30H-5z'  stroke-width='4' stroke='%23e3d3c6ff' fill='none'/></pattern></defs><rect width='800%' height='800%' transform='translate(0,0)' fill='url(%23a)'/></svg>");
+
+
   background-repeat: repeat;
   font-family: "Faculty Glyphic", sans-serif;
   background-color: var(--bg);
@@ -26,7 +36,7 @@ body {
 
 #card-page {
 
-    background-image: url("data:image/svg+xml,<svg id='patternId' width='200%' height='200%' xmlns='http://www.w3.org/2000/svg'><defs><pattern id='a' patternUnits='userSpaceOnUse' width='40' height='40' patternTransform='scale(4) rotate(45)'><rect x='0' y='0' width='100%' height='100%' fill='%2316181eff'/><path d='M15 5h10v30H15zM35-5V5H5V-5zM35 35v10H5V35zM35-15h10v30H35zM55 15v10H25V15zM15 15v10h-30V15zM35 25h10v30H35zM-5 25H5v30H-5zM-5-15H5v30H-5z' stroke-width='4' stroke='%231c1f27ff' fill='none'/></pattern></defs><rect width='800%' height='800%' transform='translate(0,0)' fill='url(%23a)'/></svg>") !important;
+    background-image: url("data:image/svg+xml,<svg id='patternId' width='200%' height='200%' xmlns='http://www.w3.org/2000/svg'><defs><pattern id='a' patternUnits='userSpaceOnUse' width='40' height='40' patternTransform='scale(4) rotate(45)'><rect x='0' y='0' width='100%' height='100%' fill='%23e3d3c6ff'/><path d='M15 5h10v30H15zM35-5V5H5V-5zM35 35v10H5V35zM35-15h10v30H35zM55 15v10H25V15zM15 15v10h-30V15zM35 25h10v30H35zM-5 25H5v30H-5zM-5-15H5v30H-5z' stroke-width='4' stroke='%23f1e5daff' fill='none'/></pattern></defs><rect width='800%' height='800%' transform='translate(0,0)' fill='url(%23a)'/></svg>") !important;
     background-size: 790px 1000px; /* Replace with the desired size */
   
     flex-direction: row;
@@ -42,13 +52,13 @@ body {
   header {
     font-family: "Faculty Glyphic", sans-serif;
     text-align: left;
-    padding: 0rem;
+    padding: 0;
   }
   
   h1 {
     font-family: "Faculty Glyphic", sans-serif;
     font-size: clamp(2rem, 5vw, 5rem);
-    color: var(--black);
+    color: var(--bg3);
     text-align: left; /* Align text to the left */
     margin: 0; /* Remove any additional left margin */
     padding: 0;
@@ -57,7 +67,7 @@ body {
 h2 {
   font-family: "Faculty Glyphic", sans-serif;
   font-size: 4rem;
-  color: var(--accent1);
+  color: var(--main-text);
   text-align: left; /* Align text to the left */
   margin-top: 2rem;
   margin-bottom: 0.5rem;
@@ -79,10 +89,11 @@ h2 {
     text-align: center;
     padding: 0.5rem;
     font-size: 0.9rem;
-    color: var(--black);
+    color: var(--second-text);
     position: relative;
     width: 100%;
     margin-top: 1rem; /* Adjust the value as needed */
+    margin-bottom: -1rem;
   }
   
   .footer p {
@@ -115,24 +126,24 @@ h2 {
     justify-content: space-between;
     padding: 0.5rem;
     box-shadow: 0 0.5rem 1rem var(--shadow);
-    background-color: var(--bg);
+    background-color: var(--bg3);
 
     opacity: 0; /* Start with the card hidden */
-    animation: fadeInSlide 0.6s ease-out forwards; /* Apply animation */
+    animation: fadeInSlide 0.5s ease-out forwards; /* Apply animation */
   }
 
 
-  
-  .pokemon-image {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: cover; /* Ensures image stays within the card */
-    transition: transform 0.3s ease-in-out; /* Adds a smooth ease-in-out effect */
-  }
 
-  .pokemon-image:hover {
-    transform: scale(1.1); /* Increase size by 10% on hover */
-  }
+.pokemon-image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: cover; /* Ensures image stays within the card */
+  transition: transform 0.2s ease-in-out; /* Adds a smooth hover effect */
+}
+
+.pokemon-image:hover {
+  transform: scale(1.1); /* Enlarge on hover */
+}
 
 
 
@@ -161,7 +172,10 @@ h2 {
     height: 100%;
     transform: scaleX(-1); /* Flip the image horizontally */
     padding-bottom: 4rem;
-    animation: fadeInSlideShiny 0.6s ease-out forwards; /* Apply animation */
+
+    animation: fadeInSlideShiny 1.0s ease-out forwards ; /* Apply animation */
+
+
 }
 @keyframes fadeInSlideShiny {
 
@@ -182,7 +196,7 @@ h2 {
   .name {
     font-size: 1.2em;
     font-weight: bold;
-    color: var(--black);
+    color: var(--main-text);
   }
   
   
@@ -215,7 +229,7 @@ h2 {
 .bar-container {
     width: 10rem;
     height: 1rem;
-    background-color: var(--bg2);
+    background-color: var(--bg3);
     border-radius: 1rem;
     overflow: hidden;
 }
@@ -234,7 +248,8 @@ h2 {
 .pokemon-title {
   font-size: clamp(0.7rem, 5vw, 1.4rem);
   font-style: italic;
-  margin-top: -1rem;
+  color: var(--second-text);
+  margin-top: -0.5rem;
   margin-bottom: 4rem;
 
 }
@@ -257,6 +272,10 @@ h2 {
   height: 100%; /* Optional: Fill the height of the container */
 }
 
+.pokemon-stats {
+  color: var(--second-text);
+}
+
 
 .type-stack {
 
@@ -274,8 +293,8 @@ h2 {
         position: fixed;
         bottom: 0.7rem;
         right: 0.7rem;
-        background-color: var(--green);
-        color: white;
+        background-color: var(--accent2);
+        color: var(--bg3);
         font-size: 2rem;
         font-weight: bold;
         width: 3rem;
@@ -292,7 +311,7 @@ h2 {
     }
 
     .exit-button:hover {
-        background-color: var(--dark-green);
+        background-color: var(--accent6);
     }
 
 /* Banner styling: consistent across all pages */
@@ -307,7 +326,6 @@ h2 {
   background-color: var(--accent1);
   z-index: 1000; /* Ensure it appears above other content */
   box-shadow: 0 .5rem .5rem var(--shadow);
-  color: var(--black); /* Adjust text color if needed */
   height: 4rem; /* Fixed height for the banner */
   margin-bottom: 6rem; /* Adjust margin to create space below */
 }
@@ -322,7 +340,7 @@ h2 {
   top: 0;
   left: 0;
   padding: 0.3rem;
-  background-color: var(--green);
+  background-color: var(--second-text);
   z-index: 1000; /* Ensure it appears above other content */
   box-shadow: 0 0.2rem 0.5rem var(--shadow);
   color: var(--bg); /* Adjust text color if needed */
@@ -348,13 +366,14 @@ h2 {
 
 
 .arrow {
+  color: var(--bg3);
     font-size: 1.5rem;
     cursor: pointer;
     transition: color 0.3s ease
 }
 
 .arrow:hover {
-    color: var(--dark-green);
+    color: var(--accent5);
 }
 
 .pokemon-info {
@@ -402,17 +421,17 @@ h2 {
 /* Customize the track (the area the thumb moves along) */
 ::-webkit-scrollbar-track {
   background: var(--bg2);
-  border-radius: 0rem;
+  border-radius: 0;
 }
 
 /* Customize the thumb (the draggable part of the scrollbar) */
 ::-webkit-scrollbar-thumb {
-  background: var(--black);
+  background: var(--accent2);
   border-radius: 1rem; /* Rounded corners */
-  transition: background 0.3s ease; /* Easing animation for color change */
+  transition: background 0.2s ease; /* Easing animation for color change */
 }
 
 /* Add hover effect for the thumb */
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--green);
+  background: var(--accent6);
 }
