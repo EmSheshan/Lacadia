@@ -1,22 +1,22 @@
 :root {
   /* Color Palette */
-  --cream: #fbf3e3;   
-  --teal: #2ba098; 
-  --green: #849800;     
-  --dark-green: #3c4e1b;     
-  --dark-cream: #e3d9be; 
-  --black:#191818;     
-  --shadow: rgba(124, 82, 22, 0.308);   
+  --bg: #1c1f27;   
+  --accent1: #bf4b66; 
+  --green: #d7826b;     
+  --dark-green: #e5a98a;     
+  --bg2: #16181e; 
+  --black:#adacaf;     
+  --shadow: rgba(0, 0, 0, 0.308);   
 }
 
 
 
 
 body {
-  background-image: url("data:image/svg+xml,<svg id='patternId' width='100%' height='100%' xmlns='http://www.w3.org/2000/svg'><defs><pattern id='a' patternUnits='userSpaceOnUse' width='40' height='40' patternTransform='scale(3) rotate(45)'><rect x='0' y='0' width='100%' height='100%' fill='%23ffffffff'/><path d='M15 5h10v30H15zM35-5V5H5V-5zM35 35v10H5V35zM35-15h10v30H35zM55 15v10H25V15zM15 15v10h-30V15zM35 25h10v30H35zM-5 25H5v30H-5zM-5-15H5v30H-5z'  stroke-width='4' stroke='%23f3ecd8ff' fill='none'/></pattern></defs><rect width='800%' height='800%' transform='translate(0,0)' fill='url(%23a)'/></svg>");
+  background-image: url("data:image/svg+xml,<svg id='patternId' width='100%' height='100%' xmlns='http://www.w3.org/2000/svg'><defs><pattern id='a' patternUnits='userSpaceOnUse' width='40' height='40' patternTransform='scale(3) rotate(45)'><rect x='0' y='0' width='100%' height='100%' fill='%231c1f27ff'/><path d='M15 5h10v30H15zM35-5V5H5V-5zM35 35v10H5V35zM35-15h10v30H35zM55 15v10H25V15zM15 15v10h-30V15zM35 25h10v30H35zM-5 25H5v30H-5zM-5-15H5v30H-5z'  stroke-width='4' stroke='%2316181eff' fill='none'/></pattern></defs><rect width='800%' height='800%' transform='translate(0,0)' fill='url(%23a)'/></svg>");
   background-repeat: repeat;
   font-family: "Faculty Glyphic", sans-serif;
-  background-color: var(--cream);
+  background-color: var(--bg);
   display: flex;
   flex-direction: column;
   margin-top: 8rem;
@@ -26,13 +26,13 @@ body {
 
 #card-page {
 
-    background-image: url("data:image/svg+xml,<svg id='patternId' width='200%' height='200%' xmlns='http://www.w3.org/2000/svg'><defs><pattern id='a' patternUnits='userSpaceOnUse' width='40' height='40' patternTransform='scale(4) rotate(45)'><rect x='0' y='0' width='100%' height='100%' fill='%23f3ecd8ff'/><path d='M15 5h10v30H15zM35-5V5H5V-5zM35 35v10H5V35zM35-15h10v30H35zM55 15v10H25V15zM15 15v10h-30V15zM35 25h10v30H35zM-5 25H5v30H-5zM-5-15H5v30H-5z' stroke-width='4' stroke='%23ffffffff' fill='none'/></pattern></defs><rect width='800%' height='800%' transform='translate(0,0)' fill='url(%23a)'/></svg>") !important;
+    background-image: url("data:image/svg+xml,<svg id='patternId' width='200%' height='200%' xmlns='http://www.w3.org/2000/svg'><defs><pattern id='a' patternUnits='userSpaceOnUse' width='40' height='40' patternTransform='scale(4) rotate(45)'><rect x='0' y='0' width='100%' height='100%' fill='%2316181eff'/><path d='M15 5h10v30H15zM35-5V5H5V-5zM35 35v10H5V35zM35-15h10v30H35zM55 15v10H25V15zM15 15v10h-30V15zM35 25h10v30H35zM-5 25H5v30H-5zM-5-15H5v30H-5z' stroke-width='4' stroke='%231c1f27ff' fill='none'/></pattern></defs><rect width='800%' height='800%' transform='translate(0,0)' fill='url(%23a)'/></svg>") !important;
     background-size: 790px 1000px; /* Replace with the desired size */
   
     flex-direction: row;
   margin-top: 1rem;
 
-  background-color: var(--cream);
+  background-color: var(--bg);
   display: flex;
 
 
@@ -48,7 +48,7 @@ body {
   h1 {
     font-family: "Faculty Glyphic", sans-serif;
     font-size: clamp(2rem, 5vw, 5rem);
-    color: #fff;
+    color: var(--black);
     text-align: left; /* Align text to the left */
     margin: 0; /* Remove any additional left margin */
     padding: 0;
@@ -57,7 +57,7 @@ body {
 h2 {
   font-family: "Faculty Glyphic", sans-serif;
   font-size: 4rem;
-  color: var(--teal);
+  color: var(--accent1);
   text-align: left; /* Align text to the left */
   margin-top: 2rem;
   margin-bottom: 0.5rem;
@@ -75,7 +75,7 @@ h2 {
 
 
   .footer {
-    background-color: var(--dark-cream);
+    background-color: var(--bg2);
     text-align: center;
     padding: 0.5rem;
     font-size: 0.9rem;
@@ -115,7 +115,7 @@ h2 {
     justify-content: space-between;
     padding: 0.5rem;
     box-shadow: 0 0.5rem 1rem var(--shadow);
-    background-color: #ffffff;
+    background-color: var(--bg);
 
     opacity: 0; /* Start with the card hidden */
     animation: fadeInSlide 0.6s ease-out forwards; /* Apply animation */
@@ -215,7 +215,7 @@ h2 {
 .bar-container {
     width: 10rem;
     height: 1rem;
-    background-color: var(--dark-cream);
+    background-color: var(--bg2);
     border-radius: 1rem;
     overflow: hidden;
 }
@@ -243,7 +243,7 @@ h2 {
   font-size: clamp(0.25rem, 5vw, 1rem);
   margin-top: -1rem;
   margin-left: 0.5rem;
-  background-color: var(--cream);
+  background-color: var(--bg);
   width: 25rem;
 }
 
@@ -304,10 +304,10 @@ h2 {
   top: 0;
   left: 0;
   padding: 1.3rem;
-  background-color: var(--teal);
+  background-color: var(--accent1);
   z-index: 1000; /* Ensure it appears above other content */
   box-shadow: 0 .5rem .5rem var(--shadow);
-  color: #fff; /* Adjust text color if needed */
+  color: var(--black); /* Adjust text color if needed */
   height: 4rem; /* Fixed height for the banner */
   margin-bottom: 6rem; /* Adjust margin to create space below */
 }
@@ -325,7 +325,7 @@ h2 {
   background-color: var(--green);
   z-index: 1000; /* Ensure it appears above other content */
   box-shadow: 0 0.2rem 0.5rem var(--shadow);
-  color: #fff; /* Adjust text color if needed */
+  color: var(--bg); /* Adjust text color if needed */
 }
 
 
@@ -401,18 +401,18 @@ h2 {
 
 /* Customize the track (the area the thumb moves along) */
 ::-webkit-scrollbar-track {
-  background: var(--dark-cream);
+  background: var(--bg2);
   border-radius: 0rem;
 }
 
 /* Customize the thumb (the draggable part of the scrollbar) */
 ::-webkit-scrollbar-thumb {
-  background: #8b877b;
+  background: var(--black);
   border-radius: 1rem; /* Rounded corners */
   transition: background 0.3s ease; /* Easing animation for color change */
 }
 
 /* Add hover effect for the thumb */
 ::-webkit-scrollbar-thumb:hover {
-  background: #615e55;
+  background: var(--green);
 }
