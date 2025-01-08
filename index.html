@@ -10,12 +10,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
 
-    <link rel="icon"
-          href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌱</text></svg>">
+    <link id="dynamic-favicon" rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌱</text></svg>">
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lacadie Pokédex</title>
+    <title>Lacadia Pokédex</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -44,30 +43,51 @@
 </footer>
 
 <script>
-  // Function to toggle dark mode
-  function toggleDarkMode() {
-    const body = document.body;
-    const button = document.querySelector('.toggle-dark-mode');
-    body.classList.toggle('dark-mode');
-    if (body.classList.contains('dark-mode')) {
-      button.innerHTML = '<i class="fas fa-moon"></i>';
-      localStorage.setItem('darkMode', 'enabled');
-    } else {
-      button.innerHTML = '<i class="fas fa-sun"></i>';
-      localStorage.setItem('darkMode', 'disabled');
+    // Function to toggle dark mode
+    function toggleDarkMode() {
+        const body = document.body;
+        const button = document.querySelector('.toggle-dark-mode');
+        body.classList.toggle('dark-mode');
+        if (body.classList.contains('dark-mode')) {
+            button.innerHTML = '<i class="fas fa-moon"></i>';
+            changeFavicon("data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌌</text></svg>");
+            localStorage.setItem('darkMode', 'enabled');
+        } else {
+            button.innerHTML = '<i class="fas fa-sun"></i>';
+            changeFavicon("data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌱</text></svg>");
+            localStorage.setItem('darkMode', 'disabled');
+        }
     }
-  }
 
-  // Set initial icon and mode based on the saved state
-  document.addEventListener('DOMContentLoaded', () => {
-    const button = document.querySelector('.toggle-dark-mode');
-    if (localStorage.getItem('darkMode') === 'enabled') {
-      document.body.classList.add('dark-mode');
-      button.innerHTML = '<i class="fas fa-moon"></i>';
-    } else {
-      button.innerHTML = '<i class="fas fa-sun"></i>';
+    // Set initial icon and mode based on the saved state
+    document.addEventListener('DOMContentLoaded', () => {
+        const button = document.querySelector('.toggle-dark-mode');
+        if (localStorage.getItem('darkMode') === 'enabled') {
+            document.body.classList.add('dark-mode');
+            button.innerHTML = '<i class="fas fa-moon"></i>';
+            changeFavicon("data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌌</text></svg>");
+        } else {
+            button.innerHTML = '<i class="fas fa-sun"></i>';
+            changeFavicon("data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌱</text></svg>");
+        }
+    });
+
+    // Function to change the favicon dynamically
+    function changeFavicon(src) {
+        var link = document.createElement('link');
+        var oldLink = document.getElementById('dynamic-favicon');
+        link.id = 'dynamic-favicon';
+        link.rel = 'icon';
+        link.href = src;
+
+        // Remove the old favicon if it exists
+        if (oldLink) {
+            document.head.removeChild(oldLink);
+        }
+
+        // Add the new favicon
+        document.head.appendChild(link);
     }
-  });
 </script>
 
 </body>
