@@ -1,61 +1,61 @@
 :root {
-  /* Color Palette */
-  --bg: #f1e5da;
-  --bg2: #e3d3c6;
-  --bg3: #faf0e7;
+    /* Color Palette */
+    --bg: #f1e5da;
+    --bg2: #e3d3c6;
+    --bg3: #faf0e7;
 
-  --accent1: #e0794e;
-  --accent2: #9a7a61;
-  --accent3: #c8a592;
-  --accent4: #dcbda3;
-  --accent5: #bfc7be;
-  --accent6: #674f45;
+    --bg-dark: #2e2e2f;
 
-  --main-text: #023e3b;
-  --second-text: #688e8f;
+    --accent1: #f87545;
+    --accent2: #deb66d;
+    --accent3: #c8a592;
+    --accent4: #dcbda3;
+    --accent5: #128884;
+    --accent6: #674f45;
 
-  --shadow: rgba(0, 0, 0, 0.308);   
+    --main-text: #004d4c;
+    --second-text: #6aa89f;
+
+    --shadow: rgba(0, 0, 0, 0.308);
 }
 
 
-
-
 body {
-  background-image: url("data:image/svg+xml,<svg id='patternId' width='100%' height='100%' xmlns='http://www.w3.org/2000/svg'><defs><pattern id='a' patternUnits='userSpaceOnUse' width='40' height='40' patternTransform='scale(3) rotate(45)'><rect x='0' y='0' width='100%' height='100%' fill='%23f1e5daff'/><path d='M15 5h10v30H15zM35-5V5H5V-5zM35 35v10H5V35zM35-15h10v30H35zM55 15v10H25V15zM15 15v10h-30V15zM35 25h10v30H35zM-5 25H5v30H-5zM-5-15H5v30H-5z'  stroke-width='4' stroke='%23e3d3c6ff' fill='none'/></pattern></defs><rect width='800%' height='800%' transform='translate(0,0)' fill='url(%23a)'/></svg>");
+    background-image: url("data:image/svg+xml,<svg id='patternId' width='100%' height='100%' xmlns='http://www.w3.org/2000/svg'><defs><pattern id='a' patternUnits='userSpaceOnUse' width='40' height='40' patternTransform='scale(3) rotate(45)'><rect x='0' y='0' width='100%' height='100%' fill='%23f1e5daff'/><path d='M15 5h10v30H15zM35-5V5H5V-5zM35 35v10H5V35zM35-15h10v30H35zM55 15v10H25V15zM15 15v10h-30V15zM35 25h10v30H35zM-5 25H5v30H-5zM-5-15H5v30H-5z'  stroke-width='4' stroke='%23faf0e7ff' fill='none'/></pattern></defs><rect width='800%' height='800%' transform='translate(0,0)' fill='url(%23a)'/></svg>");
 
 
-  background-repeat: repeat;
-  font-family: "Faculty Glyphic", sans-serif;
-  background-color: var(--bg);
-  display: flex;
-  flex-direction: column;
-  margin-top: 8rem;
-  align-items: center;
-  overflow-x: hidden; /* Prevent horizontal scrolling */
+    background-repeat: repeat;
+    font-family: "Faculty Glyphic", sans-serif;
+    background-color: rgb(0,0,0);
+    display: flex;
+    flex-direction: column;
+    margin-top: 8rem;
+    align-items: center;
+    overflow-x: hidden; /* Prevent horizontal scrolling */
 }
 
 #card-page {
 
-    background-image: url("data:image/svg+xml,<svg id='patternId' width='200%' height='200%' xmlns='http://www.w3.org/2000/svg'><defs><pattern id='a' patternUnits='userSpaceOnUse' width='40' height='40' patternTransform='scale(4) rotate(45)'><rect x='0' y='0' width='100%' height='100%' fill='%23e3d3c6ff'/><path d='M15 5h10v30H15zM35-5V5H5V-5zM35 35v10H5V35zM35-15h10v30H35zM55 15v10H25V15zM15 15v10h-30V15zM35 25h10v30H35zM-5 25H5v30H-5zM-5-15H5v30H-5z' stroke-width='4' stroke='%23f1e5daff' fill='none'/></pattern></defs><rect width='800%' height='800%' transform='translate(0,0)' fill='url(%23a)'/></svg>") !important;
+    background-image: url("data:image/svg+xml,<svg id='patternId' width='200%' height='200%' xmlns='http://www.w3.org/2000/svg'><defs><pattern id='a' patternUnits='userSpaceOnUse' width='40' height='40' patternTransform='scale(4) rotate(45)'><rect x='0' y='0' width='100%' height='100%' fill='%23faf0e7ff'/><path d='M15 5h10v30H15zM35-5V5H5V-5zM35 35v10H5V35zM35-15h10v30H35zM55 15v10H25V15zM15 15v10h-30V15zM35 25h10v30H35zM-5 25H5v30H-5zM-5-15H5v30H-5z' stroke-width='4' stroke='%23f1e5daff' fill='none'/></pattern></defs><rect width='800%' height='800%' transform='translate(0,0)' fill='url(%23a)'/></svg>") !important;
     background-size: 790px 1000px; /* Replace with the desired size */
-  
-    flex-direction: row;
-  margin-top: 1rem;
 
-  background-color: var(--bg);
-  display: flex;
+    flex-direction: row;
+    margin-top: 1rem;
+
+    background-color: var(--bg);
+    display: flex;
 
 
 }
 
-  
-  header {
+
+header {
     font-family: "Faculty Glyphic", sans-serif;
     text-align: left;
     padding: 0;
-  }
-  
-  h1 {
+}
+
+h1 {
     font-family: "Faculty Glyphic", sans-serif;
     font-size: clamp(2rem, 5vw, 5rem);
     color: var(--bg3);
@@ -65,26 +65,26 @@ body {
 }
 
 h2 {
-  font-family: "Faculty Glyphic", sans-serif;
-  font-size: 4rem;
-  color: var(--main-text);
-  text-align: left; /* Align text to the left */
-  margin-top: 2rem;
-  margin-bottom: 0.5rem;
+    font-family: "Faculty Glyphic", sans-serif;
+    font-size: 4rem;
+    color: var(--main-text);
+    text-align: left; /* Align text to the left */
+    margin-top: 2rem;
+    margin-bottom: 0.5rem;
 }
 
 #pokedex {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr)); /* Create responsive tiles */
-  width: 80%; /* Adjust container width */
-  max-width: 200rem; /* Limit container size on large screens */
-  margin: 0 auto; /* Center the grid on the page */
-  gap: 1.5rem; /* Increase spacing between tiles */
-  justify-content: center; /* Ensure grid is centered */
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr)); /* Create responsive tiles */
+    width: 80%; /* Adjust container width */
+    max-width: 200rem; /* Limit container size on large screens */
+    margin: 0 auto; /* Center the grid on the page */
+    gap: 1.5rem; /* Increase spacing between tiles */
+    justify-content: center; /* Ensure grid is centered */
 }
 
 
-  .footer {
+.footer {
     background-color: var(--bg2);
     text-align: center;
     padding: 0.5rem;
@@ -94,25 +94,25 @@ h2 {
     width: 100%;
     margin-top: 1rem; /* Adjust the value as needed */
     margin-bottom: -1rem;
-  }
-  
-  .footer p {
-    margin: 0;
-  }
-
-  /* Keyframes for the fade and slide animation */
-@keyframes fadeInSlide {
-  0% {
-    opacity: 0;
-    transform: translateY(1rem); 
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0); /* End in normal position */
-  }
 }
-  
-  .pokemon {
+
+.footer p {
+    margin: 0;
+}
+
+/* Keyframes for the fade and slide animation */
+@keyframes fadeInSlide {
+    0% {
+        opacity: 0;
+        transform: translateY(1rem);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0); /* End in normal position */
+    }
+}
+
+.pokemon {
     width: clamp(100rem, 20vw, 100rem); /* Scales with screen width */
     width: clamp(100rem, 20vw, 100rem); /* Scales with screen width */
     max-width: 100%;
@@ -130,25 +130,22 @@ h2 {
 
     opacity: 0; /* Start with the card hidden */
     animation: fadeInSlide 0.5s ease-out forwards; /* Apply animation */
-  }
-
+}
 
 
 .pokemon-image {
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: cover; /* Ensures image stays within the card */
-  transition: transform 0.2s ease-in-out; /* Adds a smooth hover effect */
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover; /* Ensures image stays within the card */
+    transition: transform 0.2s ease-in-out; /* Adds a smooth hover effect */
 }
 
 .pokemon-image:hover {
-  transform: scale(1.1); /* Enlarge on hover */
+    transform: scale(1.1); /* Enlarge on hover */
 }
 
 
-
-
-  .pokemon-images-container {
+.pokemon-images-container {
     display: flex; /* Align images horizontally */
     align-items: flex-end; /* Align shiny image to the bottom */
     justify-content: center; /* Center items vertically */
@@ -158,56 +155,53 @@ h2 {
     margin: auto auto; /* Centers the container itself and adds spacing */
 }
 
-  .pokemon-image-large {
+.pokemon-image-large {
     width: 40rem;
     height: 100%;
     transition: transform 0.3s ease; /* Smooth scaling transition */
     animation: fadeInSlide 0.6s ease-out forwards; /* Apply animation */
-  }
+}
 
 
-
-  .pokemon-image-shiny {
+.pokemon-image-shiny {
     width: 20rem;
     height: 100%;
     transform: scaleX(-1); /* Flip the image horizontally */
     padding-bottom: 4rem;
 
-    animation: fadeInSlideShiny 1.0s ease-out forwards ; /* Apply animation */
+    animation: fadeInSlideShiny 1.0s ease-out forwards; /* Apply animation */
 
 
 }
+
 @keyframes fadeInSlideShiny {
 
-  0% {
-    opacity: 0;
-    transform: translateY(1rem) scaleX(-1); 
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0) scaleX(-1); /* End in normal position */
-  }
+    0% {
+        opacity: 0;
+        transform: translateY(1rem) scaleX(-1);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scaleX(-1); /* End in normal position */
+    }
 
 }
-  
 
-  
-  
-  .name {
+
+.name {
     font-size: 1.2em;
     font-weight: bold;
     color: var(--main-text);
-  }
-  
-  
-  .type-image {
+}
+
+
+.type-image {
     max-height: 1.2rem; /* Limits the type icon height */
     width: auto;
-  }
-  
+}
 
 
-  .stat-bar {
+.stat-bar {
     display: flex;
     align-items: center;
     margin-bottom: 0.2rem;
@@ -240,112 +234,107 @@ h2 {
 }
 
 .title-type-container {
-  display: flex; /* Align children in a row */
-  align-items: center; /* Vertically align items */
-  gap: 0.5rem; /* Space between the title and the type stack */
+    display: flex; /* Align children in a row */
+    align-items: center; /* Vertically align items */
+    gap: 0.5rem; /* Space between the title and the type stack */
 }
 
 .pokemon-title {
-  font-size: clamp(0.7rem, 5vw, 1.4rem);
-  font-style: italic;
-  color: var(--second-text);
-  margin-top: -0.5rem;
-  margin-bottom: 4rem;
+    font-size: clamp(0.7rem, 5vw, 1.4rem);
+    font-style: italic;
+    color: var(--second-text);
+    margin-top: -0.5rem;
+    margin-bottom: 4rem;
 
 }
 
 .pokemon-description {
-  font-size: clamp(0.25rem, 5vw, 1rem);
-  margin-top: -1rem;
-  margin-left: 0.5rem;
-  background-color: var(--bg);
-  width: 25rem;
+    font-size: clamp(0.25rem, 5vw, 1rem);
+    margin-top: -1rem;
+    margin-left: 0.5rem;
+    background-color: var(--bg);
+    width: 25rem;
 }
 
 .pokemon-details {
-  display: flex; /* Use flexbox */
+    display: flex; /* Use flexbox */
 
-  justify-content: center; /* Center items vertically */
-  align-items: center; /* Center items horizontally */
-  text-align: center; /* Ensure text inside children is centered */
-  gap: 1rem; /* Add spacing between the description and stats */
-  height: 100%; /* Optional: Fill the height of the container */
+    justify-content: center; /* Center items vertically */
+    align-items: center; /* Center items horizontally */
+    text-align: center; /* Ensure text inside children is centered */
+    gap: 1rem; /* Add spacing between the description and stats */
+    height: 100%; /* Optional: Fill the height of the container */
 }
 
 .pokemon-stats {
-  color: var(--second-text);
+    color: var(--second-text);
 }
 
 
 .type-stack {
 
-  display: flex;
-  flex-direction: column; /* Stack the type bars vertically */
-  margin-top: 1rem;
+    display: flex;
+    flex-direction: column; /* Stack the type bars vertically */
+    margin-top: 1rem;
 }
 
 
+.exit-button {
+    position: fixed;
+    bottom: 0.7rem;
+    right: 0.7rem;
+    background-color: var(--accent2);
+    color: var(--bg3);
+    font-size: 2rem;
+    font-weight: bold;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 1rem 1rem var(--shadow);
+    z-index: 10;
+    transition: background-color 0.3s ease;
+}
 
-
-
-  
-      .exit-button {
-        position: fixed;
-        bottom: 0.7rem;
-        right: 0.7rem;
-        background-color: var(--accent2);
-        color: var(--bg3);
-        font-size: 2rem;
-        font-weight: bold;
-        width: 3rem;
-        height: 3rem;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        border: none;
-        box-shadow: 0 1rem 1rem var(--shadow);
-        z-index: 10;
-        transition: background-color 0.3s ease;
-    }
-
-    .exit-button:hover {
-        background-color: var(--accent6);
-    }
+.exit-button:hover {
+    background-color: var(--accent1);
+}
 
 /* Banner styling: consistent across all pages */
 .banner-main {
-  display: flex;
-  align-items: center;
-  width: 100%; /* Ensure the banner spans the full width of the screen */
-  position: fixed; /* Make the banner stay at the top of the screen */
-  top: 0;
-  left: 0;
-  padding: 1.3rem;
-  background-color: var(--accent1);
-  z-index: 1000; /* Ensure it appears above other content */
-  box-shadow: 0 .5rem .5rem var(--shadow);
-  height: 4rem; /* Fixed height for the banner */
-  margin-bottom: 6rem; /* Adjust margin to create space below */
+    display: flex;
+    align-items: center;
+    width: 100%; /* Ensure the banner spans the full width of the screen */
+    position: fixed; /* Make the banner stay at the top of the screen */
+    top: 0;
+    left: 0;
+    padding: 1.3rem;
+    background: linear-gradient(120deg, var(--accent1), var(--accent2), var(--accent5)); /* Gradient background */
+    z-index: 1000; /* Ensure it appears above other content */
+    box-shadow: 0 .5rem .5rem var(--shadow);
+    height: 4rem; /* Fixed height for the banner */
+    margin-bottom: 6rem; /* Adjust margin to create space below */
 }
 
 /* Banner styling: consistent across all pages */
 .banner-card {
-  display: flex;
-  align-items: center;
-  justify-content: space-between; /* Add this to spread content evenly */
-  width: 100%; /* Ensure the banner spans the full width of the screen */
-  position: fixed; /* Make the banner stay at the top of the screen */
-  top: 0;
-  left: 0;
-  padding: 0.3rem;
-  background-color: var(--second-text);
-  z-index: 1000; /* Ensure it appears above other content */
-  box-shadow: 0 0.2rem 0.5rem var(--shadow);
-  color: var(--bg); /* Adjust text color if needed */
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Add this to spread content evenly */
+    width: 100%; /* Ensure the banner spans the full width of the screen */
+    position: fixed; /* Make the banner stay at the top of the screen */
+    top: 0;
+    left: 0;
+    padding: 0.3rem;
+    background: linear-gradient(240deg, var(--accent1), var(--accent2), var(--accent5)); /* Gradient background */
+    z-index: 1000; /* Ensure it appears above other content */
+    box-shadow: 0 0.2rem 0.5rem var(--shadow);
+    color: var(--bg); /* Adjust text color if needed */
 }
-
 
 
 .arrow-left {
@@ -357,44 +346,44 @@ h2 {
 }
 
 .arrow-right {
-  display: flex;
-  justify-content: center;
-  align-items: center; /* Vertically centers the content */
-  padding-right: 1rem;
-  top: 50%; /* Center it vertically */
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Vertically centers the content */
+    padding-right: 1rem;
+    top: 50%; /* Center it vertically */
 }
 
 
 .arrow {
-  color: var(--bg3);
+    color: var(--bg3);
     font-size: 1.5rem;
     cursor: pointer;
     transition: color 0.3s ease
 }
 
 .arrow:hover {
-    color: var(--accent5);
+    color: var(--accent2);
 }
 
 .pokemon-info {
-  text-align: center;
-  flex-grow: 1;
+    text-align: center;
+    flex-grow: 1;
 }
 
 .types-stacked {
-  display: flex;
-  flex-direction: column; /* Stacks the type bars vertically */
-  align-items: center; /* Centers the bars horizontally */
-  gap: 0.5rem; /* Adds space between the type bars */
-  margin-top: 66rem; /* Adds some space above the type bars */
+    display: flex;
+    flex-direction: column; /* Stacks the type bars vertically */
+    align-items: center; /* Centers the bars horizontally */
+    gap: 0.5rem; /* Adds space between the type bars */
+    margin-top: 66rem; /* Adds some space above the type bars */
 }
 
 .type-bar {
-  width: 6rem; /* Adjust the width as needed */
-  height: auto;
-  gap: 1rem;
-  object-fit: contain; /* Ensures the type bar image scales properly */
-  margin-top: 0.4rem;
+    width: 6rem; /* Adjust the width as needed */
+    height: auto;
+    gap: 1rem;
+    object-fit: contain; /* Ensures the type bar image scales properly */
+    margin-top: 0.4rem;
 }
 
 
@@ -405,33 +394,100 @@ h2 {
 }
 
 
-
-
-  
-
-  
-
-  
 /* Customize the entire scrollbar */
 ::-webkit-scrollbar {
-  width: 0.8rem; /* Horizontal scrollbar width */
-  height: 0.5rem; /* Vertical scrollbar height */
+    width: 0.8rem; /* Horizontal scrollbar width */
+    height: 0.5rem; /* Vertical scrollbar height */
 }
 
 /* Customize the track (the area the thumb moves along) */
 ::-webkit-scrollbar-track {
-  background: var(--bg2);
-  border-radius: 0;
+    background: var(--bg2);
+    border-radius: 0;
 }
 
 /* Customize the thumb (the draggable part of the scrollbar) */
 ::-webkit-scrollbar-thumb {
-  background: var(--accent2);
-  border-radius: 1rem; /* Rounded corners */
-  transition: background 0.2s ease; /* Easing animation for color change */
+    background: var(--accent2);
+    border-radius: 1rem; /* Rounded corners */
+    transition: background 0.2s ease; /* Easing animation for color change */
 }
 
 /* Add hover effect for the thumb */
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--accent6);
+    background: var(--accent1);
+}
+
+/* Add a button to toggle dark mode */
+.toggle-dark-mode {
+    position: fixed;
+    top: 0.58rem;
+    right: 1rem;
+    background-color: rgb(0, 0, 0, 0);
+    color: var(--bg3);
+    font-size: 4rem; /* Increase font size for the icon */
+    padding: 0.5rem 0.6rem;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    z-index: 1001;
+    transition: color 0.3s ease;
+}
+
+.toggle-dark-mode:hover {
+    color: var(--accent1);
+}
+
+/* Add a button to toggle dark mode */
+.toggle-dark-mode-card {
+    background-color: rgb(0, 0, 0, 0);
+    color: var(--accent2);
+    font-size: 3rem; /* Increase font size for the icon */
+    padding: 0.5rem 0.6rem;
+    border: none;
+    cursor: pointer;
+    transition: color 0.3s ease;
+
+    position: fixed;
+    bottom: 4.25rem;
+    right: 0.7rem;
+    font-weight: bold;
+    width: 3rem;
+    height: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+}
+
+.toggle-dark-mode-card:hover {
+    color: var(--accent1);
+}
+
+body.dark-mode {
+    /* Dark Mode Color Palette */
+    --bg: #202021;
+    --bg3: #3c3c3f;
+    --bg2: #2e2e2f;
+
+
+    --accent1: #80f8c7;
+    --accent2: #7677ec;
+    --accent3: #ffb700;
+    --accent4: #ffcc00;
+    --accent5: #5e00ff;
+    --accent6: #007757;
+
+    --main-text: #d2bdfd;
+    --second-text: #ded7fc;
+
+    --shadow: rgba(35, 35, 37, 0.75);
+
+    background-image: url("data:image/svg+xml,<svg id='patternId' width='100%' height='100%' xmlns='http://www.w3.org/2000/svg'><defs><pattern id='a' patternUnits='userSpaceOnUse' width='40' height='40' patternTransform='scale(3) rotate(45)'><rect x='0' y='0' width='100%' height='100%' fill='%232e2e2f'/><path d='M15 5h10v30H15zM35-5V5H5V-5zM35 35v10H5V35zM35-15h10v30H35zM55 15v10H25V15zM15 15v10h-30V15zM35 25h10v30H35zM-5 25H5v30H-5zM-5-15H5v30H-5z'  stroke-width='4' stroke='%233c3c3f' fill='none'/></pattern></defs><rect width='800%' height='800%' transform='translate(0,0)' fill='url(%23a)'/></svg>");
+
+}
+
+#card-page.dark-mode {
+    background-image: url("data:image/svg+xml,<svg id='patternId' width='200%' height='200%' xmlns='http://www.w3.org/2000/svg'><defs><pattern id='a' patternUnits='userSpaceOnUse' width='40' height='40' patternTransform='scale(4) rotate(45)'><rect x='0' y='0' width='100%' height='100%' fill='%233c3c3f'/><path d='M15 5h10v30H15zM35-5V5H5V-5zM35 35v10H5V35zM35-15h10v30H35zM55 15v10H25V15zM15 15v10h-30V15zM35 25h10v30H35zM-5 25H5v30H-5zM-5-15H5v30H-5z' stroke-width='4' stroke='%232e2e2f' fill='none'/></pattern></defs><rect width='800%' height='800%' transform='translate(0,0)' fill='url(%23a)'/></svg>") !important;
+
 }
