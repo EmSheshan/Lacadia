@@ -51,7 +51,7 @@ function displaySelectedPokemon(pokemonData, formIndex = 0) {
         const type2Image = type2 && type2.toLowerCase() !== "na" ? `TypeBars/${type2}.png` : null;
 
         // Update navigation links/names
-        document.getElementById("previousPokemonNumber").innerText = pokemonNumber - 1;
+        document.getElementById("previousPokemonNumber").innerText = (pokemonNumber - 1).toString();
         document.getElementById("previousPokemonName").innerText = previousPokemon?.name || "";
         document.getElementById("nextPokemonNumber").innerText = pokemonNumber + 1;
         document.getElementById("nextPokemonName").innerText = nextPokemon?.name || "";
