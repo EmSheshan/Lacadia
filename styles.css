@@ -26,7 +26,7 @@ body {
 
     background-repeat: repeat;
     font-family: "Faculty Glyphic", sans-serif;
-    background-color: rgb(0,0,0);
+    background-color: rgb(0, 0, 0);
     display: flex;
     flex-direction: column;
     margin-top: 8rem;
@@ -35,17 +35,13 @@ body {
 }
 
 #card-page {
-
     background-image: url("data:image/svg+xml,<svg id='patternId' width='200%' height='200%' xmlns='http://www.w3.org/2000/svg'><defs><pattern id='a' patternUnits='userSpaceOnUse' width='40' height='40' patternTransform='scale(4) rotate(45)'><rect x='0' y='0' width='100%' height='100%' fill='%23faf0e7ff'/><path d='M15 5h10v30H15zM35-5V5H5V-5zM35 35v10H5V35zM35-15h10v30H35zM55 15v10H25V15zM15 15v10h-30V15zM35 25h10v30H35zM-5 25H5v30H-5zM-5-15H5v30H-5z' stroke-width='4' stroke='%23f1e5daff' fill='none'/></pattern></defs><rect width='800%' height='800%' transform='translate(0,0)' fill='url(%23a)'/></svg>") !important;
     background-size: 790px 1000px; /* Replace with the desired size */
-
     flex-direction: row;
     margin-top: 1rem;
-
     background-color: var(--bg);
     display: flex;
-
-
+    overflow-y: auto;
 }
 
 
@@ -114,7 +110,6 @@ h2 {
 
 .pokemon {
     width: clamp(100rem, 20vw, 100rem); /* Scales with screen width */
-    width: clamp(100rem, 20vw, 100rem); /* Scales with screen width */
     max-width: 100%;
     max-height: 100%;
     object-fit: cover; /* Ensures image stays within the card */
@@ -146,13 +141,16 @@ h2 {
 
 
 .pokemon-images-container {
-    display: flex; /* Align images horizontally */
+
+    flex-direction: row;
+    width: 100vw;
     align-items: flex-end; /* Align shiny image to the bottom */
     justify-content: center; /* Center items vertically */
-    align-items: center; /* Center items horizontally */
     text-align: center; /* Ensure text inside children is centered */
     gap: 0;
-    margin: auto auto; /* Centers the container itself and adds spacing */
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .pokemon-image-large {
@@ -163,19 +161,20 @@ h2 {
 }
 
 
+
 .pokemon-image-shiny {
     width: 20rem;
     height: 100%;
     transform: scaleX(-1); /* Flip the image horizontally */
     padding-bottom: 4rem;
-
-    animation: fadeInSlideShiny 1.0s ease-out forwards; /* Apply animation */
+    margin-left: auto;
+    margin-right: auto;
+    animation: fadeInSlideShiny 1.0s ease-out forwards ; /* Apply animation */
 
 
 }
 
 @keyframes fadeInSlideShiny {
-
     0% {
         opacity: 0;
         transform: translateY(1rem) scaleX(-1);
@@ -184,8 +183,32 @@ h2 {
         opacity: 1;
         transform: translateY(0) scaleX(-1); /* End in normal position */
     }
-
 }
+
+.circle-background {
+    position: absolute;
+    width: 30rem;
+    height: 30rem;
+    margin-right: 18rem;
+    margin-top: 3rem;
+    background-color: rgba(250, 240, 231, 0); /* Transparent background */
+    border: 5rem solid var(--bg3); /* Border color */
+    border-radius: 50%;
+    z-index: -1; /* Ensure the circle is behind the images */
+}
+
+.circle-background-shiny {
+    position: absolute;
+    width: 12rem;
+    height: 12rem;
+    margin-left: 40rem;
+    margin-top: 19.5rem;
+    background-color: rgba(250, 240, 231, 0); /* Transparent background */
+    border: 3rem solid var(--bg3); /* Border color */
+    border-radius: 50%;
+    z-index: -1; /* Ensure the circle is behind the images */
+}
+
 
 
 .name {
@@ -217,10 +240,11 @@ h2 {
 .stat-value {
     width: 2.5rem;
     text-align: right;
-    margin-right: 0rem;
+    margin-right: 0;
 }
 
 .bar-container {
+
     width: 10rem;
     height: 1rem;
     background-color: var(--bg3);
@@ -237,6 +261,8 @@ h2 {
     display: flex; /* Align children in a row */
     align-items: center; /* Vertically align items */
     gap: 0.5rem; /* Space between the title and the type stack */
+    margin-top: 0.5rem; /* Add space above the type stack */
+    margin-left: 1rem;
 }
 
 .pokemon-title {
@@ -244,16 +270,20 @@ h2 {
     font-style: italic;
     color: var(--second-text);
     margin-top: -0.5rem;
-    margin-bottom: 4rem;
+    margin-left: 1rem;
 
 }
 
 .pokemon-description {
+    padding: 0.7rem;
+    color: var(--second-text);
     font-size: clamp(0.25rem, 5vw, 1rem);
     margin-top: -1rem;
     margin-left: 0.5rem;
-    background-color: var(--bg);
-    width: 25rem;
+    background-color: var(--bg3);
+    width: 20vw;
+    border-radius: 2rem; /* Rounded corners */
+    border: 0.8rem solid var(--bg2); /* Border with color */
 }
 
 .pokemon-details {
@@ -268,6 +298,7 @@ h2 {
 
 .pokemon-stats {
     color: var(--second-text);
+    right: 0;
 }
 
 
@@ -397,7 +428,7 @@ h2 {
 /* Customize the entire scrollbar */
 ::-webkit-scrollbar {
     width: 0.8rem; /* Horizontal scrollbar width */
-    height: 0.5rem; /* Vertical scrollbar height */
+    height: 0.8rem; /* Vertical scrollbar height */
 }
 
 /* Customize the track (the area the thumb moves along) */
@@ -406,15 +437,24 @@ h2 {
     border-radius: 0;
 }
 
+::-webkit-scrollbar-corner {
+    background: var(--bg2); /* Set the desired corner color */
+}
+
 /* Customize the thumb (the draggable part of the scrollbar) */
 ::-webkit-scrollbar-thumb {
-    background: var(--accent2);
+    background: var(--accent5);
     border-radius: 1rem; /* Rounded corners */
     transition: background 0.2s ease; /* Easing animation for color change */
 }
 
 /* Add hover effect for the thumb */
 ::-webkit-scrollbar-thumb:hover {
+    background: var(--accent2);
+}
+
+/* Change the thumb color when clicking */
+::-webkit-scrollbar-thumb:active {
     background: var(--accent1);
 }
 
