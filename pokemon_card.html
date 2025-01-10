@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width; user-scalable=1, initial-scale=0.5">
+    <meta name="viewport" content="width=device-width; user-scalable=1; initial-scale=0.5">
 
     <link rel="stylesheet" href="styles.css">
 
@@ -89,8 +89,8 @@
 
     // Function to change the favicon dynamically
     function changeFavicon(src) {
-        var link = document.createElement('link');
-        var oldLink = document.getElementById('dynamic-favicon');
+        const link = document.createElement('link');
+        const oldLink = document.getElementById('dynamic-favicon');
         link.id = 'dynamic-favicon';
         link.rel = 'icon';
         link.href = src;

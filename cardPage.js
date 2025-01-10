@@ -94,7 +94,10 @@ function displaySelectedPokemon(pokemonData, formIndex = 0) {
                 
                </div>
 <!--            <div class="pokemon-details">-->
-                <p class="pokemon-description">${ selectedPokemon.description }</p>
+
+<div class="container">
+                <p class="pokemon-description">${selectedPokemon.description}</p>
+                <p class="pokemon-ability">${selectedPokemon.ability1}</p></div>
                 <div class="pokemon-stats">
                     ${ displayStatBar ("HP", selectedPokemon.hp.split ("|")[formIndex], "#FF5959") }
                     ${ displayStatBar ("Atk", selectedPokemon.atk.split ("|")[formIndex], "#F5AC78") }
