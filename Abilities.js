@@ -331,5 +331,4 @@ const abilities = {
   "Ruthless": "This Pokemon's attacks always result in critical hits when the opponent has lowered stats."
 };
 
-// Example of how to look up an ability
-console.log(abilities["Blaze"]); // Outputs: Powers up Fire-type moves when the Pokémon's HP is low.
+export default abilities;

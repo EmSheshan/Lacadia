@@ -14,7 +14,7 @@
     --accent6: #674f45;
 
     --main-text: #004d4c;
-    --second-text: #6aa89f;
+    --second-text: #507e77;
 
     --shadow: rgba(0, 0, 0, 0.308);
 }
@@ -28,7 +28,7 @@ body {
     font-family: "Faculty Glyphic", sans-serif;
     background-color: rgb(0, 0, 0);
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     margin-top: 8rem;
     align-items: center;
     overflow-x: hidden; /* Prevent horizontal scrolling */
@@ -61,14 +61,6 @@ h1 {
     padding: 0;
 }
 
-h2 {
-    font-family: "Faculty Glyphic", sans-serif;
-    font-size: 4rem;
-    color: var(--main-text);
-    text-align: left; /* Align text to the left */
-    margin-top: 2rem;
-    margin-bottom: 0.5rem;
-}
 
 #pokedex {
     display: grid;
@@ -142,38 +134,36 @@ h2 {
 
 
 .pokemon-images-container {
-
+    display:flex;
+    margin-top: -3rem;
     flex-direction: row;
-    width: 100vw;
-    align-items: flex-end; /* Align shiny image to the bottom */
-    justify-content: center; /* Center items vertically */
-    text-align: center; /* Ensure text inside children is centered */
-    gap: 0;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
+    flex-wrap: wrap; /* Ensure elements wrap if the screen is too small */
+    gap: 1rem;
+    justify-content: center;
+    justify-items: center;
+    align-items: baseline;
 }
 
 .pokemon-image-large {
+    position: absolute;
     width: 40rem;
-    height: 100%;
+    height: 40rem;
     transition: transform 0.3s ease; /* Smooth scaling transition */
     animation: fadeInSlide 0.6s ease-out forwards; /* Apply animation */
+    z-index: 5;
+    flex: 0 0 200px;
 }
-
 
 
 .pokemon-image-shiny {
+    position: absolute;
     width: 20rem;
-    height: 100%;
+    height: 20rem;
     transform: scaleX(-1); /* Flip the image horizontally */
-    padding-bottom: 4rem;
-    margin-left: auto;
-    margin-right: auto;
-    animation: fadeInSlideShiny 1.0s ease-out forwards ; /* Apply animation */
-
-
+    z-index: 5;
+    animation: fadeInSlideShiny 1.0s ease-out forwards; /* Apply animation */
 }
+
 
 @keyframes fadeInSlideShiny {
     0% {
@@ -187,29 +177,24 @@ h2 {
 }
 
 .circle-background {
-    position: absolute;
-    width: 30rem;
-    height: 30rem;
-    margin-right: 18rem;
-    margin-top: 3rem;
-    background-color: rgba(250, 240, 231, 0); /* Transparent background */
+    display: flex;
+    width: 40rem; /* Adjust size as needed */
+    height: 40rem; /* Adjust size as needed */
     border: 5rem solid var(--bg3); /* Border color */
     border-radius: 50%;
+    overflow: hidden;
     z-index: -1; /* Ensure the circle is behind the images */
 }
 
 .circle-background-shiny {
-    position: absolute;
-    width: 12rem;
-    height: 12rem;
-    margin-left: 40rem;
-    margin-top: 19.5rem;
-    background-color: rgba(250, 240, 231, 0); /* Transparent background */
-    border: 3rem solid var(--bg3); /* Border color */
+    display: flex;
+    width: 20rem; /* Adjust size as needed */
+    height: 20rem; /* Adjust size as needed */
+    border: 5rem solid var(--bg3); /* Border color */
     border-radius: 50%;
+    overflow: hidden;
     z-index: -1; /* Ensure the circle is behind the images */
 }
-
 
 
 .name {
@@ -235,7 +220,7 @@ h2 {
 
 .stat-name {
     margin-left: auto;
-    width: 3.5rem;
+    width: 3rem;
     font-weight: bold;
     text-align: right;
     margin-right: 0.6rem;
@@ -261,24 +246,53 @@ h2 {
     transition: width 0.3s ease;
 }
 
+h2 {
+    display: flex;
+    font-family: "Faculty Glyphic", sans-serif;
+    font-size: clamp(3rem, 5vw, 4rem);
+    color: var(--main-text);
+    text-align: left; /* Align text to the left */
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
 .title-type-container {
-    display: flex; /* Align children in a row */
-    align-items: center; /* Vertically align items */
-    gap: 0.5rem; /* Space between the title and the type stack */
-    margin-top: 0.5rem; /* Add space above the type stack */
+
+    margin-top: 2rem;
+    display: flex;
+    align-items: center;
+    justify-items: center;
+    gap: 0.5rem; /* Space between the type stack and the title */
     margin-left: 1rem;
+    width: 60vw;
+    flex-wrap: wrap; /* Ensure elements wrap if the screen is too small */
+    margin-bottom: 0;
+
+}
+
+.type-stack {
+    left: 0;
+    margin-left: 0;
+    display: flex;
+    flex-direction: column; /* Stack the type bars vertically */
+    margin-top: 0;
 }
 
 .pokemon-title {
     font-size: clamp(0.7rem, 5vw, 1.4rem);
     font-style: italic;
     color: var(--second-text);
-    margin-top: -0.5rem;
+    margin-top: 0;
     margin-left: 1rem;
 
 }
+
 .container {
     display: flex;
+    flex-direction: row;
+    margin-left: 0.5rem;
+    margin-right: 2rem;
+
     justify-content: space-between; /* Adjust spacing between the two elements */
     gap: 1rem; /* Optional: Add space between the items */
     flex-wrap: wrap; /* Ensures elements wrap if the screen is too small */
@@ -286,26 +300,39 @@ h2 {
 
 
 .pokemon-description {
+
     padding: 0.7rem;
     color: var(--second-text);
-    font-size: clamp(0.25rem, 5vw, 1rem);
+    font-size: clamp(1.5rem, 2vw, 1.5rem);
     margin-top: -1rem;
-    margin-left: 0.5rem;
+
     background-color: var(--bg3);
-    width: 45vw;
+    width: 41vw;
     border-radius: 2rem; /* Rounded corners */
     border: 0.8rem solid var(--bg2); /* Border with color */
 }
 
 .pokemon-ability {
+    align-content: center;
+    text-align: center;
+    flex: 1; /* Share the remaining space evenly */
     padding: 0.7rem;
-    color: var(--second-text);
-    font-size: clamp(0.25rem, 5vw, 1rem);
+    color: var(--main-text);
+    font-weight: bold;
+    font-size: 1.5vw;
     margin-top: -1rem;
-    margin-left: 0.5rem;
-    background-color: var(--bg3);
+    background-color: var(--bg2);
     border-radius: 2rem; /* Rounded corners */
-    border: 0.8rem solid var(--bg2); /* Border with color */
+    border: 0.8rem solid var(--bg3); /* Border with color */
+    min-width: 10rem; /* Set a minimum width to prevent smushing */
+    max-width: 40vw; /* Set a minimum width to prevent smushing */
+}
+
+.ability-description {
+
+    justify-content: center;
+    font-weight: normal;
+    color: var(--second-text);
 }
 
 .pokemon-details {
@@ -326,15 +353,7 @@ h2 {
 
     top: 4rem;
     right: 1rem;
-    width:40vw;
-}
-
-
-.type-stack {
-
-    display: flex;
-    flex-direction: column; /* Stack the type bars vertically */
-    margin-top: 1rem;
+    width: 40vw;
 }
 
 

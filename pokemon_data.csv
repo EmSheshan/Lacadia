@@ -1,58 +1,60 @@
 name,type1,type2,hp,atk,def,spatk,spdef,speed,title,description,forms,ability1,ability2,abilityh
-Springbun,Grass,na,50,35,40,65,50,70,Bunny,,,Overgrow,,Cute Charm
-Snapbun,Grass,na,80,50,60,85,80,55,Thorny,,,Overgrow,"",Cute Charm
-Faestalk,Grass,Fairy,120,70,80,110,110,40,Beanstalk,,,Overgrow,"",Dragon's Maw
-Basilly,Fire,na,50,50,50,50,50,50,Timid,,,Blaze,"",NULL
-Knaviper,Fire,na,50,50,50,50,50,50,Cowardly,,,Blaze,"",NULL
-Verkillion,Fire,Poison,200,50,50,50,50,30,Craven,This Pokemon's deadly toxins and ruthless personality has led people to believe it can kill with just one glare.,,Blaze,"",Merciless
-Purluxe,Water,na,50,55,60,45,50,40,Pampered,,,Torrent,"",NULL
-Lyonite,Water,na,70,85,80,50,65,60,Earthen,,,Torrent,"",NULL
-Enkidros,Water,Ground,80,125,100,55,95,80,Warrior,,,Torrent,"",NULL
-ClayBug1,Bug,Ground,50,50,50,50,50,50,Termite,,,,"",NULL
-ClayBug2,Bug,Ground,50,50,50,50,50,50,Termite,,,,"",NULL
-Chickery,Normal,Flying,50,50,50,50,50,50,Gosling,,,,"",NULL
-Chickanery,Normal,Flying,50,50,50,50,50,50,Gosling,,,,"",NULL
-Goosassin,Dark,Flying,50,50,50,50,50,50,Goose,,,,"",NULL
-Depresso,Grass,na,50,50,50,50,50,50,Coffee Bean,,,,NULL,NULL
-Aggresso,Grass,Electric,50,50,50,50,50,50,Coffee Bean,,,,NULL,NULL
-Grubblo,Bug,Normal,50,50,50,50,50,50,Sad Clown,,,,NULL,NULL
-Tentrilo,Bug,Normal,50,50,50,50,50,50,Big Top,,,,NULL,NULL
-Rocadocio,Bug,Normal,50,50,50,50,50,50,Showman,,,,NULL,NULL
-Marazcal,Grass,na,50,50,50,50,50,50,Agave,,,,NULL,NULL
-Iguavadon,Grass,Fire,50,50,50,50,50,50,Agave,,,,NULL,NULL
-Tremor worm,Ground,na,50,50,50,50,50,50,Land Worm,,,,NULL,NULL
-Tortarma,Fire|Ice,na,50|50,50|50,50|50,50|50,50|50,50|50,Tortoise,,Solar|Polar,,NULL,NULL
-Tortality,Fire,Ice,50,50,50,50,50,50,Totality,,,,NULL,NULL
-Mochu,Ice,Electric,50,50,50,50,50,50,Snow Bunny,,,,NULL,NULL
-Snochu,Ice,Electric,50,50,50,50,50,50,Daikon,,,,NULL,NULL
-Lileef,Grass,na,50,50,50,50,50,50,Land Lily,,,,NULL,NULL
-Citradily,Grass,na,50,50,50,50,50,50,Citrus,,,,NULL,NULL
-Krabuto,Water,Steel,50,50,50,50,50,50,Shell Crab,,,,NULL,NULL
-Krabutops,Water,Steel,50,50,50,50,50,50,Shell Crab,,,,NULL,NULL
-Balite,Flying,Ice,50,50,50,50,50,50,,,,,NULL,NULL
-Baleet,Flying,Ice,50,50,50,50,50,50,,,,,NULL,NULL
-Cryocone,Ice,Poison,50,50,50,50,50,50,Poison Snail,,,,NULL,NULL
-Cryoconda,Ice,Poison,50,50,50,50,50,50,Poison Serpent,,,,NULL,NULL
-Alchemy1,Fairy,Poison,50,50,50,50,50,50,Alchemy,,,,NULL,NULL
-Alchemy2,Fairy,Poison,50,50,50,50,50,50,Great Work,,,,NULL,NULL
-Ornidrone,Steel,Flying,50,50,50,50,50,50,Drone,,,,NULL,NULL
-Stealthidrone,Steel,Flying,50,50,50,50,50,50,,,,,NULL,NULL
-Gunraptor,Steel,Flying,50,50,50,50,50,50,,,,,NULL,NULL
-Selky,Water,Ice,50,50,50,50,50,50,,,,,NULL,NULL
-Lanturnal,Water,Electric,50,50,50,50,50,50,,,,,NULL,NULL
-Shuckler,Bug,Steel,50,50,50,50,50,50,,,,,NULL,NULL
-Heatmost,Fire,Steel,50,50,50,50,50,50,,,,,NULL,NULL
-Pyrant,Bug,Fire,50,50,50,50,50,50,Foundry,,,,NULL,NULL
-Idagon,Fighting,Psychic,50,50,50,50,50,50,Tantrum,,,,NULL,NULL
-Libradon,Fighting,Psychic,50,50,50,50,50,50,Balanced,,,,NULL,NULL
-Suprion,Fighting,Psychic,50,50,50,50,50,50,Superego,,,,NULL,NULL
-Larvos,Bug,na,50,50,50,50,50,50,Sickly,,,,NULL,NULL
-Syrinsect,Bug,na,50,50,50,50,50,50,Injector,,,,NULL,NULL
-Stratoclysm,Bug,Dragon,50,50,50,50,50,50,Cataclysm,,,,NULL,NULL
-Gaiaxion,Ground,Dragon,50,50,50,50,50,50,Terrestrial,,,,NULL,NULL
-Xelestion,Psychic,Dragon,50,50,50,50,50,50,Celestial,,,,NULL,NULL
-Chupacabra,Poison,Ghost,50,50,50,50,50,50,Catastrophe,,,,NULL,NULL
-Bigfoot,Steel,Ghost,50,50,50,50,50,50,Catastrophe,,,,NULL,NULL
-JerseyDevil,Fire,Ghost,50,50,50,50,50,50,Catastrophe,,,,NULL,NULL
-Mothman,Bug,Ghost,50,50,50,50,50,50,Catastrophe,,,,NULL,NULL
-Apothion,Dragon,na,50,50,50,50,50,50,Celestial,,,,NULL,NULL
+Springbun,Grass,na,50,35,40,65,50,70,Bunny,This is a test description. This will be replaced in the future.,,Overgrow,,Cute Charm
+Snapbun,Grass,na,80,50,60,85,80,55,Thorny,This is a test description. This will be replaced in the future.,,Overgrow,"",Cute Charm
+Faestalk,Grass,Fairy,120,70,80,110,110,40,Beanstalk,This is a test description. This will be replaced in the future.,,Overgrow,"",Dragon's Maw
+Basilly,Fire,na,50,50,50,50,50,50,Timid,This is a test description. This will be replaced in the future.,,Blaze,"",Merciless
+Knaviper,Fire,na,50,50,50,50,50,50,Cowardly,This is a test description. This will be replaced in the future.,,Blaze,"",Merciless
+Verkillion,Fire,Poison,200,50,50,50,50,30,Craven,"This Pokemon's deadly toxins and ruthless personality has led people to believe it can kill with just one glare.
+<br><br>
+Despite it's fearsome reputation, it loves praise from others and will put itself in danger for approval.",,Blaze,"",Merciless
+Purluxe,Water,na,50,55,60,45,50,40,Pampered,This is a test description. This will be replaced in the future.,,Torrent,"",Stamina
+Lyonite,Water,na,70,85,80,50,65,60,Earthen,This is a test description. This will be replaced in the future.,,Torrent,"",Stamina
+Enkidros,Water,Ground,80,125,100,55,95,80,Warrior,This is a test description. This will be replaced in the future.,,Torrent,"",Stamina
+ClayBug1,Bug,Ground,50,50,50,50,50,50,Termite,This is a test description. This will be replaced in the future.,,,"",""
+ClayBug2,Bug,Ground,50,50,50,50,50,50,Termite,This is a test description. This will be replaced in the future.,,,"",""
+Chickery,Normal,Flying,50,50,50,50,50,50,Gosling,This is a test description. This will be replaced in the future.,,Big Pecks,Infiltrator,Stakeout
+Chickanery,Dark,Flying,50,50,50,50,50,50,Gosling,This is a test description. This will be replaced in the future.,,Poison Touch,Infiltrator,Stakeout
+Goosassin,Dark,Flying,50,50,50,50,50,50,Goose,This is a test description. This will be replaced in the future.,,Poison Touch,Infiltrator,Stakeout
+Depresso,Grass,na,50,50,50,50,50,50,Coffee Bean,This is a test description. This will be replaced in the future.,,Shield Dust,Prankster,Soundproof
+Aggresso,Grass,Electric,50,50,50,50,50,50,Coffee Bean,This is a test description. This will be replaced in the future.,,Shield Dust,Prankster,Soundproof
+Grubblo,Bug,Normal,50,50,50,50,50,50,Sad Clown,This is a test description. This will be replaced in the future.,,Shield Dust,Prankster,Soundproof
+Tentrilo,Bug,Normal,50,50,50,50,50,50,Big Top,This is a test description. This will be replaced in the future.,,Shield Dust,Prankster,Soundproof
+Rocadocio,Bug,Normal,50,50,50,50,50,50,Showman,This is a test description. This will be replaced in the future.,,Shield Dust,Prankster,Soundproof
+Marazcal,Grass,na,50,50,50,50,50,50,Agave,This is a test description. This will be replaced in the future.,,Quick Feet,Solar Power,Leaf Guard
+Iguavadon,Grass,Fire,50,50,50,50,50,50,Agave,This is a test description. This will be replaced in the future.,,Quick Feet,Solar Power,Leaf Guard
+Tremor worm,Ground,na,50,50,50,50,50,50,Land Worm,This is a test description. This will be replaced in the future.,,,"",""
+Tortarma,Fire|Ice,na,50|50,50|50,50|50,50|50,50|50,50|50,Tortoise,This is a test description. This will be replaced in the future.,Solar|Polar,Magma Armor|Ice Body,"",Shell Armor
+Tortality,Fire,Ice,50,50,50,50,50,50,Totality,This is a test description. This will be replaced in the future.,,Quick Feet,"",Shell Armor
+Mochu,Ice,Electric,50,50,50,50,50,50,Snow Bunny,This is a test description. This will be replaced in the future.,,Adaptability,"",Adaptability
+Snochu,Ice,Electric,50,50,50,50,50,50,Daikon,This is a test description. This will be replaced in the future.,,Adaptability,"",Adaptability
+Lileef,Grass,na,50,50,50,50,50,50,Land Lily,This is a test description. This will be replaced in the future.,,Suction Cups,"",Harvest
+Citradily,Grass,na,50,50,50,50,50,50,Citrus,This is a test description. This will be replaced in the future.,,Suction Cups,"",Harvest
+Krabuto,Water,Steel,50,50,50,50,50,50,Shell Crab,This is a test description. This will be replaced in the future.,,Swift Swim,"",Sharpness
+Krabutops,Water,Steel,50,50,50,50,50,50,Shell Crab,This is a test description. This will be replaced in the future.,,Swift Swim,"",Sharpness
+Balite,Flying,Ice,50,50,50,50,50,50,,This is a test description. This will be replaced in the future.,,Ancient Guard,"",Snow Warning
+Baleet,Flying,Ice,50,50,50,50,50,50,,This is a test description. This will be replaced in the future.,,Ancient Guard,"",Snow Warning
+Cryocone,Ice,Poison,50,50,50,50,50,50,Poison Snail,This is a test description. This will be replaced in the future.,,Shell Armor,Water Absorb,Poison Touch
+Cryoconda,Ice,Poison,50,50,50,50,50,50,Poison Serpent,This is a test description. This will be replaced in the future.,,Shell Armor,Water Absorb,Poison Touch
+Alchemy1,Fairy,Poison,50,50,50,50,50,50,Alchemy,This is a test description. This will be replaced in the future.,,,"",""
+Alchemy2,Fairy,Poison,50,50,50,50,50,50,Great Work,This is a test description. This will be replaced in the future.,,,"",""
+Ornidrone,Steel,Flying,50,50,50,50,50,50,Drone,This is a test description. This will be replaced in the future.,,,"",""
+Stealthidrone,Steel,Flying,50,50,50,50,50,50,,This is a test description. This will be replaced in the future.,,,"",""
+Gunraptor,Steel,Flying,50,50,50,50,50,50,,This is a test description. This will be replaced in the future.,,,"",""
+Selky,Water,Ice,50,50,50,50,50,50,,This is a test description. This will be replaced in the future.,,,"",""
+Lanturnal,Water,Electric,50,50,50,50,50,50,,This is a test description. This will be replaced in the future.,,,"",""
+Shuckler,Bug,Steel,50,50,50,50,50,50,,This is a test description. This will be replaced in the future.,,,"",""
+Heatmost,Fire,Steel,50,50,50,50,50,50,,This is a test description. This will be replaced in the future.,,,"",""
+Pyrant,Bug,Fire,50,50,50,50,50,50,Foundry,This is a test description. This will be replaced in the future.,,,"",""
+Idagon,Fighting,Psychic,50,50,50,50,50,50,Tantrum,This is a test description. This will be replaced in the future.,,Hustle,"",Scrappy
+Libradon,Fighting,Psychic,50,50,50,50,50,50,Balanced,This is a test description. This will be replaced in the future.,,Neuroforce,"",Scrappy
+Suprion,Fighting,Psychic,50,50,50,50,50,50,Superego,This is a test description. This will be replaced in the future.,,Neuroforce,"",Scrappy
+Larvos,Bug,na,50,50,50,50,50,50,Sickly,This is a test description. This will be replaced in the future.,,Parasitoid,"",Tinted Lens
+Syrinsect,Bug,na,50,50,50,50,50,50,Injector,This is a test description. This will be replaced in the future.,,Parasitoid,"",Tinted Lens
+Stratoclysm,Bug,Dragon,50,50,50,50,50,50,Cataclysm,This is a test description. This will be replaced in the future.,,Parasitoid,"",Tinted Lens
+Gaiaxion,Ground,Dragon,50,50,50,50,50,50,Terrestrial,This is a test description. This will be replaced in the future.,,,"",""
+Xelestion,Psychic,Dragon,50,50,50,50,50,50,Celestial,This is a test description. This will be replaced in the future.,,,"",""
+Chupacabra,Poison,Ghost,50,50,50,50,50,50,Catastrophe,This is a test description. This will be replaced in the future.,,,"",""
+Bigfoot,Steel,Ghost,50,50,50,50,50,50,Catastrophe,This is a test description. This will be replaced in the future.,,,"",""
+JerseyDevil,Fire,Ghost,50,50,50,50,50,50,Catastrophe,This is a test description. This will be replaced in the future.,,,"",""
+Mothman,Bug,Ghost,50,50,50,50,50,50,Catastrophe,This is a test description. This will be replaced in the future.,,,"",""
+Apothion,Dragon,na,50,50,50,50,50,50,Celestial,This is a test description. This will be replaced in the future.,,,"",""
