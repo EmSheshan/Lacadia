@@ -1,58 +1,58 @@
-name,type1,type2,hp,atk,def,spatk,spdef,speed,title,description,forms,ability,abilitydesc
-Springbun,Grass,na,50,35,40,65,50,70,Bunny,,,,
-Snapbun,Grass,na,80,50,60,85,80,55,Thorny,,,,
-Faestalk,Grass,Fairy,120,70,80,110,110,40,Beanstalk,,,,
-Basilly,Fire,na,50,50,50,50,50,50,Timid,,,,
-Knaviper,Fire,na,50,50,50,50,50,50,Cowardly,,,,
-Verkillion,Fire,Poison,200,50,50,50,50,30,Craven,,,,
-Purluxe,Water,na,50,55,60,45,50,40,,,,,
-Lyonite,Water,na,70,85,80,50,65,60,,,,,
-Enkidros,Water,Ground,80,125,100,55,95,80,Warrior,,,,
-ClayBug1,Bug,Ground,50,50,50,50,50,50,Termite,,,,
-ClayBug2,Bug,Ground,50,50,50,50,50,50,Termite,,,,
-Chickery,Normal,Flying,50,50,50,50,50,50,Gosling,,,,
-Chickanery,Normal,Flying,50,50,50,50,50,50,Gosling,,,,
-Goosassin,Dark,Flying,50,50,50,50,50,50,Goose,,,,
-Depresso,Grass,na,50,50,50,50,50,50,Coffee Bean,,,,
-Aggresso,Grass,Electric,50,50,50,50,50,50,Coffee Bean,,,,
-Grubblo,Bug,Normal,50,50,50,50,50,50,Sad Clown,,,,
-Tentrilo,Bug,Normal,50,50,50,50,50,50,Big Top,,,,
-Rocadocio,Bug,Normal,50,50,50,50,50,50,Showman,,,,
-Marazcal,Grass,na,50,50,50,50,50,50,Agave,,,,
-Iguavadon,Grass,Fire,50,50,50,50,50,50,Agave,,,,
-Tremor worm,Ground,na,50,50,50,50,50,50,Land Worm,,,,
-Tortarma,Fire|Ice,na,50|50,50|50,50|50,50|50,50|50,50|50,Tortoise,,Solar|Polar,,
-Tortality,Fire,Ice,50,50,50,50,50,50,Totality,,,,
-Mochu,Ice,Electric,50,50,50,50,50,50,Snow Bunny,,,,
-Snochu,Ice,Electric,50,50,50,50,50,50,Daikon,,,,
-Lileef,Grass,na,50,50,50,50,50,50,Land Lily,,,,
-Citradily,Grass,na,50,50,50,50,50,50,Citrus,,,,
-Krabuto,Water,Steel,50,50,50,50,50,50,Shell Crab,,,,
-Krabutops,Water,Steel,50,50,50,50,50,50,Shell Crab,,,,
-Balite,Flying,Ice,50,50,50,50,50,50,,,,,
-Baleet,Flying,Ice,50,50,50,50,50,50,,,,,
-Cryocone,Ice,Poison,50,50,50,50,50,50,Poison Snail,,,,
-Cryoconda,Ice,Poison,50,50,50,50,50,50,Poison Serpent,,,,
-Alchemy1,Fairy,Poison,50,50,50,50,50,50,Alchemy,,,,
-Alchemy2,Fairy,Poison,50,50,50,50,50,50,Great Work,,,,
-Ornidrone,Steel,Flying,50,50,50,50,50,50,Drone,,,,
-Stealthidrone,Steel,Flying,50,50,50,50,50,50,,,,,
-Gunraptor,Steel,Flying,50,50,50,50,50,50,,,,,
-Selky,Water,Ice,50,50,50,50,50,50,,,,,
-Lanturnal,Water,Electric,50,50,50,50,50,50,,,,,
-Shuckler,Bug,Steel,50,50,50,50,50,50,,,,,
-Heatmost,Fire,Steel,50,50,50,50,50,50,,,,,
-Pyrant,Bug,Fire,50,50,50,50,50,50,Foundry,,,,
-Idagon,Fighting,Psychic,50,50,50,50,50,50,Tantrum,,,,
-Libradon,Fighting,Psychic,50,50,50,50,50,50,Balanced,,,,
-Suprion,Fighting,Psychic,50,50,50,50,50,50,Superego,,,,
-Larvos,Bug,na,50,50,50,50,50,50,Sickly,,,,
-Syrinsect,Bug,na,50,50,50,50,50,50,Injector,,,,
-Stratoclysm,Bug,Dragon,50,50,50,50,50,50,Cataclysm,,,,
-Gaiaxion,Ground,Dragon,50,50,50,50,50,50,Terrestrial,,,,
-Xelestion,Psychic,Dragon,50,50,50,50,50,50,Celestial,,,,
-Chupacabra,Poison,Ghost,50,50,50,50,50,50,Catastrophe,,,,
-Bigfoot,Steel,Ghost,50,50,50,50,50,50,Catastrophe,,,,
-JerseyDevil,Fire,Ghost,50,50,50,50,50,50,Catastrophe,,,,
-Mothman,Bug,Ghost,50,50,50,50,50,50,Catastrophe,,,,
-Apothion,Dragon,na,50,50,50,50,50,50,Celestial,,,,
+name,type1,type2,hp,atk,def,spatk,spdef,speed,title,description,forms,ability1,ability2,abilityh
+Springbun,Grass,na,50,35,40,65,50,70,Bunny,,,Overgrow,,Cute Charm
+Snapbun,Grass,na,80,50,60,85,80,55,Thorny,,,Overgrow,"",Cute Charm
+Faestalk,Grass,Fairy,120,70,80,110,110,40,Beanstalk,,,Overgrow,"",Dragon's Maw
+Basilly,Fire,na,50,50,50,50,50,50,Timid,,,Blaze,"",NULL
+Knaviper,Fire,na,50,50,50,50,50,50,Cowardly,,,Blaze,"",NULL
+Verkillion,Fire,Poison,200,50,50,50,50,30,Craven,This Pokemon's deadly toxins and ruthless personality has led people to believe it can kill with just one glare.,,Blaze,"",NULL
+Purluxe,Water,na,50,55,60,45,50,40,Pampered,,,Torrent,"",NULL
+Lyonite,Water,na,70,85,80,50,65,60,Earthen,,,Torrent,"",NULL
+Enkidros,Water,Ground,80,125,100,55,95,80,Warrior,,,Torrent,"",NULL
+ClayBug1,Bug,Ground,50,50,50,50,50,50,Termite,,,,"",NULL
+ClayBug2,Bug,Ground,50,50,50,50,50,50,Termite,,,,"",NULL
+Chickery,Normal,Flying,50,50,50,50,50,50,Gosling,,,,"",NULL
+Chickanery,Normal,Flying,50,50,50,50,50,50,Gosling,,,,"",NULL
+Goosassin,Dark,Flying,50,50,50,50,50,50,Goose,,,,"",NULL
+Depresso,Grass,na,50,50,50,50,50,50,Coffee Bean,,,,NULL,NULL
+Aggresso,Grass,Electric,50,50,50,50,50,50,Coffee Bean,,,,NULL,NULL
+Grubblo,Bug,Normal,50,50,50,50,50,50,Sad Clown,,,,NULL,NULL
+Tentrilo,Bug,Normal,50,50,50,50,50,50,Big Top,,,,NULL,NULL
+Rocadocio,Bug,Normal,50,50,50,50,50,50,Showman,,,,NULL,NULL
+Marazcal,Grass,na,50,50,50,50,50,50,Agave,,,,NULL,NULL
+Iguavadon,Grass,Fire,50,50,50,50,50,50,Agave,,,,NULL,NULL
+Tremor worm,Ground,na,50,50,50,50,50,50,Land Worm,,,,NULL,NULL
+Tortarma,Fire|Ice,na,50|50,50|50,50|50,50|50,50|50,50|50,Tortoise,,Solar|Polar,,NULL,NULL
+Tortality,Fire,Ice,50,50,50,50,50,50,Totality,,,,NULL,NULL
+Mochu,Ice,Electric,50,50,50,50,50,50,Snow Bunny,,,,NULL,NULL
+Snochu,Ice,Electric,50,50,50,50,50,50,Daikon,,,,NULL,NULL
+Lileef,Grass,na,50,50,50,50,50,50,Land Lily,,,,NULL,NULL
+Citradily,Grass,na,50,50,50,50,50,50,Citrus,,,,NULL,NULL
+Krabuto,Water,Steel,50,50,50,50,50,50,Shell Crab,,,,NULL,NULL
+Krabutops,Water,Steel,50,50,50,50,50,50,Shell Crab,,,,NULL,NULL
+Balite,Flying,Ice,50,50,50,50,50,50,,,,,NULL,NULL
+Baleet,Flying,Ice,50,50,50,50,50,50,,,,,NULL,NULL
+Cryocone,Ice,Poison,50,50,50,50,50,50,Poison Snail,,,,NULL,NULL
+Cryoconda,Ice,Poison,50,50,50,50,50,50,Poison Serpent,,,,NULL,NULL
+Alchemy1,Fairy,Poison,50,50,50,50,50,50,Alchemy,,,,NULL,NULL
+Alchemy2,Fairy,Poison,50,50,50,50,50,50,Great Work,,,,NULL,NULL
+Ornidrone,Steel,Flying,50,50,50,50,50,50,Drone,,,,NULL,NULL
+Stealthidrone,Steel,Flying,50,50,50,50,50,50,,,,,NULL,NULL
+Gunraptor,Steel,Flying,50,50,50,50,50,50,,,,,NULL,NULL
+Selky,Water,Ice,50,50,50,50,50,50,,,,,NULL,NULL
+Lanturnal,Water,Electric,50,50,50,50,50,50,,,,,NULL,NULL
+Shuckler,Bug,Steel,50,50,50,50,50,50,,,,,NULL,NULL
+Heatmost,Fire,Steel,50,50,50,50,50,50,,,,,NULL,NULL
+Pyrant,Bug,Fire,50,50,50,50,50,50,Foundry,,,,NULL,NULL
+Idagon,Fighting,Psychic,50,50,50,50,50,50,Tantrum,,,,NULL,NULL
+Libradon,Fighting,Psychic,50,50,50,50,50,50,Balanced,,,,NULL,NULL
+Suprion,Fighting,Psychic,50,50,50,50,50,50,Superego,,,,NULL,NULL
+Larvos,Bug,na,50,50,50,50,50,50,Sickly,,,,NULL,NULL
+Syrinsect,Bug,na,50,50,50,50,50,50,Injector,,,,NULL,NULL
+Stratoclysm,Bug,Dragon,50,50,50,50,50,50,Cataclysm,,,,NULL,NULL
+Gaiaxion,Ground,Dragon,50,50,50,50,50,50,Terrestrial,,,,NULL,NULL
+Xelestion,Psychic,Dragon,50,50,50,50,50,50,Celestial,,,,NULL,NULL
+Chupacabra,Poison,Ghost,50,50,50,50,50,50,Catastrophe,,,,NULL,NULL
+Bigfoot,Steel,Ghost,50,50,50,50,50,50,Catastrophe,,,,NULL,NULL
+JerseyDevil,Fire,Ghost,50,50,50,50,50,50,Catastrophe,,,,NULL,NULL
+Mothman,Bug,Ghost,50,50,50,50,50,50,Catastrophe,,,,NULL,NULL
+Apothion,Dragon,na,50,50,50,50,50,50,Celestial,,,,NULL,NULL
