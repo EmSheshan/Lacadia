@@ -331,6 +331,92 @@ const abilities = {
   "Ruthless": "This Pokemon's attacks always result in critical hits when the opponent has lowered stats."
 };
 
+const moves = {
+  "Ice Spikes": {
+    type: "Ice",
+    category: "Status",
+    pp: 20,
+    description: "The user lays a trap of levitating icicles around the opposing team. The trap damages opposing Pokémon that switch into battle.",
+  },
+  "Bean Barrage": {
+    type: "Grass",
+    category: "Special",
+    accuracy: 100,
+   power: 70,
+    pp: 10,
+    description: "The user attacks with a barrage of seeds that begin to sprout and steal some HP from the target every turn.",
+  },
+  "Bushido Flurry": {
+    type: "Steel",
+    category: "Physical",
+    accuracy: 100,
+    power: 18,
+    pp: 10,
+    description: "The user attacks flurry of sharp slashes. This attack hits five times in a row and every hit is always critical.",
+  },
+  "Zest Spray": {
+    type: "Grass",
+    category: "Special",
+    accuracy: 100,
+    power: 85,
+    pp: 10,
+    description: "The user attacks with a spray of acidic berry juice. If the user is holding a berry, the berry is consumed and this attack does massive damage.",
+  },
+  "Crushing Cleave": {
+    type: "Ground",
+    category: "Physical",
+    accuracy: 100,
+    power: 35,
+    pp: 10,
+    description: "The user attacks twice with two axes. The first hit lowers the target's Defense stat, and the second hit lowers the target's Sp. Def stat.",
+  },
+  "Venom Spear": {
+    type: "Poison",
+    category: "Physical",
+    accuracy: 100,
+    power: 60,
+    pp: 10,
+    description: "The user attacks with a venomous stinger that leaves the target badly poisoned. Its poison damage worsens every turn.",
+  },
+  "Final Act": {
+    type: "Normal",
+    category: "Status",
+    accuracy: 100,
+    pp: 20,
+    description: "The user compels the target to keep using the move it encored for three turns. Then it switches places with a party Pokémon in waiting.",
+  },
+  "Agave Shot": {
+    type: "Grass",
+    category: "Special",
+    accuracy: 100,
+    power: 75,
+    pp: 10,
+    description: "The user shoots hot agave nectar at the target. This move sharply boosts the user's Attack stat but lowers its accuracy.",
+  },
+  "Freezing Tempo": {
+    type: "Ice",
+    category: "Status",
+    pp: 10,
+    description: "The user takes time to charge and concentrate its power. This raises its Attack and Speed stats and ensures the user's next move does not miss.",
+  },
+  "Icy Harpoon": {
+    type: "Ice",
+    category: "Physical",
+    accuracy: 100,
+    power: 90,
+    pp: 10,
+    description: "The user launches sharpened icicle at the target. It may also badly poison the target.",
+  },
+  "Ego Crush": {
+    type: "Psychic",
+    category: "Special",
+    accuracy: 100,
+    power: 80,
+    pp: 15,
+    description: "The user uses its psychic powers to directly attack the opponent's mind. This move is super effective on Psychic types.",
+  },
+
+};
 
 function getPokemonNumberFromURL () {
   const urlParams = new URLSearchParams (window.location.search);
@@ -388,6 +474,15 @@ function displaySelectedPokemon ( pokemonData, formIndex = 0 ) {
     const ability2 = selectedPokemon.ability2.split ("|")[formIndex] || selectedPokemon.ability2.split ("|")[0];
     const abilityh = selectedPokemon.abilityh.split ("|")[formIndex] || selectedPokemon.abilityh.split ("|")[0];
 
+    const sigmove = selectedPokemon.sigmove;
+    const sigmovedesc = moves[sigmove] ? `
+  ${moves[sigmove].type ? `<img src="TypeIcons/${moves[sigmove].type }.png" alt="${ moves[sigmove].type }"style="width: 2rem; height: 2rem;">` : '' }
+  ${ moves[sigmove].category ? `<img src="MoveCategories/${moves[sigmove].category }.png" alt="${ moves[sigmove].category }"style="width: 2rem; height: 2rem;">` : ''}
+  ${moves[sigmove].power ? `Power: ${moves[sigmove].power},` : ''}
+  ${moves[sigmove].accuracy ? `Accuracy: ${moves[sigmove].accuracy},` : ''}
+  ${moves[sigmove].pp ? `${moves[sigmove].pp} PP<br><br>` : ''}
+  ${moves[sigmove].description ? `${moves[sigmove].description}` : ''}
+` : '';
 
     // Update navigation links/names
     document.getElementById ("previousPokemonNumber").innerText = (pokemonNumber - 1).toString ();
@@ -440,7 +535,11 @@ function displaySelectedPokemon ( pokemonData, formIndex = 0 ) {
                 ${ abilityh ? `<p class="pokemon-ability">◆ ${ abilityh } ◆<br><span class="ability-description"> ${ abilities[abilityh] }</span></p>` : '' }
             </div>
             
-                
+            <br>
+            
+            ${ sigmove ? `<p class="pokemon-sigmove">Signature Move: ${ sigmove }<br><span class="pokemon-sigmove-description"> ${ sigmovedesc }</span></p>` : '' }
+            
+                <br>
                 
                 
                 <div class="pokemon-stats">
@@ -471,7 +570,7 @@ function displaySelectedPokemon ( pokemonData, formIndex = 0 ) {
     if ( forms.length > 1 ) {
       // Create a button to change the form
       const changeFormButton = document.createElement ("button");
-      changeFormButton.innerText = "Change Form";
+      changeFormButton.innerText = "Change\nForm";
       changeFormButton.classList.add ("form-switch-button");
 
       // Add an event listener to cycle through forms
