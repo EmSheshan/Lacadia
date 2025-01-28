@@ -18,8 +18,8 @@ Espressurge,Grass,Electric,50,50,50,50,50,50,Coffee Bean,This is a test descript
 Grubblo,Bug,Normal,40,30,30,20,40,30,Sad Clown,This is a test description. This will be replaced in the future.,,Shield Dust,Prankster,Soundproof,
 Tentrilo,Bug,Normal,70, 45,75, 45,90, 35,Big Top,This is a test description. This will be replaced in the future.,,Shield Dust,Prankster,Soundproof,
 Rocadocio,Bug,Normal,85, 87, 54, 50, 64, 94,Showman,This is a test description. This will be replaced in the future.,,Shield Dust,Prankster,Soundproof,Final Act
-Nokoi,Water,,64, 72, 55, 105, 59, 124,Koi Fish,This is a test description. This will be replaced in the future.,,Swift Swim,,Adaptability,
-Koyami,Water,Dark,64, 72, 55, 105, 59, 124,Inky,This is a test description. This will be replaced in the future.,,Swift Swim,,Adaptability,
+Nokoi,Water,Normal,64, 72, 55, 105, 59, 124,Koi Fish,This is a test description. This will be replaced in the future.,,Swift Swim,,Adaptability,
+Koyami,Water,Dark|Fighting|Dragon|Fire,50|50|50|50,50|50|50|50,50|50|50|50,50|50|50|50,50|50|50|50,50|50|50|50,Inked,This is a test description. This will be replaced in the future.,Ink Cloud|Tiger|Ryujin|Oni,Swift Swim,,Adaptability,
 Marazcal,Grass,,48, 37, 37, 57, 43, 73,Agave,This is a test description. This will be replaced in the future.,,Quick Feet,Solar Power,Leaf Guard,
 Iguavadon,Grass,Fire,66, 57, 49, 116, 99, 106,Agave,This is a test description. This will be replaced in the future.,,Quick Feet,Solar Power,Leaf Guard,Agave Shot
 Furnawurm,Ground,,50,50,50,50,50,50,Land Worm,This is a test description. This will be replaced in the future.,,Wimp Out,,,
