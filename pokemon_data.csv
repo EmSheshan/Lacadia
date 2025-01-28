@@ -7,8 +7,8 @@ Knaviper,Fire,na,55,70,45,90,50,100,Cowardly,This is a test description. This wi
 Verkillion,Fire,Poison,70,120,65,100,70,110,Craven,"This Pokemon's deadly toxins and ruthless personality has led people to believe it can kill with just one glare.
 <br><br>
 Despite it's fearsome reputation, it loves praise from others and will put itself in danger for approval.","",Blaze,"",Merciless,Venom Spear
-Purluxe,Water,na,50,55,60,45,50,40,Pampered,This is a test description. This will be replaced in the future.,"",Torrent,"",Stamina,""
-Lyonite,Water,na,70,85,80,50,65,60,Earthen,This is a test description. This will be replaced in the future.,"",Torrent,"",Stamina,""
+Purluxe,Water,na,50,55,60,45,50,40,Pampered,"This Pokemon's fur is silky-soft to the touch because of its involved grooming routine.<br><br>Purluxe are considered very exotic and thus, very valuable. They say the Pokemon breed descended from a line of ancient rulers.","",Torrent,"",Stamina,""
+Lyonite,Water,na,70,85,80,50,65,60,Earthen,"The stone on Lyonite's sides is made of dried mud that the pokemon meticulously carves and maintains.<br><br>If any part of the stone breaks, Lyonite will simply rebuild the broken parts.","",Torrent,"",Stamina,""
 Enkidros,Water,Ground,80,125,100,55,95,80,Warrior,This is a test description. This will be replaced in the future.,"",Torrent,"",Stamina,Crushing Cleave
 Chickery,Normal,Flying,49,56,47,36,25,40,Gosling,This is a test description. This will be replaced in the future.,"",Big Pecks,Infiltrator,Stakeout,""
 Chickanery,Dark,Flying,65,85,59,46,46,87,Gosling,This is a test description. This will be replaced in the future.,"",Poison Touch,Infiltrator,Stakeout,""
@@ -49,11 +49,11 @@ Suprion,Fighting,Psychic,93, 80, 67, 99, 79, 32,Superego,This is a test descript
 Larvos,Bug,na,35, 54, 73, 61, 47, 30,Sickly,This is a test description. This will be replaced in the future.,"",Parasitoid,"",Tinted Lens,""
 Syrinsect,Bug,na,55, 110, 48, 85, 47, 105,Injector,This is a test description. This will be replaced in the future.,"",Parasitoid,"",Tinted Lens,""
 Stratoclysm,Bug,Dragon,74, 137, 68, 107, 68, 146,Cataclysm,This is a test description. This will be replaced in the future.,"",Parasitoid,"",Tinted Lens,""
-Arkythos,Dragon,Ground,50,50,50,50,50,50,Terrestrial,This is a test description. This will be replaced in the future.,"",Wimp Out,"","",""
+Albythos,Dragon,Ground,50,50,50,50,50,50,Terrestrial,This is a test description. This will be replaced in the future.,"",Wimp Out,"","",""
 Xerasige ,Dragon,Psychic,50,50,50,50,50,50,Astral,This is a test description. This will be replaced in the future.,"",Wimp Out,"","",""
-Chupacabra,Poison,Ghost,50,50,50,50,50,50,Impossible,This is a test description. This will be replaced in the future.,"",Wimp Out,"","",""
-Bigfoot,Steel,Ghost,50,50,50,50,50,50,Impossible,This is a test description. This will be replaced in the future.,"",Wimp Out,"","",""
-JerseyDevil,Fire,Ghost,50,50,50,50,50,50,Impossible,This is a test description. This will be replaced in the future.,"",Wimp Out,"","",""
+Paracabra,Poison,Ghost,50,50,50,50,50,50,Impossible,This is a test description. This will be replaced in the future.,"",Wimp Out,"","",""
+Saskrypt,Steel,Ghost,50,50,50,50,50,50,Impossible,This is a test description. This will be replaced in the future.,"",Wimp Out,"","",""
+Devile,Flying,Ghost,50,50,50,50,50,50,Impossible,This is a test description. This will be replaced in the future.,"",Wimp Out,"","",""
 Azamoth,Bug,Ghost,50,50,50,50,50,50,Impossible,This is a test description. This will be replaced in the future.,"",Wimp Out,"","",""
 Jeneosis,Dragon,Ghost,50,50,50,50,50,50,False One,This is a test description. This will be replaced in the future.,"",Wimp Out,"","",""
 Xophis,Dragon,Fairy,50,50,50,50,50,50,Pure One,This is a test description. This will be replaced in the future.,"",Wimp Out,"","",""

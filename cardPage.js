@@ -342,7 +342,7 @@ const moves = {
     type: "Grass",
     category: "Special",
     accuracy: 100,
-   power: 70,
+    power: 70,
     pp: 10,
     description: "The user attacks with a barrage of seeds that begin to sprout and steal some HP from the target every turn.",
   },
@@ -476,12 +476,12 @@ function displaySelectedPokemon ( pokemonData, formIndex = 0 ) {
 
     const sigmove = selectedPokemon.sigmove;
     const sigmovedesc = moves[sigmove] ? `
-  ${moves[sigmove].type ? `<img src="TypeIcons/${moves[sigmove].type }.png" alt="${ moves[sigmove].type }"style="width: 2rem; height: 2rem;">` : '' }
-  ${ moves[sigmove].category ? `<img src="MoveCategories/${moves[sigmove].category }.png" alt="${ moves[sigmove].category }"style="width: 2rem; height: 2rem;">` : ''}
-  ${moves[sigmove].power ? `Power: ${moves[sigmove].power},` : ''}
-  ${moves[sigmove].accuracy ? `Accuracy: ${moves[sigmove].accuracy},` : ''}
-  ${moves[sigmove].pp ? `${moves[sigmove].pp} PP<br><br>` : ''}
-  ${moves[sigmove].description ? `${moves[sigmove].description}` : ''}
+  ${ moves[sigmove].type ? `<img src="TypeIcons/${ moves[sigmove].type }.png" alt="${ moves[sigmove].type }"style="width: 2rem; height: 2rem;">` : '' }
+  ${ moves[sigmove].category ? `<img src="MoveCategories/${ moves[sigmove].category }.png" alt="${ moves[sigmove].category }"style="width: 2rem; height: 2rem;">` : '' }
+  ${ moves[sigmove].power ? `Power: ${ moves[sigmove].power },` : '' }
+  ${ moves[sigmove].accuracy ? `Accuracy: ${ moves[sigmove].accuracy },` : '' }
+  ${ moves[sigmove].pp ? `${ moves[sigmove].pp } PP<br><br>` : '' }
+  ${ moves[sigmove].description ? `${ moves[sigmove].description }` : '' }
 ` : '';
 
     // Update navigation links/names
@@ -511,16 +511,16 @@ function displaySelectedPokemon ( pokemonData, formIndex = 0 ) {
 
             <div class="pokemon-images-container">
     <div class="circle-background">
-        <img src="${regularImage}"
-            alt="${selectedPokemon.name}"
+        <img src="${ regularImage }"
+            alt="${ selectedPokemon.name }"
             class="pokemon-image-large"
-            onerror="this.src='${errorImage}'">
+            onerror="this.src='${ errorImage }'">
     </div>
     <div class="circle-background-shiny">
-        <img src="${shinyImage}"
-            alt="${selectedPokemon.name} Shiny"
+        <img src="${ shinyImage }"
+            alt="${ selectedPokemon.name } Shiny"
             class="pokemon-image-shiny"
-            onerror="this.src='${errorImage}'">
+            onerror="this.src='${ errorImage }'">
     </div>
 </div>
 
