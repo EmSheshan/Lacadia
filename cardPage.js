@@ -360,7 +360,7 @@ const moves = {
     accuracy: 100,
     power: 85,
     pp: 10,
-    description: "The user attacks with a spray of acidic berry juice. If the user is holding a berry, the berry is consumed and this attack does massive damage.",
+    description: "The user attacks with a spray of acidic berry juice. If the user is holding a berry, the berry is consumed and the base power of this attack doubles.",
   },
   "Crushing Cleave": {
     type: "Ground",
@@ -529,7 +529,7 @@ function displaySelectedPokemon ( pokemonData, formIndex = 0 ) {
 
             <!--Pokemon description and abilities-->
             <div class="container">
-                <p class="pokemon-description">${ selectedPokemon.description }</p>
+                <p class="pokemon-description">${ selectedPokemon.description1 }<br><br>${ selectedPokemon.description2 }</p>
                 ${ ability1 ? `<p class="pokemon-ability">◆ ${ ability1 } ◆<br><span class="ability-description"> ${ abilities[ability1] }</span></p>` : '' }
                 ${ ability2 ? `<p class="pokemon-ability">◆ ${ ability2 } ◆<br><span class="ability-description"> ${ abilities[ability2] }</span></p>` : '' }
                 ${ abilityh ? `<p class="pokemon-ability">◆ ${ abilityh } ◆<br><span class="ability-description"> ${ abilities[abilityh] }</span></p>` : '' }
