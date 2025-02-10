@@ -20,6 +20,8 @@ Tentrilo,Bug,Normal,70, 45,75, 45,90, 35,Big Top,This is a test description. Thi
 Rocadocio,Bug,Normal,85, 87, 54, 50, 64, 94,Showman,This is a test description. This will be replaced in the future.,,,Shield Dust,Prankster,Soundproof,Final Act
 Nokoi,Water,Normal,64, 72, 55, 105, 59, 124,Koi Fish,This is a test description. This will be replaced in the future.,,,Swift Swim,,Adaptability,
 Koyami,Water,Dark|Fighting|Dragon|Fire,50|50|50|50,50|50|50|50,50|50|50|50,50|50|50|50,50|50|50|50,50|50|50|50,Inked,This is a test description. This will be replaced in the future.,,Ink Cloud|Tiger|Ryujin|Oni,Swift Swim,,Adaptability,
+Mask Worm,Rock,,1,1,1,1,1,1,Carved,This is a test description. This will be replaced in the future.,,,Wimp Out,Wimp Out,Wimp Out,
+Stone Mask,Rock,Ghost,1,1,1,1,1,1,Mask,This is a test description. This will be replaced in the future.,,,Wimp Out,Wimp Out,Wimp Out,
 Marazcal,Grass,,48, 37, 37, 57, 43, 73,Agave,This is a test description. This will be replaced in the future.,,,Quick Feet,Solar Power,Leaf Guard,
 Iguavadon,Grass,Fire,66, 57, 49, 116, 99, 106,Agave,This is a test description. This will be replaced in the future.,,,Quick Feet,Solar Power,Leaf Guard,Agave Shot
 Furnawurm,Ground,,50,50,50,50,50,50,Land Worm,This is a test description. This will be replaced in the future.,,,Wimp Out,,,
@@ -31,6 +33,11 @@ Lileef,Grass,,66, 41, 77, 61, 87, 23,Land Lily,This is a test description. This 
 Citradily,Grass,,86, 81, 97, 81, 107, 43,Citrus,The type of berry Citradily eats will affect it's saliva. It can range from sticky-sweet to painfully sour.,"They pretend to be regular berry trees, ambushing unsuspecting pokemon and melting them with their acidic saliva.",,Suction Cups,,Harvest,Zest Spray
 Krabuto,Water,Steel,30, 80, 90, 55, 45, 55,Shell Crab,This is a test description. This will be replaced in the future.,,,Swift Swim,,Sharpness,
 Krabutops,Water,Steel,60, 115, 105, 65, 70, 80,Shell Crab,They fastidiously maintain and sharpen their blades. It is considered shameful to Krabutops to have blades that are dull or chipped.,"They get into territorial conflicts with Golisopod, where some of their conflicts can last up to a century.",,Swift Swim,,Sharpness,Bushido Flurry
+Velyger1,Dark,,1,1,1,1,1,1,,This is a test description. This will be replaced in the future.,,,Wimp Out,,,
+Velyger2,Dark,Fighting,1,1,1,1,1,1,,This is a test description. This will be replaced in the future.,,,Wimp Out,,,
+Velyger3,Dark,Fighting,1,1,1,1,1,1,Apex Hunter,This is a test description. This will be replaced in the future.,,,Wimp Out,,,
+Tuatara,Rock,Psychic,1,1,1,1,1,1,Tuatara,This is a test description. This will be replaced in the future.,,,Wimp Out,,,
+Dodo,Rock,Ground,1,1,1,1,1,1,Dodo,This is a test description. This will be replaced in the future.,,,Wimp Out,,,
 Balite,Flying,Ice,62, 43, 66, 59, 78, 79,Arctic Bird,"Due to their flight patterns, sailors and fishermen often follow flocks of Balite to find their way back to shore.",They can dive underwater for extended periods of time due to a thick layer of blubber.,,Ancient Guard,,Snow Warning,Ice Spikes
 Baleet,Flying,Ice,74, 72, 90, 89, 87, 108,Arctic Guide,Baleet are revered as guardians due to guiding people lost in arctic waters safely back to shore.,Many people make stone carvings of Baleet to give them the luck to always find their way home. ,,Ancient Guard,,Snow Warning,Ice Spikes
 Cryocone,Ice,Poison,68, 70, 106, 50, 96, 19,Poison Snail,This is a test description. This will be replaced in the future.,,,Shell Armor,Water Absorb,Poison Touch,Icy Harpoon
