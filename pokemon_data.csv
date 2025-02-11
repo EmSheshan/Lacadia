@@ -1,12 +1,12 @@
 name,type1,type2,hp,atk,def,spatk,spdef,speed,title,description1,description2,forms,ability1,ability2,abilityh,sigmove
 Springbun,Grass,,50,35,40,65,50,70,Bunny,This is a test description. This will be replaced in the future.,,,Overgrow,,Cute Charm,
 Snapbun,Grass,,80,50,60,85,80,55,Thorny,This is a test description. This will be replaced in the future.,,,Overgrow,,Cute Charm,
-Faestalk,Grass,Fairy,120,70,80,110,110,40,Beanstalk,This is a test description. This will be replaced in the future.,,,Overgrow,,Dragon's Maw,Bean Barrage
-Basilly,Fire,,45,60,40,60,40,65,Timid,This is a test description. This will be replaced in the future.,,,Blaze,,Merciless,
-Knaviper,Fire,,55,70,45,90,50,100,Cowardly,This is a test description. This will be replaced in the future.,,,Blaze,,Merciless,
+Faestalk,Grass,Fairy,120,70,80,110,110,40,Beanstalk,This is a test description. This will be replaced in the future.,"The berries that grow in its cotton-like fur are noted for its sweet taste, as well as its healing properties.",,Overgrow,,Dragon's Maw,Bean Barrage
+Basilly,Fire,,45,60,40,60,40,65,Timid,"When Basilly are frightened, they will curl up and hold their tails in their mouth until their trainer rescues them.","Their stingers hold a potent venom, but Basilly are often too rattled to ever use their stingers.",,Blaze,,Merciless,
+Knaviper,Fire,,55,70,45,90,50,100,Cowardly,"Knaviper like to terrorize pokemon smaller and weaker than them, but will turn tail the second they feel threatened.","They raid other pokemon nests for eggs, and will sometimes leave their own eggs in their place.",,Blaze,,Merciless,
 Verkillion,Fire,Poison,70,120,65,100,70,110,Craven,This Pokemon's deadly toxins and ruthless personality has led people to believe it can kill with just one glare. ,"Despite it's fearsome reputation, it loves praise from others and will put itself in danger for approval.",,Blaze,,Merciless,Venom Spear
 Purluxe,Water,,50,55,60,45,50,40,Pampered,This Pokemon's fur is silky-soft to the touch because of its involved grooming routine.,"Purluxe are considered very exotic and thus, very valuable. They say the Pokemon breed descended from a line of ancient rulers.",,Torrent,,Stamina,
-Lyonite,Water,,70,85,80,50,65,60,Earthen,The stone on Lyonite's sides is made of dried mud that the pokemon meticulously carves and maintains.,"If any part of the stone breaks, Lyonite will simply rebuild the broken parts to be more detailed and sturdy.",,Torrent,,Stamina,
+Lyonite,Water,,70,85,80,50,65,60,Earthen,The stone on Lyonite's sides is made of dried mud that the pokemon meticulously carves and maintains.,"If any part of its stone armor breaks, Lyonite will simply rebuild the broken parts to be more detailed and sturdy.",,Torrent,,Stamina,
 Enkidros,Water,Ground,80,125,100,55,95,80,Warrior,This is a test description. This will be replaced in the future.,,,Torrent,,Stamina,Crushing Cleave
 Possolo,Normal,,80,125,100,55,95,80,Lonely,This is a test description. This will be replaced in the future.,,,Normalize,,Stamina,
 Oposse,Normal,Ghost,80,125,100,55,95,80,Never Alone,This is a test description. This will be replaced in the future.,,,Normalize,,Stamina,
@@ -44,9 +44,12 @@ Cryocone,Ice,Poison,68, 70, 106, 50, 96, 19,Poison Snail,This is a test descript
 Cryoconda,Ice,Poison,102, 106, 136, 63, 122, 25,Poison Serpent,This is a test description. This will be replaced in the future.,,,Shell Armor,Water Absorb,Poison Touch,Icy Harpoon
 Elixa,Fairy,Poison,50,50,50,50,50,50,Alchemy,This is a test description. This will be replaced in the future.,,,Wimp Out,,,
 Seraphixir,Fairy,Poison,50,50,50,50,50,50,Great Work,This is a test description. This will be replaced in the future.,,,Wimp Out,,,
+Incense,Poison,Dark,50,50,50,50,50,50,Incense,This is a test description. This will be replaced in the future.,,,Wimp Out,,,
+Ceramix,Ground,Fairy,50,50,50,50,50,50,Porcelain,This is a test description. This will be replaced in the future.,,,Wimp Out,,,
 Ornidrone,Steel,Flying,50,50,50,50,50,50,Drone,This is a test description. This will be replaced in the future.,,,Wimp Out,,,
 Stealthidrone,Steel,Flying,50,50,50,50,50,50,Drone,This is a test description. This will be replaced in the future.,,,Wimp Out,,,
 Gunraptor,Steel,Flying,50,50,50,50,50,50,Mecha,This is a test description. This will be replaced in the future.,,,Wimp Out,,,
+Moosenge,Grass,Rock,50,50,50,50,50,50,Druid,This is a test description. This will be replaced in the future.,,,Wimp Out,,,
 Selky,Water,Ice,50,50,50,50,50,50,Sea Lion,This is a test description. This will be replaced in the future.,,,Wimp Out,,,
 Lanturnal,Water,Electric,50,50,50,50,50,50,Luminant,This is a test description. This will be replaced in the future.,,,Wimp Out,,,
 Shuckler,Bug,Steel,50,50,50,50,50,50,Big Mold,This is a test description. This will be replaced in the future.,,,Wimp Out,,,
@@ -55,7 +58,7 @@ Pyrant,Bug,Fire,50,50,50,50,50,50,Foundry,This is a test description. This will 
 Idagon,Fighting,Psychic,78, 81, 60, 24, 34, 23,Tantrum,This is a test description. This will be replaced in the future.,,,Hustle,,Scrappy,
 Libradon,Fighting,Psychic,93, 80, 67, 99, 79, 32,Balanced,This is a test description. This will be replaced in the future.,,,Neuroforce,,Scrappy,
 Suprion,Fighting,Psychic,93, 80, 67, 99, 79, 32,Superego,This is a test description. This will be replaced in the future.,,,Neuroforce,,Scrappy,Ego Crush
-Larvos,Bug,,35, 54, 73, 61, 47, 30,Sickly,This is a test description. This will be replaced in the future.,,,Parasitoid,,Tinted Lens,
+Larvos,Bug,,35, 54, 73, 61, 47, 30,Sickly,It burrows into the ground and absorbs natural energy from the planet. ,"When it absorbs too much energy, the excess energy will burst through Larvos's body and crystallize. The pokemon is almost always in slight discomfort.",,Parasitoid,,Tinted Lens,
 Syrinsect,Bug,Dragon,55, 110, 48, 85, 47, 105,Injector,This is a test description. This will be replaced in the future.,,,Parasitoid,,Tinted Lens,
 Stratoclysm,Bug,Dragon,74, 137, 68, 107, 68, 146,Cataclysm,This is a test description. This will be replaced in the future.,,,Parasitoid,,Tinted Lens,
 Albythos,Dragon,Ground,50,50,50,50,50,50,Terrestrial,This is a test description. This will be replaced in the future.,,,Wimp Out,,,
