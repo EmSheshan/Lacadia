@@ -36,8 +36,10 @@ Krabutops,Water,Steel,60, 115, 105, 65, 70, 80,Shell Crab,They fastidiously main
 Velyger1,Dark,,1,1,1,1,1,1,Lazy,This is a test description. This will be replaced in the future.,,,Wimp Out,,,
 Velyger2,Dark,Fighting,1,1,1,1,1,1,Grimalkin,This is a test description. This will be replaced in the future.,,,Wimp Out,,,
 Velyger3,Dark,Fighting,1,1,1,1,1,1,Apex Hunter,This is a test description. This will be replaced in the future.,,,Wimp Out,,,
-Tuatara,Rock,Psychic,1,1,1,1,1,1,Tuatara,This is a test description. This will be replaced in the future.,,,Wimp Out,,,
-Dodo,Rock,Ground,1,1,1,1,1,1,Dodo,This is a test description. This will be replaced in the future.,,,Wimp Out,,,
+Tuatara1,Rock,Psychic,1,1,1,1,1,1,Tuatara,This is a test description. This will be replaced in the future.,,,Wimp Out,,,
+Tuatara2,Rock,Psychic,1,1,1,1,1,1,Tuatara,This is a test description. This will be replaced in the future.,,,Wimp Out,,,
+Dodo1,Rock,Ground,1,1,1,1,1,1,Dodo,This is a test description. This will be replaced in the future.,,,Wimp Out,,,
+Dodo2,Rock,Ground,1,1,1,1,1,1,Dodo,This is a test description. This will be replaced in the future.,,,Wimp Out,,,
 Balite,Flying,Ice,62, 43, 66, 59, 78, 79,Arctic Bird,"Due to their flight patterns, sailors and fishermen often follow flocks of Balite to find their way back to shore.",They can dive underwater for extended periods of time due to a thick layer of blubber.,,Ancient Guard,,Snow Warning,Ice Spikes
 Baleet,Flying,Ice,74, 72, 90, 89, 87, 108,Arctic Guide,Baleet are revered as guardians due to guiding people lost in arctic waters safely back to shore.,Many people make stone carvings of Baleet to give them the luck to always find their way home. ,,Ancient Guard,,Snow Warning,Ice Spikes
 Cryocone,Ice,Poison,68, 70, 106, 50, 96, 19,Poison Snail,This is a test description. This will be replaced in the future.,,,Shell Armor,Water Absorb,Poison Touch,Icy Harpoon
