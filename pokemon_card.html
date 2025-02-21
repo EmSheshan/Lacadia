@@ -57,55 +57,6 @@
 
 </script>
 
-<script type ="module">
-
-    // Function to toggle dark mode
-    function toggleDarkMode() {
-        const body = document.body;
-        const button = document.querySelector('.toggle-dark-mode-card');
-        body.classList.toggle('dark-mode');
-        if (body.classList.contains('dark-mode')) {
-            button.innerHTML = '<i class="fas fa-moon"></i>';
-            changeFavicon("data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌌</text></svg>");
-            localStorage.setItem('darkMode', 'enabled');
-        } else {
-            button.innerHTML = '<i class="fas fa-sun"></i>';
-            changeFavicon("data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌱</text></svg>");
-            localStorage.setItem('darkMode', 'disabled');
-        }
-    }
-
-    // Set initial icon and mode based on the saved state
-    document.addEventListener('DOMContentLoaded', () => {
-        const button = document.querySelector('.toggle-dark-mode-card');
-        if (localStorage.getItem('darkMode') === 'enabled') {
-            document.body.classList.add('dark-mode');
-            button.innerHTML = '<i class="fas fa-moon"></i>';
-            changeFavicon("data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌌</text></svg>");
-        } else {
-            button.innerHTML = '<i class="fas fa-sun"></i>';
-            changeFavicon("data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌱</text></svg>");
-        }
-    });
-
-    // Function to change the favicon dynamically
-    function changeFavicon(src) {
-        const link = document.createElement('link');
-        const oldLink = document.getElementById('dynamic-favicon');
-        link.id = 'dynamic-favicon';
-        link.rel = 'icon';
-        link.href = src;
-
-        // Remove the old favicon if it exists
-        if (oldLink) {
-            document.head.removeChild(oldLink);
-        }
-
-        // Add the new favicon
-        document.head.appendChild(link);
-    }
-</script>
-
 
 </body>
 

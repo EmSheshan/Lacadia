@@ -295,7 +295,7 @@ h2 {
     flex-direction: row;
     margin-left: 0.5rem;
     margin-right: 0.5rem;
-
+    width: 101rem;
     justify-content: space-between; /* Adjust spacing between the two elements */
     gap: 1rem; /* Optional: Add space between the items */
     flex-wrap: wrap; /* Ensures elements wrap if the screen is too small */
@@ -389,6 +389,8 @@ h2 {
     color: var(--second-text);
     font-size: 1rem;
     font-family: "Faculty Glyphic", sans-serif;
+    margin-left: 1.1rem;
+    margin-top: -1.2rem;
     width: auto;
     height: auto;
     border-radius: 5%;

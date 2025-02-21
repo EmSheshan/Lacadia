@@ -173,10 +173,10 @@ function displaySelectedPokemon ( pokemonData, formIndex = 0 ) {
                     <img src="${ type1Image }" alt="${ type1 }" class="type-bar" onerror="this.src='${ errorImage }'">
                     ${ type2Image ? `<img src="${ type2Image }" alt="${ type2 }" class="type-bar" onerror="this.src='${ errorImage }'">` : "" }
                 </span>
-                <div id="formSwitchContainer" class="form-switch-container"></div>
+                
             </div>
             <p class="pokemon-title">The ${ selectedPokemon.title } Pokémon </p>
-            
+            <div id="formSwitchContainer" class="form-switch-container"></div>
 
 
             <div class="pokemon-images-container">
@@ -331,6 +331,54 @@ document.addEventListener('keydown', (event) => {
     navigatePokemon('previous');
   } else if (event.key === 'ArrowRight') {
     navigatePokemon('next');
+  }
+});
+
+
+// Define the toggleDarkMode function
+function toggleDarkMode() {
+  const body = document.body;
+  const button = document.querySelector('.toggle-dark-mode-card');
+  body.classList.toggle('dark-mode');
+  if (body.classList.contains('dark-mode')) {
+    button.innerHTML = '<i class="fas fa-moon"></i>';
+    changeFavicon("data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌌</text></svg>");
+    localStorage.setItem('darkMode', 'enabled');
+  } else {
+    changeFavicon("data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌱</text></svg>");
+    localStorage.setItem('darkMode', 'disabled');
+  }
+}
+
+// Ensure the function is accessible in the global scope
+window.toggleDarkMode = toggleDarkMode;
+// Function to change the favicon dynamically
+function changeFavicon(src) {
+  const link = document.createElement('link');
+  const oldLink = document.getElementById('dynamic-favicon'); // Define oldLink
+  link.id = 'dynamic-favicon';
+  link.rel = 'icon';
+  link.href = src;
+
+  // Remove the old favicon if it exists
+  if (oldLink) {
+    document.head.removeChild(oldLink);
+  }
+
+  // Add the new favicon
+  document.head.appendChild(link);
+}
+
+// Set initial icon and mode based on the saved state
+document.addEventListener('DOMContentLoaded', () => {
+  const button = document.querySelector('.toggle-dark-mode-card');
+  if (localStorage.getItem('darkMode') === 'enabled') {
+    document.body.classList.add('dark-mode');
+    button.innerHTML = '<i class="fas fa-moon"></i>';
+    changeFavicon("data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌌</text></svg>");
+  } else {
+    button.innerHTML = '<i class="fas fa-sun"></i>';
+    changeFavicon("data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌱</text></svg>");
   }
 });
 

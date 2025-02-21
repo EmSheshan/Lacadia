@@ -327,7 +327,9 @@ export const abilities = {
     "Lockdown": "This Pokemon is immune to pivot moves and blocks switch effects.",
     "Withering": "Prevents all Pokemon from restoring health.",
     "Verdant Hunger": "The power of draining moves and Leech Seed is doubled.",
+    "Polarity": "This Pokemon's Fire-type moves become slightly more powerful in snow, and its Ice-type moves become slightly more powerful in harsh sunlight.",
     "Noble Bearing": "Boosts defense, special defense, and speed when this Pokemon successfully inflicts a status condition.",
+    "Caffeine Rush": "When the user's HP drops to 50% or lower, it restores a quarter of its health and maxes its Speed stat.",
     "Ruthless": "This Pokemon's attacks always result in critical hits when the opponent has lowered stats.",
     "Malodorous": "When this Pokemon is knocked out in battle, the opposing Pokemon has its stats lowered by one stage."
 };
