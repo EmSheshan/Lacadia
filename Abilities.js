@@ -1,4 +1,4 @@
-const abilities = {
+export const abilities = {
     // Gen III
     "Air Lock": "Eliminates the effects of weather.",
     "Arena Trap": "Prevents non-Flying-type opposing Pokémon from fleeing.",
@@ -328,7 +328,6 @@ const abilities = {
     "Withering": "Prevents all Pokemon from restoring health.",
     "Verdant Hunger": "The power of draining moves and Leech Seed is doubled.",
     "Noble Bearing": "Boosts defense, special defense, and speed when this Pokemon successfully inflicts a status condition.",
-    "Ruthless": "This Pokemon's attacks always result in critical hits when the opponent has lowered stats."
+    "Ruthless": "This Pokemon's attacks always result in critical hits when the opponent has lowered stats.",
+    "Malodorous": "When this Pokemon is knocked out in battle, the opposing Pokemon has its stats lowered by one stage."
 };
-
-export default abilities;
