@@ -40,10 +40,10 @@ Tuatara1,Rock,Psychic,1,1,1,1,1,1,Tuatara,This is a test description. This will 
 Tuatara2,Rock,Psychic,1,1,1,1,1,1,Tuatara,This is a test description. This will be replaced in the future.,,,Wimp Out,,,
 Dodo1,Rock,Ground,1,1,1,1,1,1,Dodo,This is a test description. This will be replaced in the future.,,,Wimp Out,,,
 Dodo2,Rock,Ground,1,1,1,1,1,1,Dodo,This is a test description. This will be replaced in the future.,,,Wimp Out,,,
-Balite,Flying,Ice,62, 43, 66, 59, 78, 79,Arctic Bird,"Due to their flight patterns, sailors and fishermen often follow flocks of Balite to find their way back to shore.",They can dive underwater for extended periods of time due to a thick layer of blubber.,,Ancient Guard,,Snow Warning,Ice Spikes
-Baleet,Flying,Ice,74, 72, 90, 89, 87, 108,Arctic Guide,Baleet are revered as guardians due to guiding people lost in arctic waters safely back to shore.,Many people make stone carvings of Baleet to give them the luck to always find their way home. ,,Ancient Guard,,Snow Warning,Ice Spikes
-Cryocone,Ice,Poison,68, 70, 106, 50, 96, 19,Poison Snail,This is a test description. This will be replaced in the future.,,,Shell Armor,Water Absorb,Poison Touch,Icy Harpoon
-Cryoconda,Ice,Poison,102, 106, 136, 63, 122, 25,Poison Serpent,This is a test description. This will be replaced in the future.,,,Shell Armor,Water Absorb,Poison Touch,Icy Harpoon
+Balite,Flying,Ice,62,43,66,59,78,79,Arctic Bird,"Due to their flight patterns, sailors and fishermen often follow flocks of Balite to find their way back to shore.",They can dive underwater for extended periods of time due to a thick layer of blubber.,,Ancient Guard,,Snow Warning,Ice Spikes
+Baleet,Flying,Ice,74,72,90,89,87,108,Arctic Guide,Baleet are revered as guardians due to guiding people lost in arctic waters safely back to shore.,Many people make stone carvings of Baleet to give them the luck to always find their way home. ,,Ancient Guard,,Snow Warning,Ice Spikes
+Cryocone,Ice,Poison,68,70,106,50,96,19,Poison Snail,This is a test description. This will be replaced in the future.,,,Shell Armor,Water Absorb,Poison Touch,Icy Harpoon
+Cryoconda,Ice,Poison,102,106,136,63,122,25,Poison Serpent,This is a test description. This will be replaced in the future.,,,Shell Armor,Water Absorb,Poison Touch,Icy Harpoon
 Elixa,Fairy,Poison,1,1,1,1,1,1,Alchemy,This is a test description. This will be replaced in the future.,,,Wimp Out,,,
 Seraphixir,Fairy,Poison,1,1,1,1,1,1,Great Work,This is a test description. This will be replaced in the future.,,,Wimp Out,,,
 Incense,Poison,Dark,1,1,1,1,1,1,Incense,This is a test description. This will be replaced in the future.,,,Malodorous,,,
@@ -51,6 +51,8 @@ Ceraphinx,Ground,Fairy,1,1,1,1,1,1,Porcelain,This is a test description. This wi
 Ornidrone,Steel,Flying,1,1,1,1,1,1,Drone,This is a test description. This will be replaced in the future.,,,Wimp Out,,,
 Velostrike,Steel,Flying,1,1,1,1,1,1,Drone,This is a test description. This will be replaced in the future.,,,Wimp Out,,,
 Gunraptor,Steel,Flying,1,1,1,1,1,1,Mecha,This is a test description. This will be replaced in the future.,,,Wimp Out,,,
+Glitch1,Normal,,1,1,1,1,1,1,Undefined,This is a test description. This will be replaced in the future.,,,Wimp Out,,,
+Glitch2,Normal,,1,1,1,1,1,1,Undefined,This is a test description. This will be replaced in the future.,,,Wimp Out,,,
 Moosenge,Grass,Rock,1,1,1,1,1,1,Druid,This is a test description. This will be replaced in the future.,,,Wimp Out,,,
 Selky,Water,Ice,101, 65, 85, 103, 138, 68,Sea Lion,This is a test description. This will be replaced in the future.,,,Wimp Out,,,
 Lanturnal,Water,Electric,1,1,1,1,1,1,Luminant,This is a test description. This will be replaced in the future.,,,Wimp Out,,,
@@ -59,10 +61,10 @@ Smeltmor,Fire,Steel,97, 101, 107, 135, 81, 39,Forge,This is a test description. 
 Pyrant,Bug,Fire,83, 135, 76, 60, 76, 130,Foundry,This is a test description. This will be replaced in the future.,,,Wimp Out,,,
 Idagon,Fighting,Psychic,78, 81, 60, 24, 34, 23,Tantrum,This is a test description. This will be replaced in the future.,,,Hustle,,Scrappy,
 Libradon,Fighting,Psychic,93, 80, 67, 99, 79, 32,Balanced,This is a test description. This will be replaced in the future.,,,Neuroforce,,Scrappy,
-Suprion,Fighting,Psychic,93, 80, 67, 99, 79, 32,Superego,This is a test description. This will be replaced in the future.,,,Neuroforce,,Scrappy,Ego Crush
-Larvos,Bug,,35, 54, 73, 61, 47, 30,Sickly,It burrows into the ground and absorbs natural energy from the planet. ,"When it absorbs too much energy, the excess energy will burst through Larvos's body and crystallize. The pokemon is almost always in slight discomfort.",,Parasitoid,,Tinted Lens,
-Syrinsect,Bug,Dragon,55, 110, 48, 85, 47, 105,Injector,This is a test description. This will be replaced in the future.,,,Parasitoid,,Tinted Lens,
-Stratoclysm,Bug,Dragon,74, 137, 68, 107, 68, 146,Cataclysm,This is a test description. This will be replaced in the future.,,,Parasitoid,,Tinted Lens,
+Suprion,Fighting,Psychic,93,80,67,99,79,32,Superego,This is a test description. This will be replaced in the future.,,,Neuroforce,,Scrappy,Ego Crush
+Larvos,Bug,,35,54,73,61,47,30,Sickly,It burrows into the ground and absorbs natural energy from the planet. ,"When it absorbs too much energy, the excess energy will burst through Larvos's body and crystallize. The pokemon is almost always in slight discomfort.",,Parasitoid,,Tinted Lens,
+Syrinsect,Bug,Dragon,55,110,48,85,47,105,Injector,This is a test description. This will be replaced in the future.,,,Parasitoid,,Tinted Lens,
+Stratoclysm,Bug,Dragon,74,137,68,107,68,146,Cataclysm,This is a test description. This will be replaced in the future.,,,Parasitoid,,Tinted Lens,
 Albythos,Dragon,Ground,1,1,1,1,1,1,Terrestrial,This is a test description. This will be replaced in the future.,,,Wimp Out,,,
 Xerasige ,Dragon,Psychic,1,1,1,1,1,1,Astral,This is a test description. This will be replaced in the future.,,,Wimp Out,,,
 Paracabra,Poison,Ghost,1,1,1,1,1,1,Impossible,This is a test description. This will be replaced in the future.,,,Wimp Out,,,
