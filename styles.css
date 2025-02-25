@@ -296,7 +296,7 @@ h2 {
     flex-direction: row;
     margin-left: 0.5rem;
     margin-right: 0.5rem;
-    width: 101rem;
+    width: 97vw;
     justify-content: space-between; /* Adjust spacing between the two elements */
     gap: 1rem; /* Optional: Add space between the items */
     flex-wrap: wrap; /* Ensures elements wrap if the screen is too small */
