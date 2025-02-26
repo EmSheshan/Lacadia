@@ -90,11 +90,15 @@ const moves = {
 
 function getPokemonNumberFromURL () {
   const urlParams = new URLSearchParams (window.location.search);
-  return parseInt (urlParams.get ("pokemonNumber")) || 1; // Default to Pokémon #1 if no number is found
+  return parseInt (urlParams.get ("pokemonNumber")) || -1; // Default to Pokémon #1 if no number is found
 }
 
-function updatePageTitle ( pokemonName, pokemonNumber ) {
-  document.title = `#${ pokemonNumber } ${ pokemonName }` || "Pokémon Card"; // Fallback if name is missing
+function updatePageTitle ( pokemonNumber, pokemonName ) {
+  if (pokemonNumber < 2000) {
+    document.title = `#${ pokemonNumber } ${ pokemonName }` || "Pokémon Card"; // Fallback if name is missing
+  } else {
+    document.title = `Hyper ${ pokemonName }` || "Hyper Pokémon Card"; // Fallback if name is missing
+  }
 }
 
 function displayStatBar ( stat, value, color, BST = false ) {
@@ -115,16 +119,26 @@ function displayStatBar ( stat, value, color, BST = false ) {
     `;
 }
 
-function displaySelectedPokemon ( pokemonData, formIndex = 0 ) {
+function displaySelectedPokemon ( pokemonData, hyperData, formIndex = 0 ) {
   const pokemonNumber = getPokemonNumberFromURL ();
-  const selectedPokemon = pokemonData[pokemonNumber - 1];
+  if (pokemonNumber < 2000) {
+    const selectedPokemon = pokemonData[pokemonNumber - 1];
+    const previousPokemon = pokemonData[pokemonNumber - 2];
+    const nextPokemon = pokemonData[pokemonNumber];
 
 
-  const previousPokemon = pokemonData[pokemonNumber - 2];
-  const nextPokemon = pokemonData[pokemonNumber];
+    // Update navigation links/names
+    document.getElementById ("previousPokemonNumber").innerText = (pokemonNumber - 1).toString ();
+    document.getElementById ("previousPokemonName").innerText = previousPokemon?.name || "";
+    document.getElementById ("nextPokemonNumber").innerText = pokemonNumber + 1;
+    document.getElementById ("nextPokemonName").innerText = nextPokemon?.name || "";
 
-  if ( selectedPokemon ) {
-    updatePageTitle (selectedPokemon.name, pokemonNumber);
+    // Hide or disable navigation buttons
+    document.querySelector (".arrow-left").style.display = previousPokemon ? "block" : "none";
+    document.querySelector (".arrow-right").style.display = nextPokemon ? "block" : "none";
+
+
+    updatePageTitle (pokemonNumber, selectedPokemon.name);
 
     // Retrieve selected form's data
     const forms = selectedPokemon.forms ? selectedPokemon.forms.split ("|") : [];
@@ -144,6 +158,13 @@ function displaySelectedPokemon ( pokemonData, formIndex = 0 ) {
     const ability2 = selectedPokemon.ability2.split ("|")[formIndex] || selectedPokemon.ability2.split ("|")[0];
     const abilityh = selectedPokemon.abilityh.split ("|")[formIndex] || selectedPokemon.abilityh.split ("|")[0];
 
+    // Find matching hyper Pokemon (add this near the beginning of the regular Pokemon section)
+    const cachedHyperData = localStorage.getItem("hyperData");
+    const hyperPokemonData = JSON.parse(cachedHyperData);
+    const hyperPokemon = hyperPokemonData.find(pokemon => pokemon.name === selectedPokemon.name);
+    const hyperPokemonNumber = hyperPokemon ? hyperPokemonData.indexOf(hyperPokemon) + 2001 : null;
+
+
     const sigmove = selectedPokemon.sigmove;
     const sigmovedesc = moves[sigmove] ? `
   ${ moves[sigmove].type ? `<img src="TypeIcons/${ moves[sigmove].type }.png" alt="${ moves[sigmove].type }"style="width: 2rem; height: 2rem;">` : '' }
@@ -155,9 +176,9 @@ function displaySelectedPokemon ( pokemonData, formIndex = 0 ) {
 ` : '';
 
     // Update navigation links/names
-    document.getElementById ("previousPokemonNumber").innerText = (pokemonNumber - 1).toString ();
+    document.getElementById ("previousPokemonNumber").innerText = '#'+(pokemonNumber - 1).toString ();
     document.getElementById ("previousPokemonName").innerText = previousPokemon?.name || "";
-    document.getElementById ("nextPokemonNumber").innerText = pokemonNumber + 1;
+    document.getElementById ("nextPokemonNumber").innerText = '#'+(pokemonNumber + 1).toString();
     document.getElementById ("nextPokemonName").innerText = nextPokemon?.name || "";
 
     // Hide or disable navigation buttons
@@ -237,6 +258,17 @@ function displaySelectedPokemon ( pokemonData, formIndex = 0 ) {
     const formSwitchContainer = document.getElementById ("formSwitchContainer");
     formSwitchContainer.innerHTML = ""; // Clear existing content
 
+    // Add hyper form button if match found
+    if (hyperPokemonNumber) {
+      const hyperFormButton = document.createElement("button");
+      hyperFormButton.innerText = "View\nHyper Form";
+      hyperFormButton.classList.add("form-switch-button", "hyper-form-button");
+      hyperFormButton.onclick = () => {
+        window.location.href = `pokemon_card.html?pokemonNumber=${hyperPokemonNumber}`;
+      };
+      formSwitchContainer.appendChild(hyperFormButton);
+    }
+
     if ( forms.length > 1 ) {
       // Create a button to change the form
       const changeFormButton = document.createElement ("button");
@@ -253,74 +285,291 @@ function displaySelectedPokemon ( pokemonData, formIndex = 0 ) {
       formSwitchContainer.appendChild (changeFormButton);
     }
   } else {
-    console.error ("No Pokémon data found for this number.");
+
+    const selectedPokemon = hyperData[pokemonNumber - 2001];
+    const previousPokemon = hyperData[pokemonNumber - 2002];
+    const nextPokemon = hyperData[pokemonNumber-2000];
+
+    // Update navigation links/names
+    document.getElementById ("previousPokemonNumber").innerText = 'Hyper ';
+    document.getElementById ("previousPokemonName").innerText = previousPokemon?.name || "";
+    document.getElementById ("nextPokemonNumber").innerText = 'Hyper ';
+    document.getElementById ("nextPokemonName").innerText = nextPokemon?.name || "";
+
+    updatePageTitle (pokemonNumber, selectedPokemon.name);
+
+
+    // Hide or disable navigation buttons
+    document.querySelector(".arrow-left").style.display = previousPokemon ? "block" : "none";
+    document.querySelector(".arrow-right").style.display = nextPokemon ? "block" : "none";
+
+
+    // Retrieve selected form's data
+    const forms = selectedPokemon.forms ? selectedPokemon.forms.split ("|") : [];
+    const chosenForm = forms.length > 0 ? forms[formIndex] : ""; // If no forms, `chosenForm` is an empty string
+
+    // Dynamically handle form-specific images and types
+    const type1 = selectedPokemon.type1.split ("|")[formIndex] || selectedPokemon.type1.split ("|")[0];
+    const type2 = selectedPokemon.type2.split ("|")[formIndex] || selectedPokemon.type2.split ("|")[0];
+
+    const regularImage = `Images/Hyper_${ selectedPokemon.name }${ chosenForm ? `_${ chosenForm }` : "" }.png`;
+    const shinyImage = `Images/Hyper_${ selectedPokemon.name }${ chosenForm ? `_${ chosenForm }` : "" }_Shiny.png`;
+    const errorImage = `Images/Missingno.png`;
+    const type1Image = `TypeBars/${ type1 }.png`;
+    const type2Image = type2 && type2.toLowerCase () !== "na" ? `TypeBars/${ type2 }.png` : null;
+
+    const ability1 = selectedPokemon.ability1.split ("|")[formIndex] || selectedPokemon.ability1.split ("|")[0];
+    const ability2 = selectedPokemon.ability2.split ("|")[formIndex] || selectedPokemon.ability2.split ("|")[0];
+    const abilityh = selectedPokemon.abilityh.split ("|")[formIndex] || selectedPokemon.abilityh.split ("|")[0];
+
+    // Find matching regular Pokemon
+    const cachedPokemonData = localStorage.getItem("pokemonData");
+    const regularPokemonData = JSON.parse(cachedPokemonData);
+    const regularPokemon = regularPokemonData.find(pokemon => pokemon.name === selectedPokemon.name);
+    const regularPokemonNumber = regularPokemon ? regularPokemonData.indexOf(regularPokemon) + 1 : null;
+
+
+    const sigmove = selectedPokemon.sigmove;
+    const sigmovedesc = moves[sigmove] ? `
+  ${ moves[sigmove].type ? `<img src="TypeIcons/${ moves[sigmove].type }.png" alt="${ moves[sigmove].type }"style="width: 2rem; height: 2rem;">` : '' }
+  ${ moves[sigmove].category ? `<img src="MoveCategories/${ moves[sigmove].category }.png" alt="${ moves[sigmove].category }"style="width: 2rem; height: 2rem;">` : '' }
+  ${ moves[sigmove].power ? `Power: ${ moves[sigmove].power },` : '' }
+  ${ moves[sigmove].accuracy ? `Accuracy: ${ moves[sigmove].accuracy },` : '' }
+  ${ moves[sigmove].pp ? `${ moves[sigmove].pp } PP<br><br>` : '' }
+  ${ moves[sigmove].description ? `${ moves[sigmove].description }` : '' }
+` : '';
+
+
+
+    // Display the Pokémon card
+    document.getElementById ("pokemonCard").innerHTML = `
+            <div class="title-type-container">
+                 <h2>Hyper ${selectedPokemon.name}${chosenForm ? ` (${chosenForm})` : ""}</h2>
+            
+
+                <span class="type-stack">
+                    <img src="${ type1Image }" alt="${ type1 }" class="type-bar" onerror="this.src='${ errorImage }'">
+                    ${ type2Image ? `<img src="${ type2Image }" alt="${ type2 }" class="type-bar" onerror="this.src='${ errorImage }'">` : "" }
+                </span>
+                
+            </div>
+            <p class="pokemon-title">The ${ selectedPokemon.title } Pokémon </p>
+            <div id="formSwitchContainer" class="form-switch-container"></div>
+
+
+            <div class="pokemon-images-container">
+    <div class="circle-background">
+        <img src="${ regularImage }"
+            alt="${ selectedPokemon.name }"
+            class="pokemon-image-large"
+            onerror="this.src='${ errorImage }'">
+    </div>
+    <div class="circle-background-shiny">
+        <img src="${ shinyImage }"
+            alt="${ selectedPokemon.name } Shiny"
+            class="pokemon-image-shiny"
+            onerror="this.src='${ errorImage }'">
+    </div>
+</div>
+
+
+
+
+            <!--Pokemon description and abilities-->
+            <div class="container">
+                <p class="pokemon-description">${ selectedPokemon.description1 }<br><br>${ selectedPokemon.description2 }</p>
+                ${ ability1 ? `<p class="pokemon-ability">◆ ${ ability1 } ◆<br><span class="ability-description"> ${ abilities[ability1] }</span></p>` : '' }
+                ${ ability2 ? `<p class="pokemon-ability">◆ ${ ability2 } ◆<br><span class="ability-description"> ${ abilities[ability2] }</span></p>` : '' }
+                ${ abilityh ? `<p class="pokemon-ability">◆ ${ abilityh } ◆<br><span class="ability-description"> ${ abilities[abilityh] }</span></p>` : '' }
+            </div>
+            <br>
+            ${ sigmove ? `<p class="pokemon-sigmove">Signature Move: ${ sigmove }<br><span class="pokemon-sigmove-description"> ${ sigmovedesc }</span></p>` : '' }
+        <br>
+                <div class="pokemon-stats">
+                    ${ displayStatBar ("HP", selectedPokemon.hp.split ("|")[formIndex], "#FF5959") }
+                    ${ displayStatBar ("Atk", selectedPokemon.atk.split ("|")[formIndex], "#F5AC78") }
+                    ${ displayStatBar ("Def", selectedPokemon.def.split ("|")[formIndex], "#FAE078") }
+                    ${ displayStatBar ("Sp.Atk", selectedPokemon.spatk.split ("|")[formIndex], "#9DB7F5") }
+                    ${ displayStatBar ("Sp.Def", selectedPokemon.spdef.split ("|")[formIndex], "#A7DB8D") }
+                    ${ displayStatBar ("Speed", selectedPokemon.speed.split ("|")[formIndex], "#FA92B2") }
+                    ${ displayStatBar (
+      "BST",
+      Number (selectedPokemon.hp.split ("|")[formIndex]) +
+      Number (selectedPokemon.atk.split ("|")[formIndex]) +
+      Number (selectedPokemon.def.split ("|")[formIndex]) +
+      Number (selectedPokemon.spatk.split ("|")[formIndex]) +
+      Number (selectedPokemon.spdef.split ("|")[formIndex]) +
+      Number (selectedPokemon.speed.split ("|")[formIndex]),
+      "#CA72F2",
+      true
+    ) }
+                </div>
+`;
+
+    // Display single form change button
+    const formSwitchContainer = document.getElementById ("formSwitchContainer");
+    formSwitchContainer.innerHTML = ""; // Clear existing content
+
+    // Add regular form button if match found
+    if (regularPokemonNumber) {
+      const regularFormButton = document.createElement("button");
+      regularFormButton.innerText = "View\nRegular Form";
+      regularFormButton.classList.add("form-switch-button", "regular-form-button");
+      regularFormButton.onclick = () => {
+        window.location.href = `pokemon_card.html?pokemonNumber=${regularPokemonNumber}`;
+      };
+      formSwitchContainer.appendChild(regularFormButton);
+    }
+
+
+    if ( forms.length > 1 ) {
+      // Create a button to change the form
+      const changeFormButton = document.createElement ("button");
+      changeFormButton.innerText = "Change\nForm";
+      changeFormButton.classList.add ("form-switch-button");
+
+      // Add an event listener to cycle through forms
+      changeFormButton.onclick = () => {
+        const nextFormIndex = (formIndex + 1) % forms.length; // Cycle to the next form
+        displaySelectedPokemon (pokemonData, nextFormIndex); // Update the Pokémon display with the new form
+      };
+
+      // Append the button to the form switch container
+      formSwitchContainer.appendChild (changeFormButton);
+    }
   }
 }
 
-function loadPokemonDataForCardPage () {
-  const cachedData = false // localStorage.getItem("pokemonData"); // Check if data is cached
+function loadPokemonDataForCardPage() {
+  const cachedData = localStorage.getItem("pokemonData");
+  const cachedHyperData = localStorage.getItem("hyperData");
 
-  if ( cachedData ) {
-    const parsedData = JSON.parse (cachedData);
-    displaySelectedPokemon (parsedData);
+  if (cachedData && cachedHyperData) {
+    const pokemonData = JSON.parse(cachedData);
+    const hyperData = JSON.parse(cachedHyperData);
+    displaySelectedPokemon(pokemonData, hyperData);
   } else {
-    Papa.parse ("pokemon_data.csv", {
+    Papa.parse("pokemon_data.csv", {
       download: true,
       header: true,
       skipEmptyLines: true,
-      complete: function ( results ) {
-        if ( results.errors.length > 0 ) {
-          console.error ("Errors during CSV parsing:", results.errors);
+      complete: function(results) {
+        if (results.errors.length > 0) {
+          console.error("Errors during CSV parsing:", results.errors);
         } else {
           const pokemonData = results.data;
-          localStorage.setItem ("pokemonData", JSON.stringify (pokemonData)); // Cache for future use
-          displaySelectedPokemon (pokemonData);
+          localStorage.setItem("pokemonData", JSON.stringify(pokemonData));
+
+          Papa.parse("hyper_pokemon_data.csv", {
+            download: true,
+            header: true,
+            skipEmptyLines: true,
+            complete: function(hyperResults) {
+              if (hyperResults.errors.length > 0) {
+                console.error("Errors during CSV parsing:", hyperResults.errors);
+              } else {
+                const hyperData = hyperResults.data;
+                localStorage.setItem("hyperData", JSON.stringify(hyperData));
+                displaySelectedPokemon(pokemonData, hyperData);
+              }
+            },
+            error: function(error) {
+              console.error("Failed to load the CSV file:", error);
+            }
+          });
         }
       },
-      error: function ( error ) {
-        console.error ("Failed to load the CSV file:", error);
-      },
+      error: function(error) {
+        console.error("Failed to load the CSV file:", error);
+      }
     });
   }
 }
 
 function navigatePokemon ( direction ) {
   const currentNumber = getPokemonNumberFromURL ();
-  const newNumber = direction === "next" ? currentNumber + 1 : currentNumber - 1;
+  if ( currentNumber < 2000 ) {
 
-  const cachedData = localStorage.getItem ("pokemonData"); // Use cached data to find the total count
-  if ( cachedData ) {
-    const pokemonData = JSON.parse (cachedData);
-    const totalLines = pokemonData.length;
 
-    if ( newNumber <= 0 || newNumber > totalLines ) {
-      console.warn ("No Pokémon exists in this direction!");
-      return; // Prevent navigation
+    const newNumber = direction === "next" ? currentNumber + 1 : currentNumber - 1;
+
+    const cachedData = localStorage.getItem ("pokemonData"); // Use cached data to find the total count
+    if ( cachedData ) {
+      const pokemonData = JSON.parse (cachedData);
+      const totalLines = pokemonData.length;
+
+      if ( newNumber <= 0 || newNumber > totalLines ) {
+        console.warn ("No Pokémon exists in this direction!");
+        return; // Prevent navigation
+      }
+
+      // Navigate to the valid Pokémon
+      window.location.href = `pokemon_card.html?pokemonNumber=${ newNumber }`;
+    } else {
+      // Fallback if cache is not available
+      Papa.parse ("pokemon_data.csv", {
+        download: true,
+        header: true,
+        skipEmptyLines: true,
+        complete: function ( results ) {
+          const totalLines = results.data.length;
+
+          if ( newNumber <= 0 || newNumber > totalLines ) {
+            console.warn ("No Pokémon exists in this direction!");
+            return; // Prevent navigation
+          }
+
+          // Navigate to the valid Pokémon
+          window.location.href = `pokemon_card.html?pokemonNumber=${ newNumber }`;
+        },
+        error: function ( error ) {
+          console.error ("Failed to load the CSV file:", error);
+        },
+      });
+    }
+  } else {
+    const newNumber = direction === "next" ? currentNumber + 1 : currentNumber - 1;
+
+
+
+    const cachedData = localStorage.getItem ("hyperData"); // Use cached data to find the total count
+    if ( cachedData ) {
+      const hyperData = JSON.parse (cachedData);
+      const totalLines = hyperData.length;
+
+      if ( newNumber <= 2000 || newNumber > totalLines+2000 ) {
+        console.warn ("No Pokémon exists in this direction!");
+        return; // Prevent navigation
+      }
+
+      // Navigate to the valid Pokémon
+      window.location.href = `pokemon_card.html?pokemonNumber=${ newNumber }`;
+    } else {
+      // Fallback if cache is not available
+      Papa.parse ("hyper_pokemon_data.csv", {
+        download: true,
+        header: true,
+        skipEmptyLines: true,
+        complete: function ( results ) {
+          const totalLines = results.data.length;
+
+          if ( newNumber <= 2000 || newNumber > totalLines+2000 ) {
+            console.warn ("No Pokémon exists in this direction!");
+            return; // Prevent navigation
+          }
+
+          // Navigate to the valid Pokémon
+          window.location.href = `pokemon_card.html?pokemonNumber=${ newNumber }`;
+        },
+        error: function ( error ) {
+          console.error ("Failed to load the CSV file:", error);
+        },
+      });
     }
 
-    // Navigate to the valid Pokémon
-    window.location.href = `pokemon_card.html?pokemonNumber=${ newNumber }`;
-  } else {
-    // Fallback if cache is not available
-    Papa.parse ("pokemon_data.csv", {
-      download: true,
-      header: true,
-      skipEmptyLines: true,
-      complete: function ( results ) {
-        const totalLines = results.data.length;
 
-        if ( newNumber <= 0 || newNumber > totalLines ) {
-          console.warn ("No Pokémon exists in this direction!");
-          return; // Prevent navigation
-        }
 
-        // Navigate to the valid Pokémon
-        window.location.href = `pokemon_card.html?pokemonNumber=${ newNumber }`;
-      },
-      error: function ( error ) {
-        console.error ("Failed to load the CSV file:", error);
-      },
-    });
+
   }
 }
 
@@ -333,8 +582,6 @@ document.addEventListener('keydown', (event) => {
     navigatePokemon('next');
   }
 });
-
-
 // Define the toggleDarkMode function
 function toggleDarkMode() {
   const body = document.body;
@@ -349,7 +596,6 @@ function toggleDarkMode() {
     localStorage.setItem('darkMode', 'disabled');
   }
 }
-
 // Ensure the function is accessible in the global scope
 window.toggleDarkMode = toggleDarkMode;
 // Function to change the favicon dynamically
@@ -368,7 +614,6 @@ function changeFavicon(src) {
   // Add the new favicon
   document.head.appendChild(link);
 }
-
 // Set initial icon and mode based on the saved state
 document.addEventListener('DOMContentLoaded', () => {
   const button = document.querySelector('.toggle-dark-mode-card');
@@ -381,6 +626,5 @@ document.addEventListener('DOMContentLoaded', () => {
     changeFavicon("data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌱</text></svg>");
   }
 });
-
 // Load Pokémon data for the card page
 loadPokemonDataForCardPage ();

@@ -6,6 +6,7 @@ function loadPokemonData() {
     const parsedData = JSON.parse(cachedData);
     console.log("Loaded Pokémon data from cache.");
     displayPokemon(parsedData);
+    displayHypers(parsedData);
   } else {
     // If no cached data, fetch the CSV file and parse it
     console.log("No cache found. Loading data from CSV...");
@@ -22,6 +23,27 @@ function loadPokemonData() {
           localStorage.setItem("pokemonData", JSON.stringify(pokemonData));
           console.log("Cached Pokémon data.");
           displayPokemon(pokemonData);
+
+        }
+      },
+      error: function (error) {
+        console.error("Failed to load the CSV file:", error);
+      }
+    });
+    Papa.parse("hyper_pokemon_data.csv", {
+      download: true,
+      header: true,
+      skipEmptyLines: true,
+      complete: function (results) {
+        if (results.errors.length > 0) {
+          console.error("Errors during CSV parsing:", results.errors);
+        } else {
+          const hyperData = results.data;
+          // Cache the parsed data in localStorage
+          localStorage.setItem("hyperData", JSON.stringify(hyperData));
+          console.log("Cached hyper data.");
+          displayHypers(hyperData);
+
         }
       },
       error: function (error) {
@@ -84,6 +106,62 @@ function displayPokemon(pokemonList) {
     `;
 
     pokedex.appendChild(pokemonCard);
+  });
+}
+
+function displayHypers(hyperList) {
+  const hyperDex = document.getElementById("hypers");
+  hyperDex.HTML = ""; // Clear existing content
+
+  hyperList.forEach((pokemon, index) => {
+
+    let regularImage = `Images/Hyper_${pokemon.name}.png`;
+    let shinyImage = `Images/Hyper_${pokemon.name}_Shiny.png`;
+    const errorImage = `Images/Missingno.png`;
+    let type1Image = `TypeIcons/${pokemon.type1}.png`;
+    let type2Image = pokemon.type2 && pokemon.type2.toLowerCase() !== "na" ? `TypeIcons/${pokemon.type2}.png` : null;
+
+
+    if (pokemon.forms) {
+      const baseForm = pokemon.forms.split("|")[0];
+      const type1 = pokemon.type1.split("|")[0]
+      const type2 = pokemon.type2.split("|")[0]
+
+      regularImage = `Images/Hyper_${pokemon.name}_${baseForm}.png`;
+      shinyImage = `Images/Hyper_${pokemon.name}_${baseForm}_Shiny.png`;
+      type1Image = `TypeIcons/${type1}.png`;
+      type2Image = type2 && type2.toLowerCase() !== "na" ? `TypeIcons/${type2}.png` : null;
+
+    }
+
+
+    // Create the Pokémon card
+    const pokemonCard = document.createElement("div");
+    pokemonCard.classList.add("pokemon");
+
+    pokemonCard.style.animationDelay = `${0.1 * (index + 1)}s`; // Add delay to create staggered animation
+
+    // Redirect to card page with pokemonNumber parameter on click
+    pokemonCard.addEventListener("click", () => {
+      window.location.href = `pokemon_card.html?pokemonNumber=${index+2001}`;
+    });
+    // TODO: update this to link correctly to regular dex
+
+    pokemonCard.innerHTML = `
+      <img src="${regularImage}" 
+           alt="${pokemon.name}" 
+           class="pokemon-image"
+           onmouseover="this.src='${shinyImage}'"
+           onmouseout="this.src='${regularImage}'"
+           onerror="this.src='${errorImage}'">
+      <div class="name">${pokemon.name}</div>
+      <div class="types">
+        <img src="${type1Image}" alt="${pokemon.type1}" class="type-image" onerror="this.src='${errorImage}'"> 
+        ${type2Image ? `<img src="${type2Image}" alt="${pokemon.type2}" class="type-image" onerror="this.src='${errorImage}'">` : ''}
+      </div>
+    `;
+
+    hyperDex.appendChild(pokemonCard);
   });
 }
 
