@@ -278,7 +278,7 @@ function displaySelectedPokemon ( pokemonData, hyperData, formIndex = 0 ) {
       // Add an event listener to cycle through forms
       changeFormButton.onclick = () => {
         const nextFormIndex = (formIndex + 1) % forms.length; // Cycle to the next form
-        displaySelectedPokemon (pokemonData, nextFormIndex); // Update the Pokémon display with the new form
+        displaySelectedPokemon (pokemonData, hyperData, nextFormIndex); // Update the Pokémon display with the new form
       };
 
       // Append the button to the form switch container
