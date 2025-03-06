@@ -266,7 +266,7 @@ export const abilities = {
     "Pastel Veil": "Protects the Pokémon and its ally Pokémon from being poisoned.",
     "Perish Body": "When hit by a move that makes direct contact, the Pokémon and the attacker will faint after three turns unless they switch out of battle.",
     "Power Spot": "Just being next to the Pokémon powers up moves.",
-    "Propeller Tail": "Ignes the effects of opposing Pokémon's Abilities and moves that draw in moves.",
+    "Propeller Tail": "Ignores the effects of opposing Pokémon's Abilities and moves that draw in moves.",
     "Punk Rock": "Boosts the power of sound-based moves. The Pokémon also takes half the damage from these kinds of moves.",
     "Quick Draw": "Enables the Pokémon to move first occasionally.",
     "Ripen": "Ripens Berries and doubles their effect.",
@@ -331,5 +331,8 @@ export const abilities = {
     "Noble Bearing": "Boosts defense, special defense, and speed when this Pokemon successfully inflicts a status condition.",
     "Caffeine Rush": "When the user's HP drops to 50% or lower, it restores a quarter of its health and maxes its Speed stat.",
     "Ruthless": "This Pokemon's attacks always result in critical hits when the opponent has lowered stats.",
-    "Malodorous": "When this Pokemon is knocked out in battle, the opposing Pokemon has its stats lowered by one stage."
+    "Malodorous": "When this Pokemon is knocked out in battle, the opposing Pokemon has its stats lowered by one stage.",
+    "Schrödinger": "This Pokemon's normal type moves become ghost type, and vice versa.",
+    "Surveillance": "When it enters a battle, the Pokémon can tell the speed stat of the opposing Pokémon.",
+
 };
