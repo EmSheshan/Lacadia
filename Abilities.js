@@ -333,6 +333,6 @@ export const abilities = {
     "Ruthless": "This Pokemon's attacks always result in critical hits when the opponent has lowered stats.",
     "Malodorous": "When this Pokemon is knocked out in battle, the opposing Pokemon has its stats lowered by one stage.",
     "Schrödinger": "This Pokemon's normal type moves become ghost type, and vice versa.",
-    "Surveillance": "When it enters a battle, the Pokémon can tell the speed stat of the opposing Pokémon.",
+    "Surveil": "When it enters a battle, the Pokémon can tell the speed stat of the opposing Pokémon.",
 
 };
