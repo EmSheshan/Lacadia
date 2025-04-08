@@ -343,4 +343,4 @@ export const abilities = {
   "Lucky Star": "This Pokemon's moves have a doubled chance of triggering secondary effects, while the opponent's moves have a half chance of triggering secondary effects on the user.",
   "Aspect Twist": "This Pokemon's Physical moves use its Sp. Atk stat, while Special moves use the Atk stat."
 
-};
+}

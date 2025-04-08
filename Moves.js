@@ -116,7 +116,7 @@ export const moves = {
     accuracy: 90,
     power: 140,
     pp: 5,
-    description: "The user attacks the target by charging into the opponent to cut it with it scales. The user's secondary type determines the type of this move. This also damages the user terribly.",
+    description: "The user attacks the target by charging into the opponent to cut it with its scales. The user's secondary type determines the type of this move. This also damages the user terribly.",
   },
   "Snack Break": {
     type: Type.FAIRY,
