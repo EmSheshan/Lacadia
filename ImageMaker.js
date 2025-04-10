@@ -40,9 +40,9 @@ function strokeRoundRect ( ctx, x, y, width, height, radius ) {
 
 // Register the custom font
 registerFont (path.join (__dirname, 'Graphics', 'revue.ttf'), { family: 'CustomFont' });
-registerFont (path.join (__dirname, 'Graphics', 'Ubuntu-Regular.ttf'), { family: 'FrontPageNeue' });
-registerFont(path.join(__dirname, 'Graphics', 'Ubuntu-Bold.ttf'), { family: 'FrontPageNeue', weight: 'bold' });
-
+registerFont (path.join (__dirname, 'Graphics', 'Ubuntu-Regular.ttf'), { family: 'Ubuntu' });
+registerFont(path.join(__dirname, 'Graphics', 'Ubuntu-Bold.ttf'), { family: 'Ubuntu', weight: 'bold' });
+registerFont(path.join(__dirname, 'Graphics', 'Ubuntu-Italic.ttf'), { family: 'Ubuntu', style: 'italic' });
 
 // Step 1: Read the CSV file
 const pokemonData = [];
@@ -69,6 +69,7 @@ fs.createReadStream ('pokemon_data.csv')
           const formPokemon = {
             ...pokemon,
             name: `${pokemon.name}_${form.trim()}`,
+            title: pokemon.title,
             type1: pokemon.type1.split('|')[index] || pokemon.type1,
             type2: pokemon.type2 ? pokemon.type2.split('|')[index] || pokemon.type2 : undefined,
             hp: pokemon.hp.split('|')[index] || pokemon.hp,
@@ -89,12 +90,12 @@ fs.createReadStream ('pokemon_data.csv')
           };
 
           // Generate the main image and shiny image for each form
-          // generateMainPokemonImage (formPokemon, outputDir); // TODO: uncomment this when new files need to be made
+          generateMainPokemonImage (formPokemon, outputDir)
           generateShinyPokemonImage (formPokemon, outputDir);
         });
       } else {
         // If no forms, just generate the normal and shiny images
-        // generateMainPokemonImage (pokemon, outputDir); // TODO: uncomment this when new files need to be made
+        generateMainPokemonImage (pokemon, outputDir);
         generateShinyPokemonImage (pokemon, outputDir);
       }
     });
@@ -158,6 +159,10 @@ function generateMainPokemonImage ( pokemon, outputDir ) {
       const [baseName, formName] = pokemonName.split ('_');
       pokemonName = `${ baseName } (${ formName })`;
     }
+
+    ctx.font = '35px CustomFont';
+    ctx.fillStyle = '#232323';
+    ctx.fillText (`The ${pokemon.title} Pokémon`, 50, 42);
 
     // Load and add the type icons (top-right corner)
     const type1Path = path.join (__dirname, 'TypeIcons', `${ pokemon.type1 }.png`);
@@ -238,7 +243,7 @@ function renderDescription ( ctx, description1, description2 ) {
   // Set text properties
   let fontSize = 25; // Default font size
   let lineHeight = 30; // Default line height
-  let font = 'FrontPageNeue';
+  let font = 'Ubuntu';
 
   // Check if the text fits within the box and adjust font size
   let maxTextHeight = boxHeight - 2 * padding; // Max available height for text
@@ -296,7 +301,6 @@ function renderAbilities(ctx, abilityList) {
   const boxY = 170; // Starting Y-coordinate for the first box
   const boxWidth = 390; // Width of each box
   const boxHeight = 120; // Height of each box
-  const padding = 10; // Padding inside each box
   const spacing = 30; // Spacing between boxes
 
   // Loop through the abilities and render a box for each
@@ -314,7 +318,7 @@ function renderAbilities(ctx, abilityList) {
 
     // Set text properties for the ability name
     ctx.fillStyle = '#000000'; // Black text
-    ctx.font = 'bold 20px FrontPageNeue'; // Font size and family
+    ctx.font = 'bold 20px Ubuntu'; // Font size and family
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle'; // Align text vertically to the middle
 
@@ -326,8 +330,8 @@ function renderAbilities(ctx, abilityList) {
     // Render the ability description below the name
     const description =`${abilities[ability]}`; // Get the description for the ability
     const descriptionY = textY + 20; // Position below the name
-    ctx.font = '20px FrontPageNeue'; // Font size and family
-    renderTextBlock(ctx, description, boxX - padding+boxWidth/2, descriptionY, boxWidth - 0.5 * padding, 20);
+    ctx.font = '20px Ubuntu'; // Font size and family
+    renderTextBlock(ctx, description, textX-17, descriptionY, boxWidth, 20);
   });
 }
 
@@ -371,7 +375,7 @@ function renderMove(ctx, sigmove) {
   strokeRoundRect(ctx, boxX, boxY, boxWidth, boxHeight, 20);
 
   // Set text properties
-  const font = 'FrontPageNeue';
+  const font = 'Ubuntu';
   let fontSize = 25;
   let lineHeight = 30;
   const titleText = `Signature Move: ${sigmove}`;
@@ -409,14 +413,18 @@ function renderMove(ctx, sigmove) {
 
   let y = boxY + padding;
 
+
+  ctx.font = `bold ${fontSize}px Ubuntu`;
   // Render Title
   renderTextBlock(ctx, fullTitleText, boxX -20 + boxWidth/2, y, boxWidth, lineHeight);
   y += titleLineCount * lineHeight;
 
+  ctx.font = `italic ${fontSize}px Ubuntu`;
   // Render Info
   renderTextBlock(ctx, fullInfoText, boxX -20+ boxWidth/2, y, boxWidth, lineHeight);
   y += infoLineCount * lineHeight;
 
+  ctx.font = `${fontSize}px Ubuntu`;
   // Render Description
   renderTextBlock(ctx, fullDescriptionText, boxX -20+ boxWidth/2, y, boxWidth, lineHeight);
 }
@@ -444,6 +452,8 @@ function renderTextBlock(ctx, text, boxX, boxY, boxWidth, lineHeight) {
     ctx.fillText(line, boxX + 20, y);
   }
 }
+
+
 
 
 
@@ -502,9 +512,27 @@ function generateShinyPokemonImage ( pokemon, outputDir ) {
 
       // Add text to the image after the background is loaded
       ctx.fillStyle = '#000000';
-      ctx.font = '30px FrontPageNeue';
+      ctx.font = '30px Ubuntu';
 
 
+
+
+
+
+// Draw the box background with a light grey outline
+      ctx.fillStyle = '#FFFFFF'; // White background
+      ctx.fillRoundRect(560, 620, 415, 305, 20); // Rounded rectangle with 20px radius
+
+// Draw the light grey outline
+      ctx.strokeStyle = '#D3D3D3'; // Light grey outline
+      ctx.lineWidth = 12; // Outline width
+      strokeRoundRect(ctx, 560, 620, 415, 305, 20); // Rounded rectangle outline with 20px radius
+
+      renderAbilities(ctx,
+        [pokemon.ability1, pokemon.ability2, pokemon.abilityh]
+          .filter(ability => ability && ability !== 'undefined')
+          .map(String)
+      );
 
       // Function to draw stat bars
       function drawStatBar ( label, value, yPosition, maxStat ) {
@@ -525,43 +553,33 @@ function generateShinyPokemonImage ( pokemon, outputDir ) {
 
         // Draw the empty part of the bar
         ctx.fillStyle = '#D3D3D3'; // Light grey color
-        ctx.fillRoundRect (670, yPosition - barHeight, barWidth, barHeight, 10);
+        ctx.fillRoundRect (670, yPosition+12 - barHeight, barWidth, barHeight, 10);
 
         // Draw the filled part of the bar
         ctx.fillStyle = statColors[label]
-        ctx.fillRoundRect (670, yPosition - barHeight, filledWidth, barHeight, 10);
+        ctx.fillRoundRect (670, yPosition+12 - barHeight, filledWidth, barHeight, 10);
 
         // Draw the label and value
         ctx.fillStyle = '#000000'; // Black color
-        ctx.font = '27px FrontPageNeue,';
+        ctx.font = '27px Ubuntu,';
         ctx.textAlign = 'right';
         ctx.fillText (`${ label }`, 660, yPosition);
-        ctx.font = '27px FrontPageNeue,';
+        ctx.font = '27px Ubuntu,';
         ctx.textAlign = 'left';
         ctx.fillText (`${ value }`, 910, yPosition);
       }
 
-      // Draw the box background with a light grey outline
-      ctx.fillStyle = '#FFFFFF'; // White background4
-      ctx.fillRect(570, 450, 395, 480);
-
-      renderAbilities(ctx,
-        [pokemon.ability1, pokemon.ability2, pokemon.abilityh]
-          .filter(ability => ability && ability !== 'undefined')
-          .map(String)
-      );
-
       // Draw stat bars
-      drawStatBar ('HP', pokemon.hp, 660, 255);
-      drawStatBar ('Atk', pokemon.atk, 700, 255);
-      drawStatBar ('Def', pokemon.def, 740, 255);
-      drawStatBar ('Sp.Atk', pokemon.spatk, 780, 255);
-      drawStatBar ('Sp.Def', pokemon.spdef, 820, 255);
-      drawStatBar ('Speed', pokemon.speed, 860, 255);
+      drawStatBar ('HP', pokemon.hp, 652, 255);
+      drawStatBar ('Atk', pokemon.atk, 692, 255);
+      drawStatBar ('Def', pokemon.def, 732, 255);
+      drawStatBar ('Sp.Atk', pokemon.spatk, 772, 255);
+      drawStatBar ('Sp.Def', pokemon.spdef, 812, 255);
+      drawStatBar ('Speed', pokemon.speed, 852, 255);
 
       // Calculate and draw BST bar
       const bst = parseInt (pokemon.hp) + parseInt (pokemon.atk) + parseInt (pokemon.def) + parseInt (pokemon.spatk) + parseInt (pokemon.spdef) + parseInt (pokemon.speed);
-      drawStatBar ('BST', bst, 900, 700);
+      drawStatBar ('BST', bst, 892, 700);
 
       // Add signature move if it exists
       if ( pokemon.sigmove ) {
