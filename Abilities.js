@@ -341,6 +341,10 @@ export const abilities = {
   "Hunter's Instincts": "When this Pokemon or an opposing Pokemon enters the battle, the Pokemon reveals whether the opponent can be knocked out in one hit.",
   "Abrasive": "When it enters battle, this Pokemon deals damage equal to one-eighth of the enemy's max HP.",
   "Lucky Star": "This Pokemon's moves have a doubled chance of triggering secondary effects, while the opponent's moves have a half chance of triggering secondary effects on the user.",
-  "Aspect Twist": "This Pokemon's Physical moves use its Sp. Atk stat, while Special moves use the Atk stat."
+  "Aspect Twist": "This Pokemon's Physical moves use its Sp. Atk stat, while Special moves use the Atk stat.",
+  "Brain Jack": "This Pokemon's Psychic-type moves have a 50% chance of inflicting confusion, infatuation, disable, encore, or torment.",
+  "Flightless": "Powers up Flying-type moves."
+
+
 
 }
