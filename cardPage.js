@@ -292,9 +292,8 @@ function displaySelectedPokemon ( pokemonData, hyperData, formIndex = 0 ) {
             <!--Pokemon description and abilities-->
             <div class="container">
                 <p class="pokemon-description">${ selectedPokemon.description1 }<br><br>${ selectedPokemon.description2 }</p>
-                ${ ability1 ? `<p class="pokemon-ability">◆ ${ ability1 } ◆<br><span class="ability-description"> ${ abilities[ability1] }</span></p>` : '' }
-                ${ ability2 ? `<p class="pokemon-ability">◆ ${ ability2 } ◆<br><span class="ability-description"> ${ abilities[ability2] }</span></p>` : '' }
-                ${ abilityh ? `<p class="pokemon-ability">◆ ${ abilityh } ◆<br><span class="ability-description"> ${ abilities[abilityh] }</span></p>` : '' }
+                ${ ability1 ? `<p class="pokemon-ability-hyper">◆ ${ ability1 } ◆<br><span class="ability-description-hyper"> ${ abilities[ability1] }</span></p>` : '' }
+               
             </div>
             <br>
             ${ sigmove ? `<p class="pokemon-sigmove">Signature Move: ${ sigmove }<br><span class="pokemon-sigmove-description"> ${ sigmovedesc }</span></p>` : '' }

@@ -334,7 +334,7 @@ export const abilities = {
   "Malodorous": "When this Pokemon is knocked out in battle, the opposing Pokemon has its stats lowered by one stage.",
   "Schrödinger": "This Pokemon's normal type moves become ghost type, and vice versa.",
   "Surveil": "When it enters a battle, the Pokémon can tell the speed stat of the opposing Pokémon.",
-  "Backstabber": "This Pokemon's attack moves inflict double damage if used on a target that is switching out of battle.",
+  "Backstabber": "This Pokemon's attack moves will always hit a target first if that target is switching out of battle.",
   "Meltdown": "This Pokemon will use the move Eruption immediately after being hit by a Fire-type move.",
   "Metal Eater": "This Pokemon's moves become 30% more powerful when a Steel-type Pokemon is on the field.",
   "Momentum": "This Pokemon's attack moves become more powerful each time they are used consecutively.",

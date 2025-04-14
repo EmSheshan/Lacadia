@@ -1,7 +1,10 @@
 name,type1,type2,hp,atk,def,spatk,spdef,speed,title,description1,description2,forms,ability1,ability2,abilityh,sigmove
-Faestalk,Grass,Fairy,120,70,80,110,110,40,Beanstalk,This is a test description. This will be replaced in the future.,"The berries that grow in its cotton-like fur are noted for its sweet taste, as well as its healing properties.",,Overgrow,,Dragon's Maw,Bean Barrage
+Faestalk,Grass,Fairy,120,70,80,110,110,40,Beanstalk,This is a test description. This will be replaced in the future.,"The berries that grow in its cotton-like fur are noted for its sweet taste, as well as its healing properties.",,Verdant Hunger,,,Bean Barrage
 Verkillion,Fire,Poison,70,120,65,100,70,110,Craven,This Pokemon's deadly toxins and ruthless personality has led people to believe it can kill with just one glare. ,"Despite it's fearsome reputation, it loves praise from others and will put itself in danger for approval.",,Blaze,,Merciless,Venom Spear
 Enkidros,Water,Ground,80,125,100,55,95,80,Warrior,"Long ago, these Pokemon were considered to be legendary heroes and possibly having divine strength.",Enkidros refuse to participate in any battle they consider to be unfair.,,Torrent,,Stamina,Crushing Cleave
 Espressurge,Grass,Electric,68, 76, 85, 117, 56, 113,Coffee Bean,"Espressurge is constantly buzzing with energy. It zips around at high speed, jolting anything in its way with a burst of static-laced caffeine mist.","Its body crackles with electricity, charged by the natural compounds in its coffee-like seeds. Trainers who drink its brewed essence report feeling invincible for hours.",,Caffeine Rush,,Water Absorb,
 Suprion,Fighting,Psychic,93,80,67,99,79,32,Superego,This is a test description. This will be replaced in the future.,,,Neuroforce,,Scrappy,Ego Crush
 Stratoclysm,Bug,Dragon,74,137,68,107,68,146,Cataclysm,This is a test description. This will be replaced in the future.,,,Parasitoid,,Tinted Lens,
+
+
+
