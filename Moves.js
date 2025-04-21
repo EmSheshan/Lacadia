@@ -1,10 +1,10 @@
-const Category = Object.freeze({
+const Category = Object.freeze ({
   STATUS: "Status",
   PHYSICAL: "Physical",
   SPECIAL: "Special"
 });
 
-const Type = Object.freeze({
+const Type = Object.freeze ({
   NORMAL: "Normal",
   FIRE: "Fire",
   WATER: "Water",
@@ -123,5 +123,11 @@ export const moves = {
     category: Category.STATUS,
     pp: 20,
     description: "The user takes a break from battle to enjoy some berries. This switches out the user and heals the Pokemon that switched in for a quarter of their max HP.",
+  },
+  "Psycho-Fluid Distortion": {
+    type: Type.PSYCHIC,
+    category: Category.STATUS,
+    pp: 5,
+    description: "The user creates a bizarre area in which slower Pokémon get to move first for five turns. This also summons a heavy rain that falls for five turns, powering up Water-type attacks and weakening Fire-type attacks.",
   }
 };

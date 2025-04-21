@@ -148,20 +148,20 @@ function displaySelectedPokemon ( pokemonData, hyperData, formIndex = 0 ) {
                 
                 
                 <div class="pokemon-stats">
-                    ${ displayStatBar ("HP", selectedPokemon.hp.split ("|")[formIndex], "#FF5959") }
-                    ${ displayStatBar ("Atk", selectedPokemon.atk.split ("|")[formIndex], "#F5AC78") }
-                    ${ displayStatBar ("Def", selectedPokemon.def.split ("|")[formIndex], "#FAE078") }
-                    ${ displayStatBar ("Sp.Atk", selectedPokemon.spatk.split ("|")[formIndex], "#9DB7F5") }
-                    ${ displayStatBar ("Sp.Def", selectedPokemon.spdef.split ("|")[formIndex], "#A7DB8D") }
-                    ${ displayStatBar ("Speed", selectedPokemon.speed.split ("|")[formIndex], "#FA92B2") }
+                    ${ displayStatBar ("HP", selectedPokemon.hp.split ("|")[formIndex]|| selectedPokemon.hp.split ("|")[0], "#FF5959") }
+                    ${ displayStatBar ("Atk", selectedPokemon.atk.split ("|")[formIndex]|| selectedPokemon.atk.split ("|")[0], "#F5AC78") }
+                    ${ displayStatBar ("Def", selectedPokemon.def.split ("|")[formIndex]|| selectedPokemon.def.split ("|")[0], "#FAE078") }
+                    ${ displayStatBar ("Sp.Atk", selectedPokemon.spatk.split ("|")[formIndex]|| selectedPokemon.spatk.split ("|")[0], "#9DB7F5") }
+                    ${ displayStatBar ("Sp.Def", selectedPokemon.spdef.split ("|")[formIndex]|| selectedPokemon.spdef.split ("|")[0], "#A7DB8D") }
+                    ${ displayStatBar ("Speed", selectedPokemon.speed.split ("|")[formIndex]|| selectedPokemon.speed.split ("|")[0], "#FA92B2") }
                     ${ displayStatBar (
       "BST",
-      Number (selectedPokemon.hp.split ("|")[formIndex]) +
-      Number (selectedPokemon.atk.split ("|")[formIndex]) +
-      Number (selectedPokemon.def.split ("|")[formIndex]) +
-      Number (selectedPokemon.spatk.split ("|")[formIndex]) +
-      Number (selectedPokemon.spdef.split ("|")[formIndex]) +
-      Number (selectedPokemon.speed.split ("|")[formIndex]),
+      Number (selectedPokemon.hp.split ("|")[formIndex]|| selectedPokemon.hp.split ("|")[0]) +
+      Number (selectedPokemon.atk.split ("|")[formIndex]|| selectedPokemon.atk.split ("|")[0]) +
+      Number (selectedPokemon.def.split ("|")[formIndex]|| selectedPokemon.def.split ("|")[0]) +
+      Number (selectedPokemon.spatk.split ("|")[formIndex]|| selectedPokemon.spatk.split ("|")[0]) +
+      Number (selectedPokemon.spdef.split ("|")[formIndex]|| selectedPokemon.spdef.split ("|")[0]) +
+      Number (selectedPokemon.speed.split ("|")[formIndex]|| selectedPokemon.speed.split ("|")[0]),
       "#CA72F2",
       true
     ) }
@@ -299,20 +299,20 @@ function displaySelectedPokemon ( pokemonData, hyperData, formIndex = 0 ) {
             ${ sigmove ? `<p class="pokemon-sigmove">Signature Move: ${ sigmove }<br><span class="pokemon-sigmove-description"> ${ sigmovedesc }</span></p>` : '' }
         <br>
                 <div class="pokemon-stats">
-                    ${ displayStatBar ("HP", selectedPokemon.hp.split ("|")[formIndex], "#FF5959") }
-                    ${ displayStatBar ("Atk", selectedPokemon.atk.split ("|")[formIndex], "#F5AC78") }
-                    ${ displayStatBar ("Def", selectedPokemon.def.split ("|")[formIndex], "#FAE078") }
-                    ${ displayStatBar ("Sp.Atk", selectedPokemon.spatk.split ("|")[formIndex], "#9DB7F5") }
-                    ${ displayStatBar ("Sp.Def", selectedPokemon.spdef.split ("|")[formIndex], "#A7DB8D") }
-                    ${ displayStatBar ("Speed", selectedPokemon.speed.split ("|")[formIndex], "#FA92B2") }
+                    ${ displayStatBar ("HP", selectedPokemon.hp.split ("|")[formIndex]|| selectedPokemon.hp.split ("|")[0], "#FF5959") }
+                    ${ displayStatBar ("Atk", selectedPokemon.atk.split ("|")[formIndex]|| selectedPokemon.atk.split ("|")[0], "#F5AC78") }
+                    ${ displayStatBar ("Def", selectedPokemon.def.split ("|")[formIndex]|| selectedPokemon.def.split ("|")[0], "#FAE078") }
+                    ${ displayStatBar ("Sp.Atk", selectedPokemon.spatk.split ("|")[formIndex]|| selectedPokemon.spatk.split ("|")[0], "#9DB7F5") }
+                    ${ displayStatBar ("Sp.Def", selectedPokemon.spdef.split ("|")[formIndex]|| selectedPokemon.spdef.split ("|")[0], "#A7DB8D") }
+                    ${ displayStatBar ("Speed", selectedPokemon.speed.split ("|")[formIndex]|| selectedPokemon.speed.split ("|")[0], "#FA92B2") }
                     ${ displayStatBar (
       "BST",
-      Number (selectedPokemon.hp.split ("|")[formIndex]) +
-      Number (selectedPokemon.atk.split ("|")[formIndex]) +
-      Number (selectedPokemon.def.split ("|")[formIndex]) +
-      Number (selectedPokemon.spatk.split ("|")[formIndex]) +
-      Number (selectedPokemon.spdef.split ("|")[formIndex]) +
-      Number (selectedPokemon.speed.split ("|")[formIndex]),
+      Number (selectedPokemon.hp.split ("|")[formIndex]|| selectedPokemon.hp.split ("|")[0]) +
+      Number (selectedPokemon.atk.split ("|")[formIndex]|| selectedPokemon.atk.split ("|")[0]) +
+      Number (selectedPokemon.def.split ("|")[formIndex]|| selectedPokemon.def.split ("|")[0]) +
+      Number (selectedPokemon.spatk.split ("|")[formIndex]|| selectedPokemon.spatk.split ("|")[0]) +
+      Number (selectedPokemon.spdef.split ("|")[formIndex]|| selectedPokemon.spdef.split ("|")[0]) +
+      Number (selectedPokemon.speed.split ("|")[formIndex]|| selectedPokemon.speed.split ("|")[0]),
       "#CA72F2",
       true
     ) }
