@@ -41,8 +41,8 @@ function strokeRoundRect ( ctx, x, y, width, height, radius ) {
 // Register the custom font
 registerFont (path.join (__dirname, 'Graphics', 'revue.ttf'), { family: 'CustomFont' });
 registerFont (path.join (__dirname, 'Graphics', 'Ubuntu-Regular.ttf'), { family: 'Ubuntu' });
-registerFont(path.join(__dirname, 'Graphics', 'Ubuntu-Bold.ttf'), { family: 'Ubuntu', weight: 'bold' });
-registerFont(path.join(__dirname, 'Graphics', 'Ubuntu-Italic.ttf'), { family: 'Ubuntu', style: 'italic' });
+registerFont (path.join (__dirname, 'Graphics', 'Ubuntu-Bold.ttf'), { family: 'Ubuntu', weight: 'bold' });
+registerFont (path.join (__dirname, 'Graphics', 'Ubuntu-Italic.ttf'), { family: 'Ubuntu', style: 'italic' });
 
 // Step 1: Read the CSV file
 const pokemonData = [];
@@ -68,25 +68,24 @@ fs.createReadStream ('pokemon_data.csv')
           // Create a new object for each form, ensuring that data like stats and types are specific to the form
           const formPokemon = {
             ...pokemon,
-            name: `${pokemon.name}_${form.trim()}`,
+            name: `${ pokemon.name }_${ form.trim () }`,
             title: pokemon.title,
-            type1: pokemon.type1.split('|')[index] || pokemon.type1,
-            type2: pokemon.type2 ? pokemon.type2.split('|')[index] || pokemon.type2 : undefined,
-            hp: pokemon.hp.split('|')[index] || pokemon.hp,
-            atk: pokemon.atk.split('|')[index] || pokemon.atk,
-            def: pokemon.def.split('|')[index] || pokemon.def,
-            spatk: pokemon.spatk.split('|')[index] || pokemon.spatk,
-            spdef: pokemon.spdef.split('|')[index] || pokemon.spdef,
-            speed: pokemon.speed.split('|')[index] || pokemon.speed,
+            type1: pokemon.type1.split ('|')[index] || pokemon.type1,
+            type2: pokemon.type2 ? pokemon.type2.split ('|')[index] || pokemon.type2 : undefined,
+            hp: pokemon.hp.split ('|')[index] || pokemon.hp,
+            atk: pokemon.atk.split ('|')[index] || pokemon.atk,
+            def: pokemon.def.split ('|')[index] || pokemon.def,
+            spatk: pokemon.spatk.split ('|')[index] || pokemon.spatk,
+            spdef: pokemon.spdef.split ('|')[index] || pokemon.spdef,
+            speed: pokemon.speed.split ('|')[index] || pokemon.speed,
             sigmove: pokemon.sigmove || undefined,
             description1: pokemon.description1,
             description2: pokemon.description2,
 
 
-
-            ability1: pokemon.ability1.split('|')[index] || pokemon.ability1, // Handle form-specific ability1
-            ability2: pokemon.ability2 ? pokemon.ability2.split('|')[index] || pokemon.ability2 : undefined,
-            abilityh: pokemon.abilityh ? pokemon.abilityh.split('|')[index] || pokemon.abilityh : undefined,
+            ability1: pokemon.ability1.split ('|')[index] || pokemon.ability1, // Handle form-specific ability1
+            ability2: pokemon.ability2 ? pokemon.ability2.split ('|')[index] || pokemon.ability2 : undefined,
+            abilityh: pokemon.abilityh ? pokemon.abilityh.split ('|')[index] || pokemon.abilityh : undefined,
           };
 
           // Generate the main image and shiny image for each form
@@ -162,7 +161,7 @@ function generateMainPokemonImage ( pokemon, outputDir ) {
 
     ctx.font = '35px CustomFont';
     ctx.fillStyle = '#232323';
-    ctx.fillText (`The ${pokemon.title} Pokémon`, 50, 42);
+    ctx.fillText (`The ${ pokemon.title } Pokémon`, 50, 42);
 
     // Load and add the type icons (top-right corner)
     const type1Path = path.join (__dirname, 'TypeIcons', `${ pokemon.type1 }.png`);
@@ -292,10 +291,9 @@ function renderDescription ( ctx, description1, description2 ) {
 }
 
 
-
-function renderAbilities(ctx, abilityList) {
+function renderAbilities ( ctx, abilityList ) {
   // Filter out empty strings from the abilities list
-  const filteredAbilities = abilityList.filter(ability => ability.trim() !== '');
+  const filteredAbilities = abilityList.filter (ability => ability.trim () !== '');
 
   const boxX = 574; // X-coordinate of the first box
   const boxY = 170; // Starting Y-coordinate for the first box
@@ -304,17 +302,17 @@ function renderAbilities(ctx, abilityList) {
   const spacing = 30; // Spacing between boxes
 
   // Loop through the abilities and render a box for each
-  filteredAbilities.forEach((ability, index) => {
+  filteredAbilities.forEach (( ability, index ) => {
     const currentBoxY = boxY + index * (boxHeight + spacing); // Calculate Y-coordinate for the current box
 
     // Draw the box background
     ctx.fillStyle = '#FFFFFF'; // White background
-    ctx.fillRoundRect(boxX, currentBoxY, boxWidth, boxHeight, 20);
+    ctx.fillRoundRect (boxX, currentBoxY, boxWidth, boxHeight, 20);
 
     // Draw the light grey outline
     ctx.strokeStyle = '#D3D3D3'; // Light grey outline
     ctx.lineWidth = 12; // Outline width
-    strokeRoundRect(ctx, boxX, currentBoxY, boxWidth, boxHeight, 20);
+    strokeRoundRect (ctx, boxX, currentBoxY, boxWidth, boxHeight, 20);
 
     // Set text properties for the ability name
     ctx.fillStyle = '#000000'; // Black text
@@ -325,13 +323,13 @@ function renderAbilities(ctx, abilityList) {
     // Render the ability name at the center of the box
     const textX = boxX + boxWidth / 2; // Center X-coordinate
     const textY = currentBoxY + boxHeight / 2 - 30; // Center Y-coordinate, adjusted for padding
-    ctx.fillText(`- ${ability} -`, textX, textY);
+    ctx.fillText (`- ${ ability } -`, textX, textY);
 
     // Render the ability description below the name
-    const description =`${abilities[ability]}`; // Get the description for the ability
+    const description = `${ abilities[ability] }`; // Get the description for the ability
     const descriptionY = textY + 20; // Position below the name
     ctx.font = '20px Ubuntu'; // Font size and family
-    renderTextBlock(ctx, description, textX-17, descriptionY, boxWidth, 20);
+    renderTextBlock (ctx, description, textX - 17, descriptionY, boxWidth, 20);
   });
 }
 
@@ -358,7 +356,7 @@ function getLineCount ( ctx, text, font, fontSize, maxWidth, lineHeight ) {
 }
 
 
-function renderMove(ctx, sigmove) {
+function renderMove ( ctx, sigmove ) {
   const boxX = 45; // X-coordinate of the box
   const boxY = 780; // Y-coordinate of the box
   const boxWidth = 450; // Width of the box
@@ -367,19 +365,19 @@ function renderMove(ctx, sigmove) {
 
   // Draw the box background
   ctx.fillStyle = '#FFFFFF'; // White background
-  ctx.fillRoundRect(boxX, boxY, boxWidth, boxHeight, 20);
+  ctx.fillRoundRect (boxX, boxY, boxWidth, boxHeight, 20);
 
   // Draw the outline
   ctx.strokeStyle = '#D3D3D3'; // Light grey outline
   ctx.lineWidth = 12; // Outline width
-  strokeRoundRect(ctx, boxX, boxY, boxWidth, boxHeight, 20);
+  strokeRoundRect (ctx, boxX, boxY, boxWidth, boxHeight, 20);
 
   // Set text properties
   const font = 'Ubuntu';
   let fontSize = 25;
   let lineHeight = 30;
-  const titleText = `Signature Move: ${sigmove}`;
-  const infoText = `${moves[sigmove].type} Type, ${moves[sigmove].category}, PP: ${moves[sigmove].pp}${moves[sigmove].power ? `, BP: ${moves[sigmove].power}` : ''}`;
+  const titleText = `Signature Move: ${ sigmove }`;
+  const infoText = `${ moves[sigmove].type } Type, ${ moves[sigmove].category }, PP: ${ moves[sigmove].pp }${ moves[sigmove].power ? `, BP: ${ moves[sigmove].power }` : '' }`;
   const descriptionText = moves[sigmove].description;
 
   // Prepare full text for each section
@@ -389,9 +387,9 @@ function renderMove(ctx, sigmove) {
 
   // Calculate the number of lines each section takes
   let maxTextHeight = boxHeight - 2 * padding;
-  let titleLineCount = getLineCount(ctx, fullTitleText, font, fontSize, boxWidth - 2 * padding, lineHeight);
-  let infoLineCount = getLineCount(ctx, fullInfoText, font, fontSize, boxWidth - 2 * padding, lineHeight);
-  let descriptionLineCount = getLineCount(ctx, fullDescriptionText, font, fontSize, boxWidth - 2 * padding, lineHeight);
+  let titleLineCount = getLineCount (ctx, fullTitleText, font, fontSize, boxWidth - 2 * padding, lineHeight);
+  let infoLineCount = getLineCount (ctx, fullInfoText, font, fontSize, boxWidth - 2 * padding, lineHeight);
+  let descriptionLineCount = getLineCount (ctx, fullDescriptionText, font, fontSize, boxWidth - 2 * padding, lineHeight);
 
   // Check if the text fits inside the box
   while (
@@ -400,46 +398,46 @@ function renderMove(ctx, sigmove) {
     ) {
     fontSize -= 1; // Reduce font size if text overflows
     lineHeight = fontSize * 1.2;
-    titleLineCount = getLineCount(ctx, fullTitleText, font, fontSize, boxWidth - 2 * padding, lineHeight);
-    infoLineCount = getLineCount(ctx, fullInfoText, font, fontSize, boxWidth - 2 * padding, lineHeight);
-    descriptionLineCount = getLineCount(ctx, fullDescriptionText, font, fontSize, boxWidth - 2 * padding, lineHeight);
+    titleLineCount = getLineCount (ctx, fullTitleText, font, fontSize, boxWidth - 2 * padding, lineHeight);
+    infoLineCount = getLineCount (ctx, fullInfoText, font, fontSize, boxWidth - 2 * padding, lineHeight);
+    descriptionLineCount = getLineCount (ctx, fullDescriptionText, font, fontSize, boxWidth - 2 * padding, lineHeight);
   }
 
   // Render text
   ctx.fillStyle = '#000000'; // Black text
-  ctx.font = `${fontSize}px ${font}`;
+  ctx.font = `${ fontSize }px ${ font }`;
   ctx.textAlign = 'center';
   ctx.textBaseline = 'top';
 
   let y = boxY + padding;
 
 
-  ctx.font = `bold ${fontSize}px Ubuntu`;
+  ctx.font = `bold ${ fontSize }px Ubuntu`;
   // Render Title
-  renderTextBlock(ctx, fullTitleText, boxX -20 + boxWidth/2, y, boxWidth, lineHeight);
+  renderTextBlock (ctx, fullTitleText, boxX - 20 + boxWidth / 2, y, boxWidth, lineHeight);
   y += titleLineCount * lineHeight;
 
-  ctx.font = `italic ${fontSize}px Ubuntu`;
+  ctx.font = `italic ${ fontSize }px Ubuntu`;
   // Render Info
-  renderTextBlock(ctx, fullInfoText, boxX -20+ boxWidth/2, y, boxWidth, lineHeight);
+  renderTextBlock (ctx, fullInfoText, boxX - 20 + boxWidth / 2, y, boxWidth, lineHeight);
   y += infoLineCount * lineHeight;
 
-  ctx.font = `${fontSize}px Ubuntu`;
+  ctx.font = `${ fontSize }px Ubuntu`;
   // Render Description
-  renderTextBlock(ctx, fullDescriptionText, boxX -20+ boxWidth/2, y, boxWidth, lineHeight);
+  renderTextBlock (ctx, fullDescriptionText, boxX - 20 + boxWidth / 2, y, boxWidth, lineHeight);
 }
 
-function renderTextBlock(ctx, text, boxX, boxY, boxWidth, lineHeight) {
-  const words = text.split(' ');
+function renderTextBlock ( ctx, text, boxX, boxY, boxWidth, lineHeight ) {
+  const words = text.split (' ');
   let line = '';
   let y = boxY;
 
-  for (let i = 0; i < words.length; i++) {
+  for ( let i = 0; i < words.length; i++ ) {
     const testLine = line + words[i] + ' ';
-    const testWidth = ctx.measureText(testLine).width;
+    const testWidth = ctx.measureText (testLine).width;
 
-    if (testWidth > boxWidth - 2 * 20 && line !== '') {
-      ctx.fillText(line, boxX + 20, y);
+    if ( testWidth > boxWidth - 2 * 20 && line !== '' ) {
+      ctx.fillText (line, boxX + 20, y);
       line = words[i] + ' ';
       y += lineHeight;
     } else {
@@ -448,15 +446,10 @@ function renderTextBlock(ctx, text, boxX, boxY, boxWidth, lineHeight) {
   }
 
   // Render the last line
-  if (line !== '') {
-    ctx.fillText(line, boxX + 20, y);
+  if ( line !== '' ) {
+    ctx.fillText (line, boxX + 20, y);
   }
 }
-
-
-
-
-
 
 
 // Function to generate the shiny image
@@ -515,23 +508,19 @@ function generateShinyPokemonImage ( pokemon, outputDir ) {
       ctx.font = '30px Ubuntu';
 
 
-
-
-
-
 // Draw the box background with a light grey outline
       ctx.fillStyle = '#FFFFFF'; // White background
-      ctx.fillRoundRect(560, 620, 415, 305, 20); // Rounded rectangle with 20px radius
+      ctx.fillRoundRect (560, 620, 415, 305, 20); // Rounded rectangle with 20px radius
 
 // Draw the light grey outline
       ctx.strokeStyle = '#D3D3D3'; // Light grey outline
       ctx.lineWidth = 12; // Outline width
-      strokeRoundRect(ctx, 560, 620, 415, 305, 20); // Rounded rectangle outline with 20px radius
+      strokeRoundRect (ctx, 560, 620, 415, 305, 20); // Rounded rectangle outline with 20px radius
 
-      renderAbilities(ctx,
+      renderAbilities (ctx,
         [pokemon.ability1, pokemon.ability2, pokemon.abilityh]
-          .filter(ability => ability && ability !== 'undefined')
-          .map(String)
+          .filter (ability => ability && ability !== 'undefined')
+          .map (String)
       );
 
       // Function to draw stat bars
@@ -553,11 +542,11 @@ function generateShinyPokemonImage ( pokemon, outputDir ) {
 
         // Draw the empty part of the bar
         ctx.fillStyle = '#D3D3D3'; // Light grey color
-        ctx.fillRoundRect (670, yPosition+12 - barHeight, barWidth, barHeight, 10);
+        ctx.fillRoundRect (670, yPosition + 12 - barHeight, barWidth, barHeight, 10);
 
         // Draw the filled part of the bar
         ctx.fillStyle = statColors[label]
-        ctx.fillRoundRect (670, yPosition+12 - barHeight, filledWidth, barHeight, 10);
+        ctx.fillRoundRect (670, yPosition + 12 - barHeight, filledWidth, barHeight, 10);
 
         // Draw the label and value
         ctx.fillStyle = '#000000'; // Black color
@@ -614,5 +603,3 @@ function saveImage ( canvas, outputDir, name ) {
   const buffer = canvas.toBuffer ('image/png');
   fs.writeFileSync (path.join (outputDir, `${ name }.png`), buffer);
 }
-
-

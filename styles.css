@@ -147,7 +147,7 @@ h1 {
 
 
 .pokemon-images-container {
-    display:flex;
+    display: flex;
     margin-top: -5rem;
     flex-direction: row;
     flex-wrap: wrap; /* Ensure elements wrap if the screen is too small */
@@ -357,7 +357,7 @@ h2 {
     padding: 0.7rem;
     color: var(--main-text);
     font-weight: bold;
-    font-size: clamp(1.2rem, 1.4vw, 1.3rem);
+    font-size: clamp(1rem, 1.4vw, 1.3rem);
     margin-top: -1rem;
     background-color: var(--bg2);
     border-radius: 2rem; /* Rounded corners */
@@ -367,7 +367,6 @@ h2 {
 }
 
 .ability-description {
-
     justify-content: center;
     font-weight: normal;
     color: var(--second-text);
@@ -390,7 +389,6 @@ h2 {
 }
 
 .ability-description-hyper {
-
     justify-content: center;
     font-weight: normal;
     color: var(--bg);

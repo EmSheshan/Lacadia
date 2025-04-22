@@ -1,4 +1,4 @@
-// cardPage.js
+// CardPage.js
 import { abilities } from './Abilities.js';
 import { moves } from './Moves.js';
 
