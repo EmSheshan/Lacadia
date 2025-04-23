@@ -129,5 +129,21 @@ export const moves = {
     category: Category.STATUS,
     pp: 5,
     description: "The user creates a bizarre area in which slower Pokémon get to move first for five turns. This also summons a heavy rain that falls for five turns, powering up Water-type attacks and weakening Fire-type attacks.",
-  }
+  },
+  "Shuck": {
+    type: Type.BUG,
+    category: Category.PHYSICAL,
+    accuracy: 100,
+    power: 100,
+    pp: 10,
+    description: "The user attacks the target with mold and acid. This lowers the opponent's Defense by one stage and raises the user's Attack by one stage.",
+  },
+  "Ion Storm": {
+    type: Type.ELECTRIC,
+    category: Category.SPECIAL,
+    accuracy: 100,
+    power: 50,
+    pp: 10,
+    description: "The user attacks the target with a surge of electrically charged particles, which changes Normal-type moves to Electric-type moves. This move always goes first.",
+  },
 };
