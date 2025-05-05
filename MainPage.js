@@ -12,6 +12,7 @@ const IMAGE_PATH = "Images/";
 const TYPE_ICON_PATH = "TypeIcons/";
 const ERROR_IMAGE = `${ IMAGE_PATH }Missingno.png`;
 
+//comment
 
 /**
  * Loads Pokémon data from localStorage or fetches it from a CSV file if not cached.
