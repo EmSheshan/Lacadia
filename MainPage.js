@@ -95,10 +95,33 @@ function displayPokemonData ( pokemonList, containerId, isHyper ) {
       type2Image = type2 && type2.toLowerCase () !== "na" ? `${ TYPE_ICON_PATH }${ type2 }.png` : null;
     }
 
-    // Create the Pokémon card
-    const pokemonCard = document.createElement ("div");
-    pokemonCard.classList.add ("pokemon");
-    pokemonCard.style.animationDelay = `${ 0.1 * (index + 1) }s`; // Add delay to create staggered animation
+// Create the Pokémon card
+    const pokemonCard = document.createElement("div");
+    pokemonCard.classList.add("pokemon");
+
+// Add the card to the container first
+    container.appendChild(pokemonCard);
+
+    document.querySelectorAll('.pokemon').forEach((element) => {
+      const randomDelay = (Math.random() * 0.4).toFixed(2); // Random value between 0.1 and 0.5
+      element.style.setProperty('--animation-delay', `${randomDelay}s`);
+    });
+
+// Use IntersectionObserver to trigger animation
+    const observer = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("slide-in"); // Add animation class
+          observer.unobserve(entry.target); // Stop observing after animation
+        }
+      });
+    }, {
+      root: null, // Use the viewport as the root
+      threshold: 0.1 // Trigger when 10% of the card is visible
+    });
+
+// Observe the Pokémon card
+    observer.observe(pokemonCard);
 
     // Redirect to card page with pokemonNumber parameter on click
     pokemonCard.addEventListener ("click", () => {

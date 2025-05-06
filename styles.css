@@ -17,6 +17,8 @@
     --second-text: #507e77;
 
     --shadow: rgba(0, 0, 0, 0.308);
+
+    --animation-delay: 0s;
 }
 
 
@@ -129,8 +131,15 @@ h1 {
     box-shadow: 0 0.5rem 1rem var(--shadow);
     background-color: var(--bg3);
 
-    opacity: 0; /* Start with the card hidden */
-    animation: fadeInSlide 0.5s ease-out forwards; /* Apply animation */
+    opacity: 0;
+    transform: translateY(50px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    transition-delay: var(--animation-delay, 0s); /* Use the custom delay */
+}
+
+.pokemon.slide-in {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 
@@ -246,7 +255,6 @@ h1 {
 }
 
 .bar-container {
-
     width: 10rem;
     height: 1rem;
     background-color: var(--bg3);
@@ -256,7 +264,13 @@ h1 {
 
 .bar-fill {
     height: 100%;
-    transition: width 0.3s ease;
+    width: 0;
+    transition: width 1s ease-in-out;
+}
+
+.stat-value {
+    width: 50px;
+    text-align: right;
 }
 
 h2 {
@@ -300,7 +314,6 @@ h2 {
 
 }
 
-
 .container {
     display: flex;
     flex-direction: row;
@@ -311,7 +324,6 @@ h2 {
     gap: 1rem; /* Optional: Add space between the items */
     flex-wrap: wrap; /* Ensures elements wrap if the screen is too small */
 }
-
 
 .pokemon-description {
 
