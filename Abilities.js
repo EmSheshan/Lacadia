@@ -344,7 +344,8 @@ export const abilities = {
   "Aspect Twist": "This Pokemon's Physical moves use its Sp. Atk stat, while Special moves use the Atk stat.",
   "Brain Jack": "This Pokemon's Psychic-type moves have a 50% chance of inflicting confusion, infatuation, disable, encore, or torment.",
   "Flightless": "Powers up Flying-type moves.",
-  "Life Aurora": "Whenever an opposing Pokemon restores health, this Pokemon restores the same amount of health."
+  "Life Aurora": "Whenever an opposing Pokemon restores health, this Pokemon restores the same amount of health.",
+  "Inrush Current": "If the user's previous move has failed, the power of its next move doubles."
 
 
 
