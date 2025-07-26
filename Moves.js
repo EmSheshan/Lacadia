@@ -146,4 +146,12 @@ export const moves = {
     pp: 10,
     description: "The user attacks the target with a surge of electrically charged particles, which changes Normal-type moves to Electric-type moves. This move always goes first.",
   },
+  "Zombie Process": {
+    type: Type.GHOST,
+    category: Category.PHYSICAL,
+    accuracy: 90,
+    power: 80,
+    pp: 10,
+    description: "The user ensnares and traps the target with ghostly wires that inflict damage for four to five turns.",
+  },
 };
