@@ -154,4 +154,12 @@ export const moves = {
     pp: 10,
     description: "The user ensnares and traps the target with ghostly wires that inflict damage for four to five turns.",
   },
+  "Anathema": {
+    type: Type.FAIRY,
+    category: Category.SPECIAL,
+    accuracy: 100,
+    power: 50,
+    pp: 10,
+    description: "The user attacks by reciting a divine curse. Any Pokémon that hears this chant faints in three turns, unless it switches out of battle.",
+  },
 };
