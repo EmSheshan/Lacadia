@@ -345,7 +345,9 @@ export const abilities = {
   "Brain Jack": "This Pokemon's Psychic-type moves have a 50% chance of inflicting confusion, infatuation, disable, encore, or torment.",
   "Flightless": "Powers up Flying-type moves.",
   "Life Aurora": "Whenever an opposing Pokemon restores health, this Pokemon restores the same amount of health.",
-  "Inrush Current": "If the user's previous move has failed, the power of its next move doubles."
+  "Inrush Current": "If the user's previous move has failed, the power of its next move doubles.",
+  "Vitrified": "Boosts its and its ally's special defense stat the first time the Pokémon enters a battle.",
+  "Decay": "All non-Ghost and Dark type Pokemon lose 1/16 of their max HP at the end of each turn.",
 
 
 
