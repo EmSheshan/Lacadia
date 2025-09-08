@@ -348,7 +348,7 @@ export const abilities = {
   "Inrush Current": "If the user's previous move has failed, the power of its next move doubles.",
   "Vitrified": "Boosts its and its ally's special defense stat the first time the Pokémon enters a battle.",
   "Decay": "All non-Ghost and Dark type Pokemon lose 1/16 of their max HP at the end of each turn.",
-
+  "Honor-Bound Duel": "Doubles the damage dealt to the target's replacement if the target switches out.",
 
 
 }
