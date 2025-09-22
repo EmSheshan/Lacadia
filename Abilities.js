@@ -349,6 +349,7 @@ export const abilities = {
   "Vitrified": "Boosts its and its ally's special defense stat the first time the Pokémon enters a battle.",
   "Decay": "All non-Ghost and Dark type Pokemon lose 1/16 of their max HP at the end of each turn.",
   "Honor-Bound Duel": "Doubles the damage dealt to the target's replacement if the target switches out.",
+  "Circle of Protection": "The Pokémon is immune to Fighting-type moves and Abilities.",
 
 
 }
