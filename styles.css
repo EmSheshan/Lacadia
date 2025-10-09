@@ -24,7 +24,7 @@
 
 
 body {
-    background-image: url('/Graphics/Bg_Light.svg');
+    background-image: url('Graphics/Bg_Light.svg');
     background-repeat: repeat;
     background-color: var(--bg1);
 
@@ -37,7 +37,7 @@ body {
 }
 
 #card-page {
-    background-image: url('/Graphics/Bg_Light.svg');
+    background-image: url('Graphics/Bg_Light.svg');
     flex-direction: row;
     flex-wrap: wrap; /* Ensures elements wrap if the screen is too small */
     margin-top: 1rem;
@@ -670,9 +670,9 @@ body.dark-mode {
 
     --shadow: rgba(35, 35, 37, 0.75);
 
-    background-image: url('/Graphics/Bg_dark.svg');
+    background-image: url('Graphics/Bg_dark.svg');
 }
 
 #card-page.dark-mode {
-    background-image: url('/Graphics/Bg_dark.svg');
+    background-image: url('Graphics/Bg_dark.svg');
 }
