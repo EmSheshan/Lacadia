@@ -670,9 +670,9 @@ body.dark-mode {
 
     --shadow: rgba(35, 35, 37, 0.75);
 
-    background-image: url('Graphics/Bg_dark.svg');
+    background-image: url('Graphics/Bg_Dark.svg');
 }
 
 #card-page.dark-mode {
-    background-image: url('Graphics/Bg_dark.svg');
+    background-image: url('Graphics/Bg_Dark.svg');
 }
