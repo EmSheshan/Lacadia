@@ -486,8 +486,6 @@ function navigatePokemon ( direction ) {
   }
 }
 
-// test
-
 window.navigatePokemon = navigatePokemon;
 // Add event listener for keydown event
 document.addEventListener('keydown', (event) => {
