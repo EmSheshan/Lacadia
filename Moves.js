@@ -190,7 +190,7 @@ export const moves = {
         type: Type.POISON,
         category: Category.STATUS,
         pp: 5,
-        description: "The user corrupts the surrounding landscape with lays two layers of randomized hazards.",
+        description: "The user makes the surrounding landscape uninhabitable with two layers of randomized hazards.",
     },
     "Crying Edge": {
         type: Type.Fairy,
