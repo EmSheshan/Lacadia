@@ -33,9 +33,8 @@ body {
     align-items: center;
     margin-top: 8rem;
     overflow-x: hidden;
-    background-color: var(--bg1);
     background-image: url('Graphics/Bg_Light.svg');
-    background-repeat: repeat;
+    background-repeat: no-repeat;
 }
 
 h1, h2 {
