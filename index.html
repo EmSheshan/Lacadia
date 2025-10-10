@@ -6,12 +6,14 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Faculty+Glyphic&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+    <script src="papaparse.min.js"></script>
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="assets/all.min.css">
+    <!-- <link rel="stylesheet" href="assets/fontawesome/css/all.min.css"> -->
+
 
     <link id="dynamic-favicon" rel="icon"
-          href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌱</text></svg>">
+          href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌱</text></svg>'">
 
 
     <meta charset="UTF-8">
@@ -21,7 +23,7 @@
 </head>
 <body>
 
-<button class="toggle-dark-mode" onclick="toggleDarkMode()"></button>
+<button class="toggle-dark-mode" onclick="toggleDarkMode('.toggle-dark-mode')"></button>
 
 
 
@@ -43,7 +45,8 @@
     <!-- Hyper Pokémon entries will be dynamically added here -->
 </section>
 
-<script src="MainPage.js"></script>
+<script src="index.js"></script>
+<script src="darkMode.js"></script>
 
 <!-- Footer with legal text -->
 <footer class="footer">
@@ -59,11 +62,11 @@
     body.classList.toggle ('dark-mode');
     if ( body.classList.contains ('dark-mode') ) {
       button.innerHTML = '<i class="fas fa-moon"></i>';
-      changeFavicon ("data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌌</text></svg>");
+      changeFavicon ("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌌</text></svg>");
       localStorage.setItem ('darkMode', 'enabled');
     } else {
       button.innerHTML = '<i class="fas fa-sun"></i>';
-      changeFavicon ("data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌱</text></svg>");
+      changeFavicon ("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌱</text></svg>");
       localStorage.setItem ('darkMode', 'disabled');
     }
   }
@@ -71,15 +74,7 @@
   // Set initial icon and mode based on the saved state
   document.addEventListener ('DOMContentLoaded', () => {
     const button = document.querySelector ('.toggle-dark-mode');
-    if ( localStorage.getItem ('darkMode') === 'enabled' ) {
-        const html = document.documentElement;
-        html.classList.toggle('dark-mode');
-      button.innerHTML = '<i class="fas fa-moon"></i>';
-      changeFavicon ("data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌌</text></svg>");
-    } else {
-      button.innerHTML = '<i class="fas fa-sun"></i>';
-      changeFavicon ("data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌱</text></svg>");
-    }
+    setDarkModeFromStorage('.toggle-dark-mode');
   });
 
   // Function to change the favicon dynamically

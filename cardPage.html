@@ -11,14 +11,15 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Faculty+Glyphic&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="assets/all.min.css">
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> -->
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=1, initial-scale=0.5">
 
 
     <link rel="icon"
-          href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌱</text></svg>">
+          href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌱</text></svg>'">
     <title></title>
 
 
@@ -53,13 +54,20 @@
 
 <button class="exit-button" onclick="window.location.href='index.html'">X</button>
 
-<button class="toggle-dark-mode-card" onclick="toggleDarkMode()"></button>
+<button class="toggle-dark-mode-card" onclick="toggleDarkMode('.toggle-dark-mode-card')"></button>
 
 <div id="formSwitchContainer" class="form-switch-container"></div>
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
-<script type="module" src="CardPage.js"></script>
+<script src="papaparse.min.js"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script> -->
+<script type="module" src="cardPage.js"></script>
+<script src="darkMode.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+      setDarkModeFromStorage('.toggle-dark-mode-card');
+    });
+</script>
 
 
 </body>

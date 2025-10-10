@@ -1,6 +1,6 @@
-// CardPage.js
-import { abilities } from './Abilities.js';
-import { moves } from './Moves.js';
+// cardPage.js
+import { abilities } from './abilities.js';
+import { moves } from './moves.js';
 
 function getPokemonNumberFromURL () {
   const urlParams = new URLSearchParams (window.location.search);
@@ -62,10 +62,10 @@ function displaySelectedPokemon ( pokemonData, hyperData, formIndex = 0 ) {
     const type1 = selectedPokemon.type1.split ("|")[formIndex] || selectedPokemon.type1.split ("|")[0];
     const type2 = selectedPokemon.type2.split ("|")[formIndex] || selectedPokemon.type2.split ("|")[0];
 
-    const regularImage = `Images/${ selectedPokemon.name }${ chosenForm ? `_${ chosenForm }` : "" }.png`;
-    const shinyImage = `Images/${ selectedPokemon.name }${ chosenForm ? `_${ chosenForm }` : "" }_Shiny.png`;
-    const errorImage = `Images/Missingno.png`;
-    const type1Image = `TypeBars/${ type1 }.png`;
+    const regularImage = `pokemonArt/${ selectedPokemon.name }${ chosenForm ? `_${ chosenForm }` : "" }.png`;
+    const shinyImage = `pokemonArt/${ selectedPokemon.name }${ chosenForm ? `_${ chosenForm }` : "" }_Shiny.png`;
+    const errorImage = `pokemonArt/Missingno.png`;
+    const type1Image = `typeBars/${ type1 }.png`;
     const type2Image = type2 && type2.toLowerCase () !== "na" ? `TypeBars/${ type2 }.png` : null;
 
     const ability1 = selectedPokemon.ability1.split ("|")[formIndex] || selectedPokemon.ability1.split ("|")[0];
@@ -81,8 +81,8 @@ function displaySelectedPokemon ( pokemonData, hyperData, formIndex = 0 ) {
 
     const sigmove = selectedPokemon.sigmove;
     const sigmovedesc = moves[sigmove] ? `
-  ${ moves[sigmove].type ? `<img src="TypeIcons/${ moves[sigmove].type }.png" alt="${ moves[sigmove].type }"style="width: 2rem; height: 2rem;">` : '' }
-  ${ moves[sigmove].category ? `<img src="MoveCategories/${ moves[sigmove].category }.png" alt="${ moves[sigmove].category }"style="width: 2rem; height: 2rem;">` : '' }
+  ${ moves[sigmove].type ? `<img src="typeIcons/${ moves[sigmove].type }.png" alt="${ moves[sigmove].type }"style="width: 2rem; height: 2rem;">` : '' }
+  ${ moves[sigmove].category ? `<img src="moveIcons/${ moves[sigmove].category }.png" alt="${ moves[sigmove].category }"style="width: 2rem; height: 2rem;">` : '' }
   ${ moves[sigmove].power ? `Power: ${ moves[sigmove].power },` : '' }
   ${ moves[sigmove].accuracy ? `Accuracy: ${ moves[sigmove].accuracy },` : '' }
   ${ moves[sigmove].pp ? `${ moves[sigmove].pp } PP<br><br>` : '' }
@@ -178,7 +178,7 @@ function displaySelectedPokemon ( pokemonData, hyperData, formIndex = 0 ) {
       hyperFormButton.innerText = "View\nHyper Form";
       hyperFormButton.classList.add("form-switch-button", "hyper-form-button");
       hyperFormButton.onclick = () => {
-        window.location.href = `pokemon_card.html?pokemonNumber=${hyperPokemonNumber}`;
+        window.location.href = `cardPage.html?pokemonNumber=${hyperPokemonNumber}`;
       };
       formSwitchContainer.appendChild(hyperFormButton);
     }
@@ -226,10 +226,10 @@ function displaySelectedPokemon ( pokemonData, hyperData, formIndex = 0 ) {
     const type1 = selectedPokemon.type1.split ("|")[formIndex] || selectedPokemon.type1.split ("|")[0];
     const type2 = selectedPokemon.type2.split ("|")[formIndex] || selectedPokemon.type2.split ("|")[0];
 
-    const regularImage = `Images/Hyper_${ selectedPokemon.name }${ chosenForm ? `_${ chosenForm }` : "" }.png`;
-    const shinyImage = `Images/Hyper_${ selectedPokemon.name }${ chosenForm ? `_${ chosenForm }` : "" }_Shiny.png`;
-    const errorImage = `Images/Missingno.png`;
-    const type1Image = `TypeBars/${ type1 }.png`;
+    const regularImage = `pokemonArt/Hyper_${ selectedPokemon.name }${ chosenForm ? `_${ chosenForm }` : "" }.png`;
+    const shinyImage = `pokemonArt/Hyper_${ selectedPokemon.name }${ chosenForm ? `_${ chosenForm }` : "" }_Shiny.png`;
+    const errorImage = `pokemonArt/Missingno.png`;
+    const type1Image = `typeBars/${ type1 }.png`;
     const type2Image = type2 && type2.toLowerCase () !== "na" ? `TypeBars/${ type2 }.png` : null;
 
     const ability1 = selectedPokemon.ability1.split ("|")[formIndex] || selectedPokemon.ability1.split ("|")[0];
@@ -329,7 +329,7 @@ function displaySelectedPokemon ( pokemonData, hyperData, formIndex = 0 ) {
       regularFormButton.innerText = "View\nRegular Form";
       regularFormButton.classList.add("form-switch-button", "regular-form-button");
       regularFormButton.onclick = () => {
-        window.location.href = `pokemon_card.html?pokemonNumber=${regularPokemonNumber}`;
+        window.location.href = `cardPage.html?pokemonNumber=${regularPokemonNumber}`;
       };
       formSwitchContainer.appendChild(regularFormButton);
     }
@@ -417,7 +417,7 @@ function navigatePokemon ( direction ) {
       }
 
       // Navigate to the valid Pokémon
-      window.location.href = `pokemon_card.html?pokemonNumber=${ newNumber }`;
+      window.location.href = `cardPage.html?pokemonNumber=${ newNumber }`;
     } else {
       // Fallback if cache is not available
       Papa.parse ("pokemon_data.csv", {
@@ -433,7 +433,7 @@ function navigatePokemon ( direction ) {
           }
 
           // Navigate to the valid Pokémon
-          window.location.href = `pokemon_card.html?pokemonNumber=${ newNumber }`;
+          window.location.href = `cardPage.html?pokemonNumber=${ newNumber }`;
         },
         error: function ( error ) {
           console.error ("Failed to load the CSV file:", error);
@@ -456,7 +456,7 @@ function navigatePokemon ( direction ) {
       }
 
       // Navigate to the valid Pokémon
-      window.location.href = `pokemon_card.html?pokemonNumber=${ newNumber }`;
+      window.location.href = `cardPage.html?pokemonNumber=${ newNumber }`;
     } else {
       // Fallback if cache is not available
       Papa.parse ("hyper_pokemon_data.csv", {
@@ -472,7 +472,7 @@ function navigatePokemon ( direction ) {
           }
 
           // Navigate to the valid Pokémon
-          window.location.href = `pokemon_card.html?pokemonNumber=${ newNumber }`;
+          window.location.href = `cardPage.html?pokemonNumber=${ newNumber }`;
         },
         error: function ( error ) {
           console.error ("Failed to load the CSV file:", error);
@@ -495,38 +495,7 @@ document.addEventListener('keydown', (event) => {
     navigatePokemon('next');
   }
 });
-// Define the toggleDarkMode function
-function toggleDarkMode() {
-  const body = document.body;
-  const button = document.querySelector('.toggle-dark-mode-card');
-  body.classList.toggle('dark-mode');
-  if (body.classList.contains('dark-mode')) {
-    button.innerHTML = '<i class="fas fa-moon"></i>';
-    changeFavicon("data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌌</text></svg>");
-    localStorage.setItem('darkMode', 'enabled');
-  } else {
-    changeFavicon("data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌱</text></svg>");
-    localStorage.setItem('darkMode', 'disabled');
-  }
-}
-// Ensure the function is accessible in the global scope
-window.toggleDarkMode = toggleDarkMode;
-// Function to change the favicon dynamically
-function changeFavicon(src) {
-  const link = document.createElement('link');
-  const oldLink = document.getElementById('dynamic-favicon'); // Define oldLink
-  link.id = 'dynamic-favicon';
-  link.rel = 'icon';
-  link.href = src;
-
-  // Remove the old favicon if it exists
-  if (oldLink) {
-    document.head.removeChild(oldLink);
-  }
-
-  // Add the new favicon
-  document.head.appendChild(link);
-}
+// Remove local dark mode logic, rely on darkMode.js for all dark mode handling
 // Set initial icon and mode based on the saved state
 document.addEventListener('DOMContentLoaded', () => {
   const button = document.querySelector('.toggle-dark-mode-card');
@@ -539,5 +508,13 @@ document.addEventListener('DOMContentLoaded', () => {
     changeFavicon("data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌱</text></svg>");
   }
 });
+// Register service worker for image caching
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/service-worker.js')
+      .then(reg => console.log('Service Worker registered:', reg.scope))
+      .catch(err => console.warn('Service Worker registration failed:', err));
+  });
+}
 // Load Pokémon data for the card page
 loadPokemonDataForCardPage ();

@@ -2,8 +2,8 @@ import fs from 'fs';
 import path from 'path';
 import csv from 'csv-parser';
 import { CanvasRenderingContext2D, createCanvas, loadImage, registerFont } from 'canvas';
-import { abilities } from './Abilities.js'
-import { moves } from './Moves.js';
+import { abilities } from './abilities.js'
+import { moves } from './moves.js';
 import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath (import.meta.url);
@@ -39,10 +39,10 @@ function strokeRoundRect ( ctx, x, y, width, height, radius ) {
 }
 
 // Register the custom font
-registerFont (path.join (__dirname, 'Graphics', 'revue.ttf'), { family: 'CustomFont' });
-registerFont (path.join (__dirname, 'Graphics', 'Ubuntu-Regular.ttf'), { family: 'Ubuntu' });
-registerFont (path.join (__dirname, 'Graphics', 'Ubuntu-Bold.ttf'), { family: 'Ubuntu', weight: 'bold' });
-registerFont (path.join (__dirname, 'Graphics', 'Ubuntu-Italic.ttf'), { family: 'Ubuntu', style: 'italic' });
+registerFont (path.join (__dirname, 'assets', 'revue.ttf'), { family: 'CustomFont' });
+registerFont (path.join (__dirname, 'assets', 'Ubuntu-Regular.ttf'), { family: 'Ubuntu' });
+registerFont (path.join (__dirname, 'assets', 'Ubuntu-Bold.ttf'), { family: 'Ubuntu', weight: 'bold' });
+registerFont (path.join (__dirname, 'assets', 'Ubuntu-Italic.ttf'), { family: 'Ubuntu', style: 'italic' });
 
 // Step 1: Read the CSV file
 const pokemonData = [];
@@ -144,13 +144,13 @@ function generateMainPokemonImage ( pokemon, outputDir ) {
   generateBackground (ctx, pokemon.type1, pokemon.type2);
 
   // Load and add the background image
-  const bgPath = path.join (__dirname, 'Graphics', 'Main_Bg.png');
+  const bgPath = path.join (__dirname, 'assets', 'Main_Bg.png');
   loadImage (bgPath).then (( bgImage ) => {
     ctx.drawImage (bgImage, 0, 0, 1000, 1000); // Draw the background image to cover the entire canvas
   });
 
   // Load and add the Pokémon image
-  const imagePath = path.join (__dirname, 'Images', `${ pokemon.name }.png`);
+  const imagePath = path.join (__dirname, 'pokemonArt', `${ pokemon.name }.png`);
   loadImage (imagePath).then (( image ) => {
 
     let pokemonName = pokemon.name;
@@ -462,7 +462,7 @@ function generateShinyPokemonImage ( pokemon, outputDir ) {
 
 
   // Load and add the background image
-  const bgPath = path.join (__dirname, 'Graphics', 'Second_Bg.png');
+  const bgPath = path.join (__dirname, 'assets', 'Second_Bg.png');
   loadImage (bgPath).then (( bgImage ) => {
     ctx.drawImage (bgImage, 0, 0, 1000, 1000); // Draw the background image to cover the entire canvas
 
@@ -580,7 +580,7 @@ function generateShinyPokemonImage ( pokemon, outputDir ) {
       renderDescription (ctx, pokemon.description1, pokemon.description2);
 
       // Load and add the shiny Pokémon image
-      const shinyImagePath = path.join (__dirname, 'Images', `${ pokemon.name }_shiny.png`);
+      const shinyImagePath = path.join (__dirname, 'pokemonArt', `${ pokemon.name }_shiny.png`);
       loadImage (shinyImagePath).then (( image ) => {
         ctx.drawImage (image, 50, 160, 400, 400); // Adjust the position and size as needed
 

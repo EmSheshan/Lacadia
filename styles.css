@@ -33,7 +33,7 @@ body {
     align-items: center;
     margin-top: 8rem;
     overflow-x: hidden;
-    background-image: url('Graphics/Bg_Light.svg');
+    background-image: url('assets/Bg_Light.svg');
     background-repeat: no-repeat;
 }
 
@@ -68,7 +68,7 @@ h2 {
     overflow-y: auto;
     box-sizing: border-box;
     background-color: var(--bg1);
-    background-image: url('Graphics/Bg_Light.svg');
+    background-image: url('assets/Bg_Light.svg');
 }
 
 .container {
@@ -718,9 +718,9 @@ body.dark-mode {
     --second-text: #ded7fc;
     --shadow: rgba(35, 35, 37, 0.75);
 
-    background-image: url('Graphics/Bg_Dark.svg');
+    background-image: url('assets/Bg_Dark.svg');
 }
 
 #card-page.dark-mode {
-    background-image: url('Graphics/Bg_Dark.svg');
+    background-image: url('assets/Bg_Dark.svg');
 }

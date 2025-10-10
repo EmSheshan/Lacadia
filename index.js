@@ -1,5 +1,5 @@
 /**
- * @file MainPage.js
+ * @file index.js
  * @description This file handles the loading and displaying of Pokémon data on the main page.
  * It fetches data from a CSV file, caches it in localStorage, and displays the Pokémon cards with images and types.
  *
@@ -8,7 +8,7 @@
  * @author Emily Sheahan
  */
 
-const IMAGE_PATH = "Images/";
+const IMAGE_PATH = "pokemonArt/";
 const TYPE_ICON_PATH = "TypeIcons/";
 const ERROR_IMAGE = `${ IMAGE_PATH }Missingno.png`;
 
@@ -22,11 +22,12 @@ function loadPokemonData () {
   const cachedHyperData = localStorage.getItem ("hyperData");
 
   //if (cachedData && cachedHyperData) {
-  if ( false ) {
+  if (cachedData && cachedHyperData) {
     // If cached data is found, parse it and display Pokémon
     console.log ("Loaded Pokémon data from cache.");
     displayPokemonData (JSON.parse (cachedData), "pokedex", false)
     displayPokemonData (JSON.parse (cachedHyperData), "hypers", true)
+    return;
   } else {
     // If no cached data, fetch the CSV files and parse them
     console.log ("No cache found. Loading data from CSV...");
@@ -125,7 +126,7 @@ function displayPokemonData ( pokemonList, containerId, isHyper ) {
 
     // Redirect to card page with pokemonNumber parameter on click
     pokemonCard.addEventListener ("click", () => {
-      window.location.href = `pokemon_card.html?pokemonNumber=${ pokemonNumber }`;
+      window.location.href = `cardPage.html?pokemonNumber=${ pokemonNumber }`;
     });
 
     pokemonCard.innerHTML = `
@@ -133,19 +134,35 @@ function displayPokemonData ( pokemonList, containerId, isHyper ) {
            alt="${ pokemon.name }" 
            class="pokemon-image"
            onmouseover="this.src='${ shinyImage }'"
-           onmouseout="this.src='${ regularImage }'"
-           onerror="this.src='${ ERROR_IMAGE }'">
+           onmouseout="this.src='${ regularImage }'">
       <div class="name">${ isHyper ? "" : `#${ pokemonNumber } ` }${ pokemon.name }</div>
       <div class="types">
-        <img src="${ type1Image }" alt="${ pokemon.type1 }" class="type-image" onerror="this.src='${ ERROR_IMAGE }'"> 
-        ${ type2Image ? `<img src="${ type2Image }" alt="${ pokemon.type2 }" class="type-image" onerror="this.src='${ ERROR_IMAGE }'">` : "" }
+        <img src="${ type1Image }" alt="${ pokemon.type1 }" class="type-image">
+        ${ type2Image ? `<img src="${ type2Image }" alt="${ pokemon.type2 }" class="type-image">` : "" }
       </div>
     `;
+
+    // Add error handling for images using JavaScript instead of onerror attribute
+    const images = pokemonCard.querySelectorAll('img');
+    images.forEach(img => {
+      img.addEventListener('error', function() {
+        this.src = ERROR_IMAGE;
+      });
+    });
 
     container.appendChild (pokemonCard);
   });
 }
 
+
+// Register service worker for image caching
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/service-worker.js')
+      .then(reg => console.log('Service Worker registered:', reg.scope))
+      .catch(err => console.warn('Service Worker registration failed:', err));
+  });
+}
 
 // Load Pokémon data on page load
 loadPokemonData ();
