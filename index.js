@@ -3,13 +3,11 @@
  * @description This file handles the loading and displaying of Pokémon data on the main page.
  * It fetches data from a CSV file, caches it in localStorage, and displays the Pokémon cards with images and types.
  *
- * @requires PapaParse
- *
  * @author Emily Sheahan
  */
 
 const IMAGE_PATH = "pokemonArt/";
-const TYPE_ICON_PATH = "TypeIcons/";
+const TYPE_ICON_PATH = "typeIcons/";
 const ERROR_IMAGE = `${ IMAGE_PATH }Missingno.png`;
 
 //comment
@@ -27,7 +25,6 @@ function loadPokemonData () {
     console.log ("Loaded Pokémon data from cache.");
     displayPokemonData (JSON.parse (cachedData), "pokedex", false)
     displayPokemonData (JSON.parse (cachedHyperData), "hypers", true)
-    return;
   } else {
     // If no cached data, fetch the CSV files and parse them
     console.log ("No cache found. Loading data from CSV...");

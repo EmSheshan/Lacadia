@@ -66,7 +66,7 @@ function displaySelectedPokemon ( pokemonData, hyperData, formIndex = 0 ) {
     const shinyImage = `pokemonArt/${ selectedPokemon.name }${ chosenForm ? `_${ chosenForm }` : "" }_Shiny.png`;
     const errorImage = `pokemonArt/Missingno.png`;
     const type1Image = `typeBars/${ type1 }.png`;
-    const type2Image = type2 && type2.toLowerCase () !== "na" ? `TypeBars/${ type2 }.png` : null;
+    const type2Image = type2 && type2.toLowerCase () !== "na" ? `typeBars/${ type2 }.png` : null;
 
     const ability1 = selectedPokemon.ability1.split ("|")[formIndex] || selectedPokemon.ability1.split ("|")[0];
     const ability2 = selectedPokemon.ability2.split ("|")[formIndex] || selectedPokemon.ability2.split ("|")[0];
@@ -230,7 +230,7 @@ function displaySelectedPokemon ( pokemonData, hyperData, formIndex = 0 ) {
     const shinyImage = `pokemonArt/Hyper_${ selectedPokemon.name }${ chosenForm ? `_${ chosenForm }` : "" }_Shiny.png`;
     const errorImage = `pokemonArt/Missingno.png`;
     const type1Image = `typeBars/${ type1 }.png`;
-    const type2Image = type2 && type2.toLowerCase () !== "na" ? `TypeBars/${ type2 }.png` : null;
+    const type2Image = type2 && type2.toLowerCase () !== "na" ? `typeBars/${ type2 }.png` : null;
 
     const ability1 = selectedPokemon.ability1.split ("|")[formIndex] || selectedPokemon.ability1.split ("|")[0];
     const ability2 = selectedPokemon.ability2.split ("|")[formIndex] || selectedPokemon.ability2.split ("|")[0];
@@ -245,8 +245,8 @@ function displaySelectedPokemon ( pokemonData, hyperData, formIndex = 0 ) {
 
     const sigmove = selectedPokemon.sigmove;
     const sigmovedesc = moves[sigmove] ? `
-  ${ moves[sigmove].type ? `<img src="TypeIcons/${ moves[sigmove].type }.png" alt="${ moves[sigmove].type }"style="width: 2rem; height: 2rem;">` : '' }
-  ${ moves[sigmove].category ? `<img src="MoveCategories/${ moves[sigmove].category }.png" alt="${ moves[sigmove].category }"style="width: 2rem; height: 2rem;">` : '' }
+  ${ moves[sigmove].type ? `<img src="typeIcons/${ moves[sigmove].type }.png" alt="${ moves[sigmove].type }"style="width: 2rem; height: 2rem;">` : '' }
+  ${ moves[sigmove].category ? `<img src="moveIcons/${ moves[sigmove].category }.png" alt="${ moves[sigmove].category }"style="width: 2rem; height: 2rem;">` : '' }
   ${ moves[sigmove].power ? `Power: ${ moves[sigmove].power },` : '' }
   ${ moves[sigmove].accuracy ? `Accuracy: ${ moves[sigmove].accuracy },` : '' }
   ${ moves[sigmove].pp ? `${ moves[sigmove].pp } PP<br><br>` : '' }

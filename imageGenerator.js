@@ -164,8 +164,8 @@ function generateMainPokemonImage ( pokemon, outputDir ) {
     ctx.fillText (`The ${ pokemon.title } Pokémon`, 50, 42);
 
     // Load and add the type icons (top-right corner)
-    const type1Path = path.join (__dirname, 'TypeIcons', `${ pokemon.type1 }.png`);
-    const type2Path = pokemon.type2 ? path.join (__dirname, 'TypeIcons', `${ pokemon.type2 }.png`) : null;
+    const type1Path = path.join (__dirname, 'typeIcons', `${ pokemon.type1 }.png`);
+    const type2Path = pokemon.type2 ? path.join (__dirname, 'typeIcons', `${ pokemon.type2 }.png`) : null;
 
     const typeIconPromises = [loadImage (type1Path)];
     if ( type2Path ) {
@@ -473,8 +473,8 @@ function generateShinyPokemonImage ( pokemon, outputDir ) {
     }
 
     // Load and add the type icons (top-right corner)
-    const type1Path = path.join (__dirname, 'TypeIcons', `${ pokemon.type1 }.png`);
-    const type2Path = pokemon.type2 ? path.join (__dirname, 'TypeIcons', `${ pokemon.type2 }.png`) : null;
+    const type1Path = path.join (__dirname, 'typeIcons', `${ pokemon.type1 }.png`);
+    const type2Path = pokemon.type2 ? path.join (__dirname, 'typeIcons', `${ pokemon.type2 }.png`) : null;
 
     const typeIconPromises = [loadImage (type1Path)];
     if ( type2Path ) {

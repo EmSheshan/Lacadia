@@ -20,6 +20,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lacadia Pokédex</title>
     <link rel="stylesheet" href="styles.css">
+
+    <link rel="preload" as="image" href="assets/Bg_Light.svg">
+    <link rel="preload" as="image" href="assets/Bg_Dark.svg">
 </head>
 <body>
 
@@ -55,25 +58,9 @@
 </footer>
 
 <script>
-  // Function to toggle dark mode
-  function toggleDarkMode () {
-    const body = document.body;
-    const button = document.querySelector ('.toggle-dark-mode');
-    body.classList.toggle ('dark-mode');
-    if ( body.classList.contains ('dark-mode') ) {
-      button.innerHTML = '<i class="fas fa-moon"></i>';
-      changeFavicon ("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌌</text></svg>");
-      localStorage.setItem ('darkMode', 'enabled');
-    } else {
-      button.innerHTML = '<i class="fas fa-sun"></i>';
-      changeFavicon ("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌱</text></svg>");
-      localStorage.setItem ('darkMode', 'disabled');
-    }
-  }
 
   // Set initial icon and mode based on the saved state
   document.addEventListener ('DOMContentLoaded', () => {
-    const button = document.querySelector ('.toggle-dark-mode');
     setDarkModeFromStorage('.toggle-dark-mode');
   });
 
