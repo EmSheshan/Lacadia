@@ -81,8 +81,7 @@ h2 {
     margin: 0 0.5rem;
 }
 
-#pokedex,
-#hypers {
+#pokedex {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
     gap: 1.5rem;
@@ -109,16 +108,6 @@ h2 {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr)); /* Create responsive tiles */
     width: 80%; /* Adjust container width */
-    max-width: 200rem; /* Limit container size on large screens */
-    margin: 0 auto; /* Center the grid on the page */
-    gap: 1.5rem; /* Increase spacing between tiles */
-    justify-content: center; /* Ensure grid is centered */
-}
-
-#hypers {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr)); /* Create responsive tiles */
-    width: 68%; /* Adjust container width */
     max-width: 200rem; /* Limit container size on large screens */
     margin: 0 auto; /* Center the grid on the page */
     gap: 1.5rem; /* Increase spacing between tiles */
@@ -403,29 +392,6 @@ h2 {
     justify-content: center;
     font-weight: normal;
     color: var(--second-text);
-}
-
-.pokemon-ability-hyper {
-    align-content: center;
-    text-align: center;
-    flex: 1; /* Share the remaining space evenly */
-    padding: 0.7rem;
-    color: var(--accent2);
-    font-weight: bold;
-    font-size: clamp(1.2rem, 1.4vw, 1.3rem);
-    margin-top: -1rem;
-    background-color: var(--accent5);
-    border-radius: 2rem; /* Rounded corners */
-    border: 0.8rem solid var(--accent2); /* Border with color */
-    min-width: 12vw; /* Set a minimum width to prevent smashing */
-    max-width: 100vw;
-    filter: drop-shadow(5px 5px 10px rgba(0, 0, 0, 0.2));
-}
-
-.ability-description-hyper {
-    justify-content: center;
-    font-weight: normal;
-    color: var(--bg1);
 }
 
 .pokemon-details {
