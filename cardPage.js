@@ -91,59 +91,44 @@ function displaySelectedPokemon(pokemonData, formIndex = 0) {
 
     // Display the Pokémon card
     document.getElementById("pokemonCard").innerHTML = `
-            <div class="title-type-container">
-                <h2>#${pokemonNumber} ${selectedPokemon.name}${chosenForm ? ` (${chosenForm})` : ""}</h2>
-                <span class="type-stack">
-                    <img src="${type1Image}" alt="${type1}" class="type-bar" onerror="this.src='${errorImage}'">
-                    ${type2Image ? `<img src="${type2Image}" alt="${type2}" class="type-bar" onerror="this.src='${errorImage}'">` : ""}
-                </span>
-                
+        <div class="title-type-container">
+            <h2>#${pokemonNumber} ${selectedPokemon.name}${chosenForm ? ` (${chosenForm})` : ""}</h2>
+            <span class="type-stack">
+                <img src="${type1Image}" alt="${type1}" class="type-bar" onerror="this.src='${errorImage}'">
+                ${type2Image ? `<img src="${type2Image}" alt="${type2}" class="type-bar" onerror="this.src='${errorImage}'">` : ""}
+            </span>
+        </div>
+        <p class="pokemon-title">The ${selectedPokemon.title} Pokémon</p>
+        <div id="formSwitchContainer" class="form-switch-container"></div>
+        <div class="pokemon-images-container">
+            <div class="circle-background">
+                <img src="${regularImage}"
+                    alt="${selectedPokemon.name}"
+                    class="pokemon-image-large"
+                    onerror="this.src='${errorImage}'">
             </div>
-            <p class="pokemon-title">The ${selectedPokemon.title} Pokémon </p>
-            <div id="formSwitchContainer" class="form-switch-container"></div>
-
-
-            <div class="pokemon-images-container">
-    <div class="circle-background">
-        <img src="${regularImage}"
-            alt="${selectedPokemon.name}"
-            class="pokemon-image-large"
-            onerror="this.src='${errorImage}'">
-    </div>
-    <div class="circle-background-shiny">
-        <img src="${shinyImage}"
-            alt="${selectedPokemon.name} Shiny"
-            class="pokemon-image-shiny"
-            onerror="this.src='${errorImage}'">
-    </div>
-</div>
-
-
-
-
-            <!--Pokemon description and abilities-->
-            <div class="container">
-                <p class="pokemon-description">${selectedPokemon.description1}<br><br>${selectedPokemon.description2}</p>
-                ${ability1 ? `<p class="pokemon-ability">◆ ${ability1} ◆<br><span class="ability-description"> ${abilities[ability1]}</span></p>` : ''}
-                ${ability2 ? `<p class="pokemon-ability">◆ ${ability2} ◆<br><span class="ability-description"> ${abilities[ability2]}</span></p>` : ''}
-                ${abilityh ? `<p class="pokemon-ability">◆ ${abilityh} ◆<br><span class="ability-description"> ${abilities[abilityh]}</span></p>` : ''}
+            <div class="circle-background-shiny">
+                <img src="${shinyImage}"
+                    alt="${selectedPokemon.name} Shiny"
+                    class="pokemon-image-shiny"
+                    onerror="this.src='${errorImage}'">
             </div>
-            
-            <br>
-            
-            ${sigmove ? `<p class="pokemon-sigmove">Signature Move: ${sigmove}<br><span class="pokemon-sigmove-description"> ${sigmovedesc}</span></p>` : ''}
-            
-                <br>
-                
-                
-                <div class="pokemon-stats">
-                    ${displayStatBar("HP", selectedPokemon.hp.split("|")[formIndex] || selectedPokemon.hp.split("|")[0], "#FF5959")}
-                    ${displayStatBar("Atk", selectedPokemon.atk.split("|")[formIndex] || selectedPokemon.atk.split("|")[0], "#F5AC78")}
-                    ${displayStatBar("Def", selectedPokemon.def.split("|")[formIndex] || selectedPokemon.def.split("|")[0], "#FAE078")}
-                    ${displayStatBar("Sp.Atk", selectedPokemon.spatk.split("|")[formIndex] || selectedPokemon.spatk.split("|")[0], "#9DB7F5")}
-                    ${displayStatBar("Sp.Def", selectedPokemon.spdef.split("|")[formIndex] || selectedPokemon.spdef.split("|")[0], "#A7DB8D")}
-                    ${displayStatBar("Speed", selectedPokemon.speed.split("|")[formIndex] || selectedPokemon.speed.split("|")[0], "#FA92B2")}
-                    ${displayStatBar(
+        </div>
+        <div class="container">
+            <p class="pokemon-description">${selectedPokemon.description1}<br><br>${selectedPokemon.description2}</p>
+            ${ability1 ? `<p class="pokemon-ability${abilities[ability1] && typeof abilities[ability1] === 'object' && abilities[ability1].tag === 'lacadia' ? ' lacadia-ability' : ''}">◆ ${ability1} ◆<br><span class="ability-description">${typeof abilities[ability1] === 'object' ? abilities[ability1].description : abilities[ability1]}</span></p>` : ''}
+            ${ability2 ? `<p class="pokemon-ability${abilities[ability2] && typeof abilities[ability2] === 'object' && abilities[ability2].tag === 'lacadia' ? ' lacadia-ability' : ''}">◆ ${ability2} ◆<br><span class="ability-description">${typeof abilities[ability2] === 'object' ? abilities[ability2].description : abilities[ability2]}</span></p>` : ''}
+            ${abilityh ? `<p class="pokemon-ability${abilities[abilityh] && typeof abilities[abilityh] === 'object' && abilities[abilityh].tag === 'lacadia' ? ' lacadia-ability' : ''}">◆ ${abilityh} ◆<br><span class="ability-description">${typeof abilities[abilityh] === 'object' ? abilities[abilityh].description : abilities[abilityh]}</span></p>` : ''}
+        </div>
+        ${sigmove ? `<p class="pokemon-sigmove">Signature Move: ${sigmove}<br><span class="pokemon-sigmove-description">${sigmovedesc}</span></p>` : ''}
+        <div class="pokemon-stats">
+            ${displayStatBar("HP", selectedPokemon.hp.split("|")[formIndex] || selectedPokemon.hp.split("|")[0], "#FF5959")}
+            ${displayStatBar("Atk", selectedPokemon.atk.split("|")[formIndex] || selectedPokemon.atk.split("|")[0], "#F5AC78")}
+            ${displayStatBar("Def", selectedPokemon.def.split("|")[formIndex] || selectedPokemon.def.split("|")[0], "#FAE078")}
+            ${displayStatBar("Sp.Atk", selectedPokemon.spatk.split("|")[formIndex] || selectedPokemon.spatk.split("|")[0], "#9DB7F5")}
+            ${displayStatBar("Sp.Def", selectedPokemon.spdef.split("|")[formIndex] || selectedPokemon.spdef.split("|")[0], "#A7DB8D")}
+            ${displayStatBar("Speed", selectedPokemon.speed.split("|")[formIndex] || selectedPokemon.speed.split("|")[0], "#FA92B2")}
+            ${displayStatBar(
         "BST",
         Number(selectedPokemon.hp.split("|")[formIndex] || selectedPokemon.hp.split("|")[0]) +
         Number(selectedPokemon.atk.split("|")[formIndex] || selectedPokemon.atk.split("|")[0]) +
@@ -154,7 +139,8 @@ function displaySelectedPokemon(pokemonData, formIndex = 0) {
         "#CA72F2",
         true
     )}
-    </div>`;
+        </div>
+    `;
 
     // Display single form change button
     const formSwitchContainer = document.getElementById("formSwitchContainer");
@@ -176,7 +162,6 @@ function displaySelectedPokemon(pokemonData, formIndex = 0) {
         // Append the button to the form switch container
         formSwitchContainer.appendChild(changeFormButton);
     }
-
 }
 
 /**

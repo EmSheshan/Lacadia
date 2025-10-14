@@ -388,6 +388,11 @@ h2 {
     filter: drop-shadow(5px 5px 10px rgba(0, 0, 0, 0.2));
 }
 
+.lacadia-ability {
+  color: var(--accent1);
+  font-weight: bold;
+}
+
 .ability-description {
     justify-content: center;
     font-weight: normal;
