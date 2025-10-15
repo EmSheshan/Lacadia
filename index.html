@@ -27,7 +27,6 @@
 <button class="toggle-dark-mode" onclick="toggleDarkMode('.toggle-dark-mode')"></button>
 
 
-
 <header>
     <div class="banner-main">
         <h1>◆ Lacadia Pokédex ◆</h1>
@@ -49,27 +48,27 @@
 
 <script>
 
-  // Set initial icon and mode based on the saved state
-  document.addEventListener ('DOMContentLoaded', () => {
-    setDarkModeFromStorage('.toggle-dark-mode');
-  });
+    // Set initial icon and mode based on the saved state
+    document.addEventListener('DOMContentLoaded', () => {
+        setDarkModeFromStorage('.toggle-dark-mode');
+    });
 
-  // Function to change the favicon dynamically
-  function changeFavicon ( src ) {
-    const link = document.createElement ('link');
-    const oldLink = document.getElementById ('dynamic-favicon');
-    link.id = 'dynamic-favicon';
-    link.rel = 'icon';
-    link.href = src;
+    // Function to change the favicon dynamically
+    function changeFavicon(src) {
+        const link = document.createElement('link');
+        const oldLink = document.getElementById('dynamic-favicon');
+        link.id = 'dynamic-favicon';
+        link.rel = 'icon';
+        link.href = src;
 
-    // Remove the old favicon if it exists
-    if ( oldLink ) {
-      document.head.removeChild (oldLink);
+        // Remove the old favicon if it exists
+        if (oldLink) {
+            document.head.removeChild(oldLink);
+        }
+
+        // Add the new favicon
+        document.head.appendChild(link);
     }
-
-    // Add the new favicon
-    document.head.appendChild (link);
-  }
 </script>
 </body>
 </html>

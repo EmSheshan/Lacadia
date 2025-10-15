@@ -121,14 +121,25 @@ function displayPokemonData(pokemonList, containerId) {
       <img src="${regularImage}" 
            alt="${pokemon.name}" 
            class="pokemon-image"
-           onmouseover="this.src='${shinyImage}'"
-           onmouseout="this.src='${regularImage}'">
+           id="pokemonCardImage${pokemonNumber}"
+           onerror="this.src='${regularImage}'">
       <div class="name">${`#${pokemonNumber} `}${pokemon.name}</div>
       <div class="types">
         <img src="${type1Image}" alt="${pokemon.type1}" class="type-image">
         ${type2Image ? `<img src="${type2Image}" alt="${pokemon.type2}" class="type-image">` : ""}
       </div>
     `;
+
+        // Add shiny hover effect using JS event listeners
+        const cardImage = document.getElementById(`pokemonCardImage${pokemonNumber}`);
+        if (cardImage) {
+            cardImage.addEventListener("mouseover", () => {
+                cardImage.src = shinyImage;
+            });
+            cardImage.addEventListener("mouseout", () => {
+                cardImage.src = regularImage;
+            });
+        }
 
         // Add error handling for images using JavaScript instead of onerror attribute
         const images = pokemonCard.querySelectorAll('img');

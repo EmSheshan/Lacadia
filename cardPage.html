@@ -49,7 +49,11 @@
 </div>
 
 
-<span id="pokemonCard"></span>
+<div id="pokemonTitleTypeContainer"></div>
+<div id="pokemonCardContainer" class="pokemon-card-container">
+    <div id="pokemonCardLeft" class="pokemon-card-left"></div>
+    <div id="pokemonCardRight" class="pokemon-card-right"></div>
+</div>
 
 
 <button class="exit-button" onclick="window.location.href='index.html'">X</button>
@@ -65,7 +69,7 @@
 <script src="darkMode.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', () => {
-      setDarkModeFromStorage('.toggle-dark-mode-card');
+        setDarkModeFromStorage('.toggle-dark-mode-card');
     });
 </script>
 
