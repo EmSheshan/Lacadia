@@ -350,6 +350,7 @@ export const abilities = {
   "Decay": { description: "All non-Ghost and Dark type Pokemon lose 1/16 of their max HP at the end of each turn.", tag: "lacadia" },
   "Honor-Bound Duel": { description: "Doubles the damage dealt to the target's replacement if the target switches out.", tag: "lacadia" },
   "Circle of Protection": { description: "The Pokémon takes half damage from moves with a base power of 100 or higher.", tag: "lacadia" },
+    "Stealth Strike": { description: "Semi-invulnerable moves deal 50% more damage, and deal 100% more damage if the target switches.", tag: "lacadia" },
 
 
 }
