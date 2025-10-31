@@ -352,7 +352,7 @@ export const abilities = {
   "Circle of Protection": { description: "The Pokémon takes half damage from moves with a base power of 100 or higher.", tag: "lacadia" },
     "Stealth Strike": { description: "Semi-invulnerable moves deal 50% more damage, and deal 100% more damage if the target switches.", tag: "lacadia" },
   "Weight of the World": { description: "The Pokémon starts the effects of Gravity when it enters battle.", tag: "lacadia" },
-    "Hoarder": { description: "The Pokémon doubles the effect of its held item.", tag: "lacadia" },
+    "Hoarder": { description: "The Pokémon gives a copy of its held item to it and its allies.", tag: "lacadia" },
 
 
 }
