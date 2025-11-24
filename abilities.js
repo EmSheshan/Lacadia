@@ -319,7 +319,7 @@ export const abilities = {
   "Poison Puppeteer": "This Pokémon confuses any Pokémon it poisons.",
 
   // Lacadia
-  "Parasitoid": { description: "This Pokémon heals 25% of the damage dealt with direct attacks.", tag: "lacadia" },
+  "Parasitoid": { description: "This Pokémon's HP-draining moves have their HP recovery boosted by 30%.", tag: "lacadia" },
   "Ancient Guard": { description: "Rock-type moves are not very effective against this Pokémon and it is also immune to Stealth Rock.", tag: "lacadia" },
   "Pollyanna": { description: "Raises this Pokémon's HP when hit by a Dark-type move, instead of taking damage.", tag: "lacadia" },
   "Overload": { description: "This Pokémon skips charge and recharge turns for moves.", tag: "lacadia" },
