@@ -17,7 +17,7 @@ const ERROR_IMAGE = `${IMAGE_PATH}Missingno.png`;
 function loadPokemonData() {
     const cachedData = localStorage.getItem("pokemonData");
 
-    if (cachedData) {
+    if (false) {
         console.log("Loaded Pokémon data from cache.");
         displayPokemonData(JSON.parse(cachedData), "pokedex")
     } else {
