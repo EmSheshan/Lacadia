@@ -353,7 +353,7 @@ export const abilities = {
     "Stealth Strike": { description: "Semi-invulnerable moves deal 50% more damage, and deal 100% more damage if the target switches.", tag: "lacadia" },
   "Weight of the World": { description: "The Pokémon starts the effects of Gravity when it enters battle.", tag: "lacadia" },
     "Hoarder": { description: "The Pokémon gives a copy of its held item to it and its allies.", tag: "lacadia" },
-    "Bell of Ruin": { description: "The Pokémon's bell rings when its HP becomes half or less. Then the Pokémon changes its form to Dirge Form."}
+    "Bell of Ruin": { description: "The Pokémon's bell rings when its HP becomes half or less. Then the Pokémon changes its form to Dirge Form.", tag: "lacadia"}
 
 
 }
