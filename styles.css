@@ -101,10 +101,11 @@ p {
     flex-wrap: wrap;
     padding: 0;
     margin-top: 1rem;
-    overflow-y: auto;
     box-sizing: border-box;
     background-color: var(--bg1);
     background-image: url('assets/Bg_Light.svg');
+    overflow-y: scroll;
+
 }
 
 .container {
@@ -214,7 +215,7 @@ p {
     transition: transform 0.3s ease-in-out;
     z-index: 100;
 
-    filter: drop-shadow(1px 1px 4px rgba(0,0,0,0.2)); /* Shadow */
+    filter: drop-shadow(1px 1px 4px rgba(0, 0, 0, 0.2)); /* Shadow */
 
 }
 
@@ -229,9 +230,7 @@ p {
     animation: fadeInSlide 0.6s ease-out forwards;
 
 
-    filter:
-         
-            drop-shadow(20px 12px 10px rgba(0,0,0,0.4)); /* Shadow */
+    filter: drop-shadow(20px 12px 10px rgba(0, 0, 0, 0.4)); /* Shadow */
 
     transition: transform 0.3s ease; /* Smooth scaling transition */
     flex: 0 0 200px;
