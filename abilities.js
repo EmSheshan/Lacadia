@@ -352,7 +352,7 @@ export const abilities = {
   "Circle of Protection": { description: "The Pokémon takes half damage from moves with a base power of 100 or higher.", tag: "lacadia" },
     "Stealth Strike": { description: "Semi-invulnerable moves deal 50% more damage, and deal 100% more damage if the target switches.", tag: "lacadia" },
   "Weight of the World": { description: "The Pokémon starts the effects of Gravity when it enters battle.", tag: "lacadia" },
-    "Cry of the Cosmos": { description: "The Pokémon starts the effects of Miracle Eye and Rainbow when it enters battle.", tag: "lacadia" },
+    "Cry of the Cosmos": { description: "The Pokémon's presence allows Dark type Pokémon to be hit with Psychic type moves and doubles the chance all moves have an additional effect.", tag: "lacadia" },
     "Hoarder": { description: "The Pokémon gives a copy of its held item to it and its allies.", tag: "lacadia" },
     "Bell of Ruin": { description: "The Pokémon's bell rings when its HP becomes half or less. Then the Pokémon changes its form to Dirge Form.", tag: "lacadia"},
     "Dominion": { description: "While the Pokémon is in the battle, the effects of all other Pokémon's Abilities will be nullified or will not be triggered.", tag: "lacadia"},
