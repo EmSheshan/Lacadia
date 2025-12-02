@@ -240,5 +240,17 @@ export const moves = {
         pp: 5,
         description: "The user imbues its weapon with holy energy before striking. This move is super effective on Ghost types.",
     },
+    "Adrenalizer": {
+        type: Type.FIGHTING,
+        category: Category.STATUS,
+        pp: 5,
+        description: "The user compresses its body before sending a powerful surge through its cardiovascular system. This restores a third of its max HP and boosts its Attack by one stage.",
+    },
+    "Pharaoh's Curse": {
+        type: Type.DARK,
+        category: Category.STATUS,
+        pp: 5,
+        description: "The user drains the opponent's strength, eliminating their stat boosts and restoring 10% of the user's health for each boost removed.",
+    },
 
 };

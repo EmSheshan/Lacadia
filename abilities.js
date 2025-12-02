@@ -357,9 +357,4 @@ export const abilities = {
     "Bell of Ruin": { description: "The Pokémon's bell rings when its HP becomes half or less. Then the Pokémon changes its form to Dirge Form.", tag: "lacadia"},
     "Dominion": { description: "While the Pokémon is in the battle, the effects of all other Pokémon's Abilities will be nullified or will not be triggered.", tag: "lacadia"},
     "Manifestation": { description: "Boosts the Pokémon's most proficient stat the first time the Pokémon enters a battle.", tag: "lacadia"},
-
-
-
-
-
 }
