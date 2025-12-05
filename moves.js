@@ -214,7 +214,7 @@ export const moves = {
         accuracy: 100,
         power: 90,
         pp: 5,
-        description: "The user bites down with its massive jaws. This attack removes the opponent's item before dealing damage.",
+        description: "The user bites down with its massive jaws to sap the life-force of its target. The opponent loses its ability.",
     },
     "Gales of Darkness": {
         type: Type.FLYING,
