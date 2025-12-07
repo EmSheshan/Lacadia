@@ -80,7 +80,7 @@ function displayPokemonData(pokemonList, containerId) {
         const baseId = pokemon.id || pokemon.name.toLowerCase().replace(/[^a-z0-9]/g, '');
 
         let regularImage = `${IMAGE_PATH}${baseId}.png`;
-        let shinyImage = `${IMAGE_PATH}${baseId}_Shiny.png`;
+        let shinyImage = `${IMAGE_PATH}${baseId}_shiny.png`;
         let type1Image = `${TYPE_ICON_PATH}${type1}.png`;
         let type2Image = type2 ? `${TYPE_ICON_PATH}${type2}.png` : null;
 

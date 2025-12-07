@@ -102,8 +102,8 @@ function displaySelectedPokemon(formIndex = 0) {
     const imageBaseName = selectedPokemon.name.toLowerCase().replace(/[^a-z0-9]/g, '');
 
     const regularImage = `pokemonArt/${imageBaseName}.png`;
-    const shinyImage = `pokemonArt/${imageBaseName}_Shiny.png`;
-    const errorImage = `pokemonArt/Missingno.png`;
+    const shinyImage = `pokemonArt/${imageBaseName}_shiny.png`;
+    const errorImage = `pokemonArt/missingno.png`;
 
     // Handle Types
     const type1 = selectedPokemon.types[0];
