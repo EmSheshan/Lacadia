@@ -642,6 +642,8 @@ p {
 /* ==========================
    Dark Mode
    ========================== */
+/* Apply root variables to both HTML and BODY tags */
+html.dark-mode,
 body.dark-mode {
     --bg1: #202021;
     --bg2: #2b2b2c;
