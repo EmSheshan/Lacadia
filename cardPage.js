@@ -105,6 +105,7 @@ function displaySelectedPokemon(formIndex = 0) {
     const shinyImage = `pokemonArt/${imageBaseName}_shiny.png`;
     const errorImage = `pokemonArt/missingno.png`;
 
+
     // Handle Types
     const type1 = selectedPokemon.types[0];
     const type2 = selectedPokemon.types[1];

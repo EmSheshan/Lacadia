@@ -10,7 +10,7 @@
 import {pokedex} from "./pokedex.js";
 const IMAGE_PATH = "pokemonArt/";
 const TYPE_ICON_PATH = "typeIcons/";
-const ERROR_IMAGE = `${IMAGE_PATH}Missingno.png`;
+const ERROR_IMAGE = `${IMAGE_PATH}missingno.png`;
 
 
 /**
