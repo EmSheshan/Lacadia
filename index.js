@@ -1,64 +1,62 @@
 /**
  * @file index.js
  * @description This file handles the loading and displaying of Pokémon data on the main page.
- * It fetches data from a CSV file, caches it in localStorage, and displays the Pokémon cards with images and types.
+ * It loads data from an imported JavaScript module, displaying only the base form tile for Pokémon with multiple forms.
  *
- * @author Emily Sheahan
+ * @author Emily Sheahan (Revised for form consolidation)
  */
 
+// --- Constants & Imports ---
+import {pokedex} from "./pokedex.js";
 const IMAGE_PATH = "pokemonArt/";
 const TYPE_ICON_PATH = "typeIcons/";
 const ERROR_IMAGE = `${IMAGE_PATH}Missingno.png`;
 
 
 /**
- * Loads Pokémon data from localStorage or fetches it from a CSV file if not cached.
+ * Loads Pokémon data from the imported module and filters it to display only base forms.
  */
 function loadPokemonData() {
-    const cachedData = localStorage.getItem("pokemonData");
+    console.log("Loaded Pokémon data from static module.");
 
-    if (false) {
-        console.log("Loaded Pokémon data from cache.");
-        displayPokemonData(JSON.parse(cachedData), "pokedex")
-    } else {
-        console.log("No cache found. Loading data from CSV...");
-        parseCSV("pokemon_data.csv", "pokemonData", "pokedex");
-    }
-}
+    const allPokemon = Object.values(pokedex);
+    const baseFormsMap = new Map();
 
+    for (const pokemon of allPokemon) {
+        const num = pokemon.num;
+        let simplifiedName = pokemon.name;
 
-/**
- * Parses a CSV file and caches the data in localStorage.
- * @param filePath - Path to the CSV file.
- * @param cacheKey - Key to store the data in localStorage.
- * @param containerId - ID of the container to display the Pokémon cards.
- */
-function parseCSV(filePath, cacheKey, containerId) {
-    Papa.parse(filePath, {
-        download: true,
-        header: true,
-        skipEmptyLines: true,
-        complete: function (results) {
-            if (results.errors.length > 0) {
-                console.error("Errors during CSV parsing:", results.errors);
-            } else {
-                const data = results.data;
-                // Cache the parsed data in localStorage
-                localStorage.setItem(cacheKey, JSON.stringify(data));
-                console.log(`Cached data for ${filePath}.`);
-                displayPokemonData(data, containerId);
-            }
-        },
-        error: function (error) {
-            console.error(`Failed to load the CSV file (${filePath}):`, error);
+        // 1. DYNAMICALLY DETERMINE SIMPLIFIED NAME:
+        // Check if the name contains a hyphen, indicating a potential form name.
+        if (pokemon.name.includes("-")) {
+            // Split the name by the hyphen and take the first part as the species name.
+            // e.g., "Tortarma-Solar" -> "Tortarma"
+            // e.g., "Sacrabell-Hymn" -> "Sacrabell"
+            simplifiedName = pokemon.name.split("-")[0];
         }
-    });
+
+        // Add the simplified name to the Pokemon object.
+        pokemon.displayName = simplifiedName;
+
+        // 2. FILTER: ONLY ADD THE FIRST ENTRY FOR ANY GIVEN POKEDEX NUMBER (num):
+        // This ensures that for a species with multiple forms (like Yakoyza, Tortarma, Sacrabell),
+        // only the first form encountered in the JSON data is added to the map.
+        // We rely on the JSON order (e.g., Tortarma-Solar being before Tortarma-Polar).
+        if (!baseFormsMap.has(num)) {
+            baseFormsMap.set(num, pokemon);
+        }
+    }
+
+    // The final list for display contains only the base entries, now with the correct simplified name.
+    const pokemonList = Array.from(baseFormsMap.values());
+
+    displayPokemonData(pokemonList, "pokedex");
 }
 
 
 /**
  * Displays Pokémon data on the main page.
- * @param pokemonList - List of Pokémon data.
+ * @param pokemonList - Filtered list of base-form Pokémon data.
  * @param containerId - ID of the container to display the Pokémon cards.
  */
 function displayPokemonData(pokemonList, containerId) {
@@ -66,72 +64,72 @@ function displayPokemonData(pokemonList, containerId) {
     container.innerHTML = ""; // Clear existing content
 
     pokemonList.forEach((pokemon, index) => {
+        // Use the sequential index for card numbering (1-based), as per your original logic
+        // This is only used for the card ID/class, the number shown is from pokemon.num
         const pokemonNumber = index + 1;
 
-        let regularImage = `${IMAGE_PATH}${pokemon.name}.png`;
-        let shinyImage = `${IMAGE_PATH}${pokemon.name}_Shiny.png`;
-        let type1Image = `${TYPE_ICON_PATH}${pokemon.type1}.png`;
-        let type2Image = pokemon.type2 && pokemon.type2.toLowerCase() !== "na" ? `${TYPE_ICON_PATH}${pokemon.type2}.png` : null;
+        // Use the custom displayName if available, otherwise use the regular name
+        const displayTileName = pokemon.displayName || pokemon.name;
 
-        if (pokemon.forms) {
-            const baseForm = pokemon.forms.split("|")[0];
-            const type1 = pokemon.type1.split("|")[0];
-            const type2 = pokemon.type2.split("|")[0];
+        // --- DATA EXTRACTION ---
+        const type1 = pokemon.types[0];
+        const type2 = pokemon.types[1];
 
-            regularImage = `${IMAGE_PATH}${pokemon.name}_${baseForm}.png`;
-            shinyImage = `${IMAGE_PATH}${pokemon.name}_${baseForm}_Shiny.png`;
-            type1Image = `${TYPE_ICON_PATH}${type1}.png`;
-            type2Image = type2 && type2.toLowerCase() !== "na" ? `${TYPE_ICON_PATH}${type2}.png` : null;
-        }
+        // Base image names use the species ID. For forms like Yakoyza-Ink, the image name is typically
+        // the species ID followed by the forme, i.e., 'yakoyzaink.png'.
+        const baseId = pokemon.id || pokemon.name.toLowerCase().replace(/[^a-z0-9]/g, '');
 
-        // Create the Pokémon card
+        let regularImage = `${IMAGE_PATH}${baseId}.png`;
+        let shinyImage = `${IMAGE_PATH}${baseId}_Shiny.png`;
+        let type1Image = `${TYPE_ICON_PATH}${type1}.png`;
+        let type2Image = type2 ? `${TYPE_ICON_PATH}${type2}.png` : null;
+
+        // --- Card Creation ---
         const pokemonCard = document.createElement("div");
         pokemonCard.classList.add("pokemon");
 
-        // Add the card to the container first
         container.appendChild(pokemonCard);
 
         document.querySelectorAll('.pokemon').forEach((element) => {
-            const randomDelay = (Math.random() * 0.4).toFixed(2); // Random value between 0.1 and 0.5
+            const randomDelay = (Math.random() * 0.4).toFixed(2);
             element.style.setProperty('--animation-delay', `${randomDelay}s`);
         });
 
-        // Use IntersectionObserver to trigger animation
+        // ... (IntersectionObserver and error handling code) ...
         const observer = new IntersectionObserver((entries, observer) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    entry.target.classList.add("slide-in"); // Add animation class
-                    observer.unobserve(entry.target); // Stop observing after animation
+                    entry.target.classList.add("slide-in");
+                    observer.unobserve(entry.target);
                 }
             });
         }, {
-            root: null, // Use the viewport as the root
-            threshold: 0.1 // Trigger when 10% of the card is visible
+            root: null,
+            threshold: 0.1
         });
 
-        // Observe the Pokémon card
         observer.observe(pokemonCard);
 
-        // Redirect to card page with pokemonNumber parameter on click
+        // Redirect uses the actual Pokedex 'num' field
         pokemonCard.addEventListener("click", () => {
-            window.location.href = `cardPage.html?pokemonNumber=${pokemonNumber}`;
+            window.location.href = `cardPage.html?pokemonNumber=${pokemon.num}`;
         });
 
         pokemonCard.innerHTML = `
-      <img src="${regularImage}" 
-           alt="${pokemon.name}" 
-           class="pokemon-image"
-           id="pokemonCardImage${pokemonNumber}"
-           onerror="this.src='${regularImage}'">
-      <div class="name">${`#${pokemonNumber} `}${pokemon.name}</div>
-      <div class="types">
-        <img src="${type1Image}" alt="${pokemon.type1}" class="type-image">
-        ${type2Image ? `<img src="${type2Image}" alt="${pokemon.type2}" class="type-image">` : ""}
-      </div>
-    `;
+            <img src="${regularImage}"
+                alt="${pokemon.name}"
+                class="pokemon-image"
+                id="pokemonCardImage${pokemon.num}"
+                onerror="this.src='${ERROR_IMAGE}'">
+            <div class="name">${`#${pokemon.num-1999} `}${displayTileName}</div>
+            <div class="types">
+                <img src="${type1Image}" alt="${type1}" class="type-image">
+                ${type2Image ? `<img src="${type2Image}" alt="${type2}" class="type-image">` : ""}
+            </div>
+        `;
 
         // Add shiny hover effect using JS event listeners
-        const cardImage = document.getElementById(`pokemonCardImage${pokemonNumber}`);
+        const cardImage = document.getElementById(`pokemonCardImage${pokemon.num}`);
         if (cardImage) {
             cardImage.addEventListener("mouseover", () => {
                 cardImage.src = shinyImage;
@@ -148,8 +146,6 @@ function displayPokemonData(pokemonList, containerId) {
                 this.src = ERROR_IMAGE;
             });
         });
-
-        container.appendChild(pokemonCard);
     });
 }
 
