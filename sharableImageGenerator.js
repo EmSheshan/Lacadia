@@ -3,12 +3,14 @@ import path from 'path';
 import fs from 'fs';
 import { pokedex } from './pokedex.js';
 
+
 const BASE = path.resolve();
 registerFont(path.join(BASE, 'assets', 'SmileySans-Oblique.otf'), { family: 'SmileyOblique' });
 
 const bg = await loadImage(path.join(BASE, 'assets', 'SharableImageBg.png'));
 const POKEMON_FOLDER = path.join(BASE, 'pokemonArt');
 const OUTPUT_FOLDER = path.join(BASE, 'sharablePokemonArt');
+const TYPEBAR_FOLDER = path.join(BASE, 'typeIcons');
 if (!fs.existsSync(OUTPUT_FOLDER)) fs.mkdirSync(OUTPUT_FOLDER);
 
 const TYPE_COLORS = {
@@ -62,6 +64,42 @@ for (const filename of files) {
     // --- Draw background image on top ---
     ctx.drawImage(bg, 0, 0);
 
+
+
+    // --- Draw name ---
+    const displayName = pokeData?.name || baseName;
+    ctx.fillStyle = 'black';
+    ctx.font = '90px "SmileyOblique"';
+    ctx.fillText(displayName, 70, 135);
+
+
+
+
+
+
+    // --- Draw type icons ---
+    const typeImages = [];
+    const typeIcons = pokeData.types;
+
+    for (const t of typeIcons) {
+        const typePath = path.join(TYPEBAR_FOLDER, `${t}.png`);
+        if (fs.existsSync(typePath)) {
+            typeImages.push(await loadImage(typePath));
+        }
+    }
+
+    const iconSize = 100; // resize width (height auto)
+    let tx = 30; // starting X (bottom-left)
+    const ty = canvas.height - 130; // Y position
+
+    for (const img of typeImages) {
+        const scale = iconSize / img.width;
+        const h = img.height * scale;
+        ctx.drawImage(img, tx, ty, iconSize, h);
+        tx += iconSize + 20; // spacing between icons
+    }
+
+
     // --- Shadow ---
     const x = (bg.width - 1100) / 2;
     const y = (bg.height - 1100) / 2;
@@ -76,11 +114,6 @@ for (const filename of files) {
 
     ctx.drawImage(shadowLayer, 0, 0);
 
-    // --- Draw name ---
-    const displayName = pokeData?.name || baseName;
-    ctx.fillStyle = 'black';
-    ctx.font = '90px "SmileyOblique"';
-    ctx.fillText(displayName, 70, 135);
 
     // --- Draw Pokémon ---
     ctx.drawImage(pokemonImg, x, y, 1100, 1100);
