@@ -4,7 +4,35 @@
 
 <head>
 
+
     <link rel="stylesheet" href="styles.css">
+    <script>
+        // Check local storage and apply dark-mode class immediately if needed
+        const isDarkMode = localStorage.getItem('darkMode') === 'enabled';
+        if (isDarkMode) {
+            document.documentElement.classList.add('dark-mode');
+            document.body.classList.add('dark-mode');
+        }
+
+        // Optional: Update favicon immediately if you want
+        window.changeFavicon = (href) => {
+            let link = document.querySelector("link[rel~='icon']");
+            if (!link) {
+                link = document.createElement('link');
+                link.rel = 'icon';
+                document.getElementsByTagName('head')[0].appendChild(link);
+            }
+            link.href = href;
+        };
+
+        // Apply initial favicon based on mode
+        if (isDarkMode) {
+            window.changeFavicon("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌌</text></svg>");
+        } else {
+            window.changeFavicon("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌱</text></svg>");
+        }
+
+    </script>
 
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -21,10 +49,7 @@
     <link rel="icon"
           href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌱</text></svg>'">
     <title></title>
-
-
 </head>
-
 
 <body id="card-page">
 
@@ -64,16 +89,8 @@
 
 
 <script src="papaparse.min.js"></script>
-<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script> -->
 <script type="module" src="cardPage.js"></script>
 <script src="darkMode.js"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        setDarkModeFromStorage('.toggle-dark-mode-card');
-    });
-</script>
-
 
 </body>
-
 </html>

@@ -1,9 +1,5 @@
 const CACHE_NAME = 'pokemon-images-cache-v1';
 const IMAGE_CACHE_PATTERN = /pokemonArt\/(.*)\.(png|jpg|jpeg|webp)$/i;
-const BG_IMAGES = [
-  'assets/Bg_Light.svg',
-  'assets/Bg_Dark.svg'
-];
 
 self.addEventListener('install', event => {
   self.skipWaiting();

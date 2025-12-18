@@ -321,6 +321,7 @@ export const abilities = {
   // Lacadia
   "Parasitoid": { description: "This Pokémon's HP-draining moves have their HP recovery boosted by 30%.", tag: "lacadia" },
   "Ancient Guard": { description: "Rock-type moves are not very effective against this Pokémon and it is also immune to Stealth Rock.", tag: "lacadia" },
+    "Ancient Force": { description: "Raises this Pokémon's attack stat by one stage for each hazard it's affected by.", tag: "lacadia" },
   "Pollyanna": { description: "Raises this Pokémon's HP when hit by a Dark-type move, instead of taking damage.", tag: "lacadia" },
   "Overload": { description: "This Pokémon skips charge and recharge turns for moves.", tag: "lacadia" },
   "Stoicism": { description: "This Pokémon is immune to attack drops, burns, and flinches.", tag: "lacadia" },

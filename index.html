@@ -1,26 +1,23 @@
 <!DOCTYPE html>
-
-
 <html lang="en">
 <head>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Faculty+Glyphic&display=swap" rel="stylesheet">
-    <script src="papaparse.min.js"></script>
-
     <link rel="stylesheet" href="assets/all.min.css">
 
-    <link id="dynamic-favicon" rel="icon"
-          href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌱</text></svg>'">
+    <link rel="stylesheet" href="styles.css">
 
+    <link id="dynamic-favicon" rel="icon"
+          href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 100 100'><text y='.9em' font-size='90'>🌱</text></svg>'">
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lacadia Pokédex</title>
-    <link rel="stylesheet" href="styles.css">
 
-    <link rel="preload" as="image" href="assets/Bg_Light.svg">
-    <link rel="preload" as="image" href="assets/Bg_Dark.svg">
+
+    <link rel="preload" href="assets/Bg_Light.svg" as="image" media="(prefers-color-scheme: light)">
+    <link rel="preload" href="assets/Bg_Dark.svg" as="image" media="(prefers-color-scheme: dark)">
 </head>
 <body>
 
@@ -34,13 +31,11 @@
 </header>
 
 <main id="pokedex">
-    <!-- Pokémon entries will be dynamically added here -->
 </main>
 
-<script src="index.js"></script>
+<script src="index.js" type="module"></script>
 <script src="darkMode.js"></script>
 
-<!-- Footer with legal text -->
 <footer class="footer">
     <p>&copy; 2024 Pokémon Project. All rights reserved. This is a fan-made project and is not affiliated with or
         endorsed by Pokémon, Nintendo, Game Freak, or any related entities.</p>
