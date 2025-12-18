@@ -252,5 +252,13 @@ export const moves = {
         pp: 5,
         description: "The user drains the opponent's strength, eliminating their stat boosts and restoring 10% of the user's health for each boost removed.",
     },
+    "Snipe Shot": {
+        type: Type.WATER,
+        category: Category.SPECIAL,
+        accuracy: 100,
+        power: 80,
+        pp: 15,
+        description: "The user ignores the effects of opposing Pokémon’s moves and Abilities that draw in moves, allowing this move to hit the chosen target. It has a high critical-hit ratio.",
+    }
 
 };
