@@ -361,5 +361,5 @@ export const abilities = {
 
     "Burning Heart": { description: "When this Pokémon uses the move Eruption, it is always at maximum damage.", tag: "lacadia"},
     "Tranquility": { description: "This Pokémon's stats cannot be lowered by nay means.", tag: "lacadia"},
-    "Deadeye": { description: "Boosts the Pokémon's critical hit ratio when the Pokémon enters a battle.", tag: "lacadia"},
+    "Deadeye": { description: "Boosts the Pokémon's critical hit ratio when the Pokémon enters a battle.", tag: "lacadia"}
 }
