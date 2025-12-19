@@ -37,7 +37,7 @@ body {
     background-repeat: repeat;
 }
 
-h1, h2 {
+h1, h2, h3 {
     font-family: "Faculty Glyphic", sans-serif;
     margin: 0;
 }
@@ -52,6 +52,12 @@ h2 {
     font-size: clamp(3rem, 5vw, 4rem);
     color: var(--main-text);
     text-align: left;
+}
+
+h3 {
+    font-size: clamp(2rem, 5vw, 4rem);
+    color: var(--main-text);
+    margin: 1rem;
 }
 
 p {
@@ -118,14 +124,93 @@ p {
     margin: 1rem;
 }
 
-#pokedex {
+#pokedex, #hyperdex {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
     gap: 1.5rem;
     margin: 0 auto;
     justify-content: center;
     max-width: 200rem;
+
+
+    width: 80%; /* Adjust container width */
+
+
 }
+
+#hyperdex {
+    width: 70%;
+    grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+    gap: 2rem;
+}
+
+body.hyper-pokemon h2 {
+    font-weight: 800;
+    background: linear-gradient(
+            110deg,
+            var(--accent1) 0%,
+            var(--accent2) 30%,
+            var(--accent5) 50%,
+            var(--accent2) 70%,
+            var(--accent1) 100%
+    );
+    background-size: 250% 100%;
+    background-position: 0% 50%;
+
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+
+
+}
+
+
+
+body.hyper-pokemon .pokemon-image-large {
+    filter: drop-shadow(-0.2rem 0 0.3rem rgba(255, 0, 78, 0.8)) drop-shadow(0.2rem 0 0.3rem rgba(0, 155, 255, 0.8));
+    animation:
+            fadeInSlide 0.6s ease-out forwards,
+            hyperGlowPulse 6s ease-in-out infinite;
+
+}
+@keyframes hyperGlowPulse {
+    0% {
+        filter:
+                drop-shadow(-0.2rem 1px 0.45rem rgba(255, 0, 78, 0.35))
+                drop-shadow( 0.3rem 0 0.3rem rgba(0, 155, 255, 0.55));
+    }
+    50% {
+        filter:
+                drop-shadow(-0.2rem 0 0.3rem rgba(255, 0, 78, 0.55))
+
+                drop-shadow( 0.3rem -1px 0.45rem rgba(0, 155, 255, 0.35));
+    }
+    100% {
+        filter:
+                drop-shadow(-0.2rem 1px 0.45rem rgba(255, 0, 78, 0.35))
+
+                drop-shadow( 0.3rem 0 0.3rem rgba(0, 155, 255, 0.55));
+    }
+}
+
+
+body.hyper-pokemon .ability-list {
+    background: var(--accent5);
+    border-radius: 1.2rem;
+    border: 0.8rem solid var(--accent2);
+
+
+}
+
+body.hyper-pokemon .lacadia-ability {
+    color: var(--bg1);
+}
+
+body.hyper-pokemon .pokemon-ability:hover, .pokemon-ability:focus {
+    background: var(--accent2);
+}
+
+
 
 .title-type-container {
     display: flex;
@@ -138,17 +223,6 @@ p {
     flex-wrap: wrap; /* Ensure elements wrap if the screen is too small */
     position: relative;
 
-}
-
-
-#pokedex {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr)); /* Create responsive tiles */
-    width: 80%; /* Adjust container width */
-    max-width: 200rem; /* Limit container size on large screens */
-    margin: 0 auto; /* Center the grid on the page */
-    gap: 1.5rem; /* Increase spacing between tiles */
-    justify-content: center; /* Ensure grid is centered */
 }
 
 
@@ -215,7 +289,7 @@ p {
     transition: transform 0.3s ease-in-out;
     z-index: 100;
 
-    filter: drop-shadow(1px 1px 4px rgba(0, 0, 0, 0.2)); /* Shadow */
+    filter: drop-shadow(1px 1px 4px var(--shadow)); /* Shadow */
 
 }
 
@@ -230,7 +304,7 @@ p {
     animation: fadeInSlide 0.6s ease-out forwards;
 
 
-    filter: drop-shadow(20px 12px 10px rgba(0, 0, 0, 0.4)); /* Shadow */
+    filter: drop-shadow(20px 12px 10px var(--shadow)); /* Shadow */
 
     transition: transform 0.3s ease; /* Smooth scaling transition */
     flex: 0 0 200px;
@@ -282,7 +356,7 @@ p {
     display: flex;
     flex-direction: column; /* Stack the type bars vertically */
     margin-top: 0;
-    filter: drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.3));
+    filter: drop-shadow(5px 5px 10px var(--shadow));
 }
 
 .pokemon-title {
@@ -309,7 +383,7 @@ p {
     background-color: var(--bg3);
     border-radius: 2rem;
     border: 0.8rem solid var(--bg2);
-    filter: drop-shadow(5px 5px 10px rgba(0, 0, 0, 0.2));
+    filter: drop-shadow(5px 5px 10px var(--shadow));
 
 }
 
@@ -326,7 +400,7 @@ p {
     border: 0.8rem solid var(--accent5); /* Border with color */
     display: flex;
     flex-direction: column;
-    filter: drop-shadow(5px 5px 10px rgba(0, 0, 0, 0.2));
+    filter: drop-shadow(5px 5px 10px var(--shadow));
 }
 
 
@@ -375,7 +449,7 @@ p {
     text-align: center; /* Ensure text inside children is centered */
     gap: 1rem; /* Add spacing between the description and stats */
     height: 100%; /* Optional: Fill the height of the container */
-    filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.1));
+    filter: drop-shadow(0px 0px 10px var(--shadow));
 }
 
 .pokemon-stats {
@@ -393,7 +467,7 @@ p {
     align-content: center;
     justify-content: center;
     margin-bottom: 0.2rem;
-    filter: drop-shadow(3px 3px 5px rgba(0, 0, 0, 0.2));
+    filter: drop-shadow(3px 3px 5px var(--shadow));
     width: 100%;
 }
 
@@ -420,8 +494,17 @@ p {
 .bar-fill {
     height: 100%;
     width: 0;
-    transition: width 1s ease-in-out;
-}
+
+    background-image: repeating-linear-gradient(
+            -60deg,
+            rgba(255,255,255,0.2) 0px,
+            rgba(255,255,255,0.2) 6px,
+            rgba(255,255,255,0.05) 6px,
+            rgba(255,255,255,0.05) 12px
+    );
+    }
+
+
 
 
 .arrow-left {
@@ -509,7 +592,7 @@ p {
     height: auto;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    filter: drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.3));
+    filter: drop-shadow(5px 5px 5px var(--shadow));
 
 }
 
@@ -645,17 +728,17 @@ p {
 /* Apply root variables to both HTML and BODY tags */
 html.dark-mode,
 body.dark-mode {
-    --bg1: #202021;
-    --bg2: #2b2b2c;
-    --bg3: #363639;
+    --bg1: #000000;
+    --bg2: #55555c;
+    --bg3: #2b2b2c;
 
-    --accent1: #80f8c7;
-    --accent2: #7677ec;
-    --accent5: #5e00ff;
+    --accent1: #49ffb7;
+    --accent2: #8ea2ff;
+    --accent5: #8d00ff;
 
     --main-text: #d2bdfd;
     --second-text: #ded7fc;
-    --shadow: rgba(35, 35, 37, 0.75);
+    --shadow: rgba(0, 0, 0, 0.8);
 
     background-image: url('assets/Bg_Dark.svg');
 }
@@ -673,7 +756,7 @@ body.dark-mode {
     border: 0.8rem solid var(--bg3);
     padding: 1rem 0.5rem;
     align-items: center;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.13);
+    box-shadow: 2px 2px 12px var(--shadow);
     margin: 4rem 3rem;
 }
 
@@ -701,7 +784,7 @@ body.dark-mode {
     color: var(--second-text);
     border: 1px solid var(--accent2);
     border-radius: 0.7rem;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.13);
+    box-shadow: 0 2px 12px var(--shadow);
     padding: 0.7rem 1rem;
     z-index: 100; /* Increased z-index to ensure it sits on top of other elements */
     font-size: 1rem;

@@ -8,9 +8,10 @@
 
 // --- Constants & Imports ---
 import {pokedex} from "./pokedex.js";
+import {hyperdex} from "./hyperdex.js";
+
 const IMAGE_PATH = "pokemonArt/";
 const TYPE_ICON_PATH = "typeIcons/";
-const ERROR_IMAGE = `${IMAGE_PATH}missingno.png`;
 
 
 /**
@@ -50,7 +51,20 @@ function loadPokemonData() {
     // The final list for display contains only the base entries, now with the correct simplified name.
     const pokemonList = Array.from(baseFormsMap.values());
 
+    const allHypers = Object.values(hyperdex);
+    const hyperMap = new Map();
+
+    for (const hyper of allHypers) {
+        const num = hyper.num;
+
+        hyperMap.set(num, hyper);
+    }
+
+
+    const hyperList = Array.from(hyperMap.values());
+
     displayPokemonData(pokemonList, "pokedex");
+    displayPokemonData(hyperList, "hyperdex");
 }
 
 
@@ -66,7 +80,6 @@ function displayPokemonData(pokemonList, containerId) {
     pokemonList.forEach((pokemon, index) => {
         // Use the sequential index for card numbering (1-based), as per your original logic
         // This is only used for the card ID/class, the number shown is from pokemon.num
-        const pokemonNumber = index + 1;
 
         // Use the custom displayName if available, otherwise use the regular name
         const displayTileName = pokemon.displayName || pokemon.name;
@@ -115,13 +128,23 @@ function displayPokemonData(pokemonList, containerId) {
             window.location.href = `cardPage.html?pokemonNumber=${pokemon.num}`;
         });
 
+        let displayName = '';
+        if (pokemon.num < 3000) {
+            displayName = `#${pokemon.num - 1999} ${displayTileName}`
+        } else {
+
+            displayName = `${displayTileName}`
+        }
+
         pokemonCard.innerHTML = `
             <img src="${regularImage}"
                 alt="${pokemon.name}"
                 class="pokemon-image"
-                id="pokemonCardImage${pokemon.num}"
-                onerror="this.src='${ERROR_IMAGE}'">
-            <div class="name">${`#${pokemon.num-1999} `}${displayTileName}</div>
+                id="pokemonCardImage${pokemon.num}">
+                
+
+            <div class="name">${displayName}</div>
+
             <div class="types">
                 <img src="${type1Image}" alt="${type1}" class="type-image">
                 ${type2Image ? `<img src="${type2Image}" alt="${type2}" class="type-image">` : ""}
@@ -138,14 +161,6 @@ function displayPokemonData(pokemonList, containerId) {
                 cardImage.src = regularImage;
             });
         }
-
-        // Add error handling for images using JavaScript instead of onerror attribute
-        const images = pokemonCard.querySelectorAll('img');
-        images.forEach(img => {
-            img.addEventListener('error', function () {
-                this.src = ERROR_IMAGE;
-            });
-        });
     });
 }
 
