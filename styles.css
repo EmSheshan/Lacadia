@@ -139,23 +139,19 @@ p {
 }
 
 #hyperdex {
-    width: 70%;
     grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
     gap: 2rem;
 }
 
 body.hyper-pokemon h2 {
     font-weight: 800;
+    background-size: 100% 100%;
     background: linear-gradient(
             110deg,
             var(--accent1) 0%,
-            var(--accent2) 30%,
-            var(--accent5) 50%,
-            var(--accent2) 70%,
-            var(--accent1) 100%
-    );
-    background-size: 250% 100%;
-    background-position: 0% 50%;
+            var(--accent2) 50%,
+            var(--accent5) 100%
+    ) 0 100%;
 
     -webkit-background-clip: text;
     background-clip: text;
@@ -170,24 +166,24 @@ body.hyper-pokemon .pokemon-image-large {
     filter: drop-shadow(-0.2rem 0 0.3rem rgba(255, 0, 78, 0.8)) drop-shadow(0.2rem 0 0.3rem rgba(0, 155, 255, 0.8));
     animation:
             fadeInSlide 0.6s ease-out forwards,
-            hyperGlowPulse 6s ease-in-out infinite;
+            hyperGlowPulse 5s ease-in-out infinite;
 
 }
 @keyframes hyperGlowPulse {
     0% {
         filter:
-                drop-shadow(-0.2rem 1px 0.45rem rgba(255, 0, 78, 0.35))
+                drop-shadow(-0.3rem 0.3rem 0.55rem rgba(255, 0, 78, 0.35))
                 drop-shadow( 0.3rem 0 0.3rem rgba(0, 155, 255, 0.55));
     }
-    50% {
+    60% {
         filter:
-                drop-shadow(-0.2rem 0 0.3rem rgba(255, 0, 78, 0.55))
+                drop-shadow(-0.3rem 0 0.3rem rgba(0, 255, 191, 0.55))
 
-                drop-shadow( 0.3rem -1px 0.45rem rgba(0, 155, 255, 0.35));
+                drop-shadow( 0.3rem -0.3rem 0.55rem rgba(255, 0, 166, 0.35));
     }
     100% {
         filter:
-                drop-shadow(-0.2rem 1px 0.45rem rgba(255, 0, 78, 0.35))
+                drop-shadow(-0.3rem 0.3rem 0.55rem rgba(255, 0, 78, 0.35))
 
                 drop-shadow( 0.3rem 0 0.3rem rgba(0, 155, 255, 0.55));
     }
