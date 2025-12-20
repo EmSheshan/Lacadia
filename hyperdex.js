@@ -41,5 +41,19 @@ export const hyperdex = {
         description: ["Its tails have mutated into two launchers that can blast water. The pressure of these shots are so great they can cut through steel.",
             "With the increase to firepower, Inteleon's personality has shifted. It prefers all-out attacking as opposed to stealth."
         ], "signatureMove": "Snipe Shot"
+    },
+    hypertokicroak: {
+        num: 3003,
+        name: "Hyper-Toxicroak",
+        types: ["Poison", "Fighting"],
+        genderRatio: {M: 0.5, F: 0.5},
+        baseStats: {hp: 83, atk: 106, def: 65, spa: 86, spd: 65, spe: 85},
+        abilities: {0: "Acid Rain"},
+        heightm: 1.3,
+        weightkg: 44.4,
+        kind: "Toxic Mouth",
+        description: ["It generates so much poison that its body can no longer contain it. This poison influences the atmosphere.",
+            "It no longer needs to actively hunt prey. It merely waits for the acid downpour to weaken its enemies before finishing them off with a single scratch."
+        ], "signatureMove": null
     }
 }
