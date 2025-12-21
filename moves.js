@@ -259,6 +259,12 @@ export const moves = {
         power: 80,
         pp: 15,
         description: "The user ignores the effects of opposing Pokémon’s moves and Abilities that draw in moves, allowing this move to hit the chosen target. It has a high critical-hit ratio.",
+    },
+    "Transform": {
+        type: Type.Normal,
+        category: Category.STATUS,
+        pp: 10,
+        description: "The user transforms into a copy of the target, right down to having the same move set.",
     }
 
 };

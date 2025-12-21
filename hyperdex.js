@@ -55,5 +55,19 @@ export const hyperdex = {
         description: ["It generates so much poison that its body can no longer contain it. This poison influences the atmosphere.",
             "It no longer needs to actively hunt prey. It merely waits for the acid downpour to weaken its enemies before finishing them off with a single scratch."
         ], "signatureMove": null
+    },
+    hyperditto: {
+        num: 3004,
+        name: "Hyper-Ditto",
+        types: ["Normal"],
+        gender: 'N',
+        baseStats: {hp: 48, atk: 48, def: 48, spa: 48, spd: 48, spe: 48},
+        abilities: {0: "Better Half"},
+        heightm: 0.3,
+        weightkg: 4.0,
+        kind: "Transform",
+        description: ["Hyper-Ditto can improve upon what it copies. Its transformations correct weaknesses in the original, making its imitations superior.",
+            "Its body is uniquely reactive to Hyper energy. Its possible the first ditto were born from this energy."
+        ], "signatureMove": "Transform"
     }
 }
