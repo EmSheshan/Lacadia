@@ -27,8 +27,20 @@
 <header>
     <div class="banner-main">
         <h1>◆ Lacadia Pokédex ◆</h1>
+        <button id="searchToggleBtn" class="search-toggle-btn" title="Search & Filter">
+            <i class="fas fa-search"></i>
+        </button>
     </div>
 </header>
+
+<div class="search-filter-bar">
+    <div class="search-wrapper">
+        <i class="fas fa-search search-icon"></i>
+        <input type="text" id="searchInput" class="search-input" placeholder="Search Pokémon…" autocomplete="off" aria-label="Search Pokémon">
+        <span id="resultCount" class="result-count-badge"></span>
+    </div>
+    <div id="typeFilterContainer" class="type-filter-container"></div>
+</div>
 
 <main id="pokedex">
 </main>
@@ -43,6 +55,10 @@
     <p>&copy; 2024 Pokémon Project. All rights reserved. This is a fan-made project and is not affiliated with or
         endorsed by Pokémon, Nintendo, Game Freak, or any related entities.</p>
 </footer>
+
+<button id="backToTop" class="back-to-top" title="Back to top">
+    <i class="fas fa-arrow-up"></i>
+</button>
 
 <script>
 

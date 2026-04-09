@@ -35,6 +35,7 @@ body {
     overflow-x: hidden;
     background-image: url('assets/Bg_Light.svg');
     background-repeat: repeat;
+    transition: background-color 0.4s ease, color 0.4s ease;
 }
 
 h1, h2, h3 {
@@ -52,12 +53,14 @@ h2 {
     font-size: clamp(3rem, 5vw, 4rem);
     color: var(--main-text);
     text-align: left;
+    transition: color 0.4s ease;
 }
 
 h3 {
     font-size: clamp(2rem, 5vw, 4rem);
     color: var(--main-text);
     margin: 1rem;
+    transition: color 0.4s ease;
 }
 
 p {
@@ -230,12 +233,249 @@ body.hyper-pokemon .pokemon-ability:hover, .pokemon-ability:focus {
     color: var(--second-text);
     position: relative;
     width: 100%;
-    margin-top: 1rem; /* Adjust the value as needed */
+    margin-top: 1rem;
     margin-bottom: -1rem;
+    transition: background-color 0.4s ease, color 0.4s ease;
 }
 
 .footer p {
     margin: 0;
+}
+
+/* ==========================
+   Search & Filter Bar
+   ========================== */
+.search-filter-bar {
+    position: sticky;
+    top: 6.6rem;
+    z-index: 900;
+    background: var(--bg1);
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    /* Collapsed by default */
+    max-height: 0;
+    overflow: hidden;
+    padding: 0 1.5rem;
+    transition: max-height 0.35s ease, padding 0.35s ease, box-shadow 0.35s ease, background-color 0.4s ease, border-color 0.4s ease;
+}
+
+.search-filter-bar.open {
+    max-height: 14rem;
+    padding: 0.7rem 2.5rem 1.2rem 1.5rem;
+    box-shadow: 0 0.3rem 0.6rem var(--shadow);
+    border-bottom: 2px solid var(--bg2);
+    margin-bottom: 1rem;
+}
+
+/* Search toggle button (lives in the banner) */
+.search-toggle-btn {
+    background: none;
+    border: none;
+    color: var(--bg3);
+    font-size: 1.4rem;
+    cursor: pointer;
+    padding: 0.4rem 0.6rem;
+    border-radius: 0.5rem;
+    margin-left: auto;
+    margin-right: 2rem;
+    transition: color 0.2s, background 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.search-toggle-btn:hover {
+    color: var(--accent2);
+}
+
+.search-toggle-btn.active {
+    color: var(--accent2);
+    background: rgba(255,255,255,0.15);
+}
+
+.search-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    width: 100%;
+    max-width: 540px;
+}
+
+.search-icon {
+    color: var(--second-text);
+    font-size: 1rem;
+    flex-shrink: 0;
+}
+
+.search-input {
+    flex: 1;
+    padding: 0.55rem 1rem;
+    border-radius: 2rem;
+    border: 2px solid var(--bg2);
+    background: var(--bg3);
+    color: var(--main-text);
+    font-family: "Faculty Glyphic", sans-serif;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s, background-color 0.4s ease, color 0.4s ease;
+}
+
+.search-input:focus {
+    border-color: var(--accent5);
+    box-shadow: 0 0 0 3px rgba(18, 136, 132, 0.2);
+}
+
+.result-count-badge {
+    background: var(--accent5);
+    color: var(--bg3);
+    font-size: 0.8rem;
+    padding: 0.25rem 0.7rem;
+    border-radius: 2rem;
+    white-space: nowrap;
+    flex-shrink: 0;
+    transition: opacity 0.2s;
+}
+
+.type-filter-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    justify-content: center;
+}
+
+.type-filter-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.25rem 0.65rem;
+    border-radius: 2rem;
+    border: 1.5px solid var(--bg2);
+    background: var(--bg3);
+    color: var(--main-text);
+    font-family: "Faculty Glyphic", sans-serif;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.type-filter-btn img {
+    height: 1rem;
+    width: auto;
+}
+
+.type-filter-btn:hover:not(.active) {
+    background: var(--bg2);
+    border-color: var(--accent3);
+}
+
+.type-filter-btn.active {
+    background: var(--accent5);
+    color: var(--bg3);
+    border-color: var(--accent5);
+}
+
+.no-results {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 3rem;
+    color: var(--second-text);
+    font-size: 1.4rem;
+}
+
+/* ==========================
+   Back to Top Button
+   ========================== */
+.back-to-top {
+    position: fixed;
+    bottom: 0.7rem;
+    left: 0.7rem;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    font-size: 1.4rem;
+    font-weight: bold;
+    border: none;
+    background-color: var(--accent5);
+    color: var(--bg3);
+    z-index: 10;
+    box-shadow: 0 0.5rem 1rem var(--shadow);
+    cursor: pointer;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease, background-color 0.3s ease, transform 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.back-to-top.visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.back-to-top:hover {
+    background-color: var(--accent1);
+    transform: translateY(-2px);
+}
+
+/* ==========================
+   Shiny Toggle Button
+   ========================== */
+.shiny-controls {
+    display: flex;
+    justify-content: center;
+    margin-top: 0.5rem;
+}
+
+.shiny-toggle-btn {
+    background: var(--bg3);
+    color: var(--second-text);
+    border: 2px solid var(--bg2);
+    border-radius: 2rem;
+    padding: 0.35rem 1rem;
+    font-family: "Faculty Glyphic", sans-serif;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    filter: drop-shadow(2px 2px 4px var(--shadow));
+}
+
+.shiny-toggle-btn:hover {
+    border-color: var(--accent2);
+    color: var(--main-text);
+}
+
+.shiny-toggle-btn.shiny-active {
+    background: var(--accent2);
+    color: var(--bg3);
+    border-color: var(--accent1);
+}
+
+/* ==========================
+   Pokemon Measurements
+   ========================== */
+.pokemon-measurements {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    color: var(--second-text);
+    font-size: 0.95rem;
+    font-style: italic;
+    margin-bottom: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.measurement-pill {
+    background: var(--bg3);
+    border: 1.5px solid var(--bg2);
+    border-radius: 2rem;
+    padding: 0.2rem 0.7rem;
+    filter: drop-shadow(1px 1px 3px var(--shadow));
 }
 
 /* ==========================
@@ -270,8 +510,14 @@ body.hyper-pokemon .pokemon-ability:hover, .pokemon-ability:focus {
     box-shadow: 0 0.5rem 1rem var(--shadow);
     opacity: 0;
     transform: translateY(50px);
-    transition: opacity 0.5s ease, transform 0.5s ease;
+    transition: opacity 0.5s ease, transform 0.2s ease, box-shadow 0.2s ease, background-color 0.4s ease, color 0.4s ease;
     transition-delay: var(--animation-delay, 0s);
+    cursor: pointer;
+}
+
+.pokemon.slide-in:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 1.2rem 2.5rem var(--shadow);
 }
 
 .pokemon.slide-in {
@@ -490,6 +736,7 @@ body.hyper-pokemon .pokemon-ability:hover, .pokemon-ability:focus {
 .bar-fill {
     height: 100%;
     width: 0;
+    transition: width 0.9s cubic-bezier(0.4, 0, 0.2, 1);
 
     background-image: repeating-linear-gradient(
             -60deg,
@@ -724,8 +971,8 @@ body.hyper-pokemon .pokemon-ability:hover, .pokemon-ability:focus {
 /* Apply root variables to both HTML and BODY tags */
 html.dark-mode,
 body.dark-mode {
-    --bg1: #000000;
-    --bg2: #55555c;
+    --bg1: #1a1a1f;
+    --bg2: #3a3a42;
     --bg3: #2b2b2c;
 
     --accent1: #49ffb7;
@@ -762,14 +1009,17 @@ body.dark-mode {
 }
 
 .ability-description-popup {
-    display: none;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
     position: absolute;
 
     /* FORCE LEFT POSITIONING */
     right: 100%; /* Position outside the right edge of the container (pushes it left) */
     left: auto; /* Override any previous left settings */
     top: 50%;
-    transform: translateY(-50%); /* Center vertically */
+    transform: translateY(-50%) translateX(6px);
+    transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s;
 
     /* Spacing between ability name and popup */
     margin-right: 1rem;
@@ -782,17 +1032,18 @@ body.dark-mode {
     border-radius: 0.7rem;
     box-shadow: 0 2px 12px var(--shadow);
     padding: 0.7rem 1rem;
-    z-index: 100; /* Increased z-index to ensure it sits on top of other elements */
+    z-index: 100;
     font-size: 1rem;
     white-space: normal;
-    text-align: left; /* Ensure text inside the popup is readable */
-    pointer-events: none; /* Prevents the popup from flickering if cursor touches it */
+    text-align: left;
 }
 
 /* Show the popup on hover/focus */
 .pokemon-ability:hover .ability-description-popup,
 .pokemon-ability:focus .ability-description-popup {
-    display: block;
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(-50%) translateX(0);
 }
 
 
@@ -800,7 +1051,12 @@ body.dark-mode {
     left: auto;
     right: 100%;
     top: 50%;
-    transform: translateY(-50%);
+    transform: translateY(-50%) translateX(0);
+}
+
+.pokemon-ability:hover .ability-description-popup.left,
+.pokemon-ability:focus .ability-description-popup.left {
+    transform: translateY(-50%) translateX(0);
 }
 
 

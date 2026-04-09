@@ -54,12 +54,13 @@ function displayStatBar(stat, value, color, BST = false) {
     let maxStatValue = 255;
     if (BST) maxStatValue = 700;
     const percentageWidth = (value / maxStatValue) * 100;
+    const bstClass = BST ? ' bst-row' : '';
 
     return `
-        <div class="stat-bar">
+        <div class="stat-bar${bstClass}">
             <div class="stat-name">${stat}</div>
             <div class="bar-container">
-                <div class="bar-fill" style="width: ${percentageWidth}%; background-color: ${color};"></div>
+                <div class="bar-fill" style="background-color: ${color};" data-target-width="${percentageWidth}"></div>
             </div>
             <div class="stat-value">${value}</div>
         </div>
@@ -185,15 +186,15 @@ function displaySelectedPokemon(formIndex = 0) {
     // Shiny Hover Logic
     const mainImage = document.getElementById("pokemonMainImage");
     if (mainImage) {
-        mainImage.addEventListener("mouseover", () => {
-            mainImage.src = shinyImage;
-        });
-        mainImage.addEventListener("mouseout", () => {
-            mainImage.src = regularImage;
-        });
+        mainImage.addEventListener('mouseover', () => { mainImage.src = shinyImage; });
+        mainImage.addEventListener('mouseout', () => { mainImage.src = regularImage; });
     }
 
     document.getElementById("pokemonCardRight").innerHTML = `
+        <div class="pokemon-measurements">
+            ${selectedPokemon.heightm != null ? `<span class="measurement-pill">📏 ${selectedPokemon.heightm} m</span>` : ''}
+            ${selectedPokemon.weightkg != null ? `<span class="measurement-pill">⚖️ ${selectedPokemon.weightkg} kg</span>` : ''}
+        </div>
         <div class="pokemon-stats">
             ${displayStatBar("HP", selectedPokemon.baseStats.hp, "#FF5959")}
             ${displayStatBar("Atk", selectedPokemon.baseStats.atk, "#F5AC78")}
@@ -222,6 +223,16 @@ function displaySelectedPokemon(formIndex = 0) {
         </div>
         ${sigmove ? `<p class="pokemon-sigmove">Signature Move: ${sigmove}<br><span class="pokemon-sigmove-description">${sigmovedesc}</span></p>` : ''}
     `;
+
+    // Animate stat bars after DOM insertion
+    requestAnimationFrame(() => {
+        setTimeout(() => {
+            document.querySelectorAll('.bar-fill').forEach(bar => {
+                const target = bar.dataset.targetWidth;
+                if (target != null) bar.style.width = `${target}%`;
+            });
+        }, 60);
+    });
 
 
     // --- Form Switch Button ---
@@ -265,6 +276,21 @@ document.addEventListener('keydown', (event) => {
     if (event.key === 'ArrowRight') navigatePokemon('next');
 });
 
+// Mobile swipe navigation
+let touchStartX = 0;
+let touchStartY = 0;
+document.addEventListener('touchstart', e => {
+    touchStartX = e.changedTouches[0].screenX;
+    touchStartY = e.changedTouches[0].screenY;
+}, { passive: true });
+document.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].screenX - touchStartX;
+    const dy = e.changedTouches[0].screenY - touchStartY;
+    if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) {
+        navigatePokemon(dx < 0 ? 'next' : 'previous');
+    }
+}, { passive: true });
+
 document.addEventListener('DOMContentLoaded', () => {
     const button = document.querySelector('.toggle-dark-mode-card');
     const changeFavicon = window.changeFavicon || (() => {
@@ -280,7 +306,7 @@ document.addEventListener('DOMContentLoaded', () => {
         changeFavicon("data:image/svg+xml,<svg xmlns=%22http://www.w3.org/1999/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌱</text></svg>");
     }
 
-    // Popup Logic
+    // Popup Logic — reposition only; show/hide handled by CSS transitions
     document.querySelectorAll('.pokemon-ability').forEach(abilityEl => {
         abilityEl.addEventListener('mouseenter', handleAbilityPopupPosition);
         abilityEl.addEventListener('focus', handleAbilityPopupPosition);
@@ -292,12 +318,15 @@ document.addEventListener('DOMContentLoaded', () => {
         const popup = e.currentTarget.querySelector('.ability-description-popup');
         if (!popup) return;
         popup.classList.remove('left');
-        popup.style.display = 'block';
+        // Briefly make visible to measure, then revert to CSS control
+        popup.style.visibility = 'visible';
+        popup.style.opacity = '1';
         const rect = popup.getBoundingClientRect();
-        if (rect.right > window.innerWidth) {
+        popup.style.visibility = '';
+        popup.style.opacity = '';
+        if (rect.right > window.innerWidth || rect.left < 0) {
             popup.classList.add('left');
         }
-        popup.style.display = '';
     }
 
     function removeAbilityPopupLeftClass(e) {
