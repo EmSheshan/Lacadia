@@ -3,8 +3,6 @@
 function setDarkModeFromStorage(buttonSelector = '.toggle-dark-mode') {
     const button = document.querySelector(buttonSelector);
     const isDarkMode = localStorage.getItem('darkMode') === 'enabled';
-
-    // *** FIX 1: Apply/Remove class on both <body> and <html> ***
     const html = document.documentElement;
 
     if (isDarkMode) {
@@ -21,14 +19,12 @@ function setDarkModeFromStorage(buttonSelector = '.toggle-dark-mode') {
 }
 
 function toggleDarkMode(buttonSelector = '.toggle-dark-mode') {
-    // Enable dark mode transition for this and future toggles
-    document.documentElement.classList.add('enable-dark-transition');
     const body = document.body;
-    const html = document.documentElement; // *** FIX 2: Target the root element ***
+    const html = document.documentElement;
     const button = document.querySelector(buttonSelector);
 
     body.classList.toggle('dark-mode');
-    html.classList.toggle('dark-mode'); // *** FIX 3: Toggle HTML class as well ***
+    html.classList.toggle('dark-mode');
 
     if (body.classList.contains('dark-mode')) {
         if (button) button.innerHTML = '<i class="fas fa-moon"></i>';
@@ -47,9 +43,7 @@ function changeFavicon(src) {
     link.id = 'dynamic-favicon';
     link.rel = 'icon';
     link.href = src;
-    if (oldLink) {
-        document.head.removeChild(oldLink);
-    }
+    if (oldLink) document.head.removeChild(oldLink);
     document.head.appendChild(link);
 }
 

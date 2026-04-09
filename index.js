@@ -1,12 +1,5 @@
-/**
- * @file index.js
- * @description This file handles the loading and displaying of Pokémon data on the main page.
- * It loads data from an imported JavaScript module, displaying only the base form tile for Pokémon with multiple forms.
- *
- * @author Emily Sheahan (Revised for form consolidation)
- */
+// index.js — loads and displays Pokémon data on the main page
 
-// --- Constants & Imports ---
 import {pokedex} from "./pokedex.js";
 import {hyperdex} from "./hyperdex.js";
 
@@ -18,7 +11,6 @@ const TYPE_ICON_PATH = "typeIcons/";
  * Loads Pokémon data from the imported module and filters it to display only base forms.
  */
 function loadPokemonData() {
-    console.log("Loaded Pokémon data from static module.");
 
     const allPokemon = Object.values(pokedex);
     const baseFormsMap = new Map();
@@ -39,15 +31,7 @@ function loadPokemonData() {
     }
 
     const pokemonList = Array.from(baseFormsMap.values());
-
-    const allHypers = Object.values(hyperdex);
-    const hyperMap = new Map();
-
-    for (const hyper of allHypers) {
-        hyperMap.set(hyper.num, hyper);
-    }
-
-    const hyperList = Array.from(hyperMap.values());
+    const hyperList = Object.values(hyperdex);
 
     displayPokemonData(pokemonList, "pokedex");
     displayPokemonData(hyperList, "hyperdex");
@@ -90,9 +74,6 @@ function loadPokemonData() {
 }
 
 
-/**
- * Builds type filter pill buttons from the combined pokemon list.
- */
 function buildTypeFilters(allPokemon) {
     const typeSet = new Set();
     allPokemon.forEach(p => p.types.forEach(t => typeSet.add(t)));
@@ -114,9 +95,6 @@ function buildTypeFilters(allPokemon) {
 }
 
 
-/**
- * Filters all pokemon cards by current search text and active type buttons.
- */
 function filterCards() {
     const searchText = (document.getElementById('searchInput')?.value || '').toLowerCase().trim();
     const activeTypes = [...document.querySelectorAll('.type-filter-btn.active')].map(b => b.dataset.type);
@@ -157,9 +135,6 @@ function filterCards() {
 }
 
 
-/**
- * Updates the result count badge.
- */
 function updateResultCount(count) {
     const badge = document.getElementById('resultCount');
     if (!badge) return;
@@ -169,9 +144,6 @@ function updateResultCount(count) {
 }
 
 
-/**
- * Displays Pokémon data on the main page.
- */
 function displayPokemonData(pokemonList, containerId) {
     const container = document.getElementById(containerId);
     container.innerHTML = "";

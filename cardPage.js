@@ -30,7 +30,6 @@ function initializePokemonData() {
     });
 
     uniquePokedexNumbers.sort((a, b) => a - b);
-    console.log("Pokedex data initialized.");
 }
 
 initializePokemonData();
@@ -104,23 +103,18 @@ function displaySelectedPokemon(formIndex = 0) {
     }
 
     // --- Set Page Title & Nav ---
-    document.title = isHyper ? `${displayName}` : `#${pokemonNumber - 1999} ${displayName}`;
+    document.title = isHyper ? displayName : `#${pokemonNumber - 1999} ${displayName}`;
 
-    if (prevPokemon && prevPokemon.num >= 3000) { // Hyper form
-        document.getElementById("previousPokemonNumber").innerText = prevPokemon ? "" : "";
-        document.getElementById("previousPokemonName").innerText = prevPokemon ? prevPokemon.name : ""; // Simple name for nav
-    } else {
-        document.getElementById("previousPokemonNumber").innerText = prevPokemon ? `#${prevPokemon.num - 1999}` : "";
-        document.getElementById("previousPokemonName").innerText = prevPokemon ? prevPokemon.name.split("-")[0] : ""; // Simple name for nav
-    }
+    const navLabel = (p) => p?.num >= 3000
+        ? { num: '', name: p.name }
+        : { num: p ? `#${p.num - 1999}` : '', name: p ? p.name.split('-')[0] : '' };
 
-    if (nextPokemon && nextPokemon.num >= 3000) { // Hyper form
-        document.getElementById("nextPokemonNumber").innerText = nextPokemon ? `` : "";
-        document.getElementById("nextPokemonName").innerText = nextPokemon ? nextPokemon.name : "";
-    } else {
-        document.getElementById("nextPokemonNumber").innerText = nextPokemon ? `#${nextPokemon.num - 1999}` : "";
-        document.getElementById("nextPokemonName").innerText = nextPokemon ? nextPokemon.name.split("-")[0] : "";
-    }
+    const prev = navLabel(prevPokemon);
+    const next = navLabel(nextPokemon);
+    document.getElementById("previousPokemonNumber").innerText = prev.num;
+    document.getElementById("previousPokemonName").innerText = prev.name;
+    document.getElementById("nextPokemonNumber").innerText = next.num;
+    document.getElementById("nextPokemonName").innerText = next.name;
 
     document.querySelector(".arrow-left").style.display = prevPokemon ? "block" : "none";
     document.querySelector(".arrow-right").style.display = nextPokemon ? "block" : "none";
@@ -253,10 +247,6 @@ function displaySelectedPokemon(formIndex = 0) {
 }
 
 
-function loadPokemonDataForCardPage() {
-    displaySelectedPokemon();
-}
-
 function navigatePokemon(direction) {
     const currentNumber = getPokemonNumberFromURL();
     const currentSeqIndex = uniquePokedexNumbers.indexOf(currentNumber);
@@ -292,19 +282,7 @@ document.addEventListener('touchend', e => {
 }, { passive: true });
 
 document.addEventListener('DOMContentLoaded', () => {
-    const button = document.querySelector('.toggle-dark-mode-card');
-    const changeFavicon = window.changeFavicon || (() => {
-    });
-    const isDark = localStorage.getItem('darkMode') === 'enabled';
-
-    if (isDark) {
-        document.body.classList.add('dark-mode');
-        if (button) button.innerHTML = '<i class="fas fa-moon"></i>';
-        changeFavicon("data:image/svg+xml,<svg xmlns=%22http://www.w3.org/1999/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌌</text></svg>");
-    } else {
-        if (button) button.innerHTML = '<i class="fas fa-sun"></i>';
-        changeFavicon("data:image/svg+xml,<svg xmlns=%22http://www.w3.org/1999/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌱</text></svg>");
-    }
+    setDarkModeFromStorage('.toggle-dark-mode-card');
 
     // Popup Logic — reposition only; show/hide handled by CSS transitions
     document.querySelectorAll('.pokemon-ability').forEach(abilityEl => {
@@ -341,4 +319,4 @@ if ('serviceWorker' in navigator) {
     });
 }
 
-loadPokemonDataForCardPage();
+displaySelectedPokemon();
