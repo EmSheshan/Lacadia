@@ -176,7 +176,20 @@ function displayPokemonData(pokemonList, containerId) {
     const container = document.getElementById(containerId);
     container.innerHTML = "";
 
-    pokemonList.forEach((pokemon, index) => {
+    // One shared observer for all cards in this container
+    const observer = new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add("slide-in");
+                entry.target.addEventListener('transitionend', () => {
+                    entry.target.style.setProperty('--animation-delay', '0s');
+                }, { once: true });
+                obs.unobserve(entry.target);
+            }
+        });
+    }, { root: null, threshold: 0.1 });
+
+    pokemonList.forEach((pokemon) => {
         const displayTileName = pokemon.displayName || pokemon.name;
 
         const type1 = pokemon.types[0];
@@ -184,78 +197,50 @@ function displayPokemonData(pokemonList, containerId) {
 
         const baseId = pokemon.id || pokemon.name.toLowerCase().replace(/[^a-z0-9]/g, '');
 
-        let regularImage = `${IMAGE_PATH}${baseId}.png`;
-        let shinyImage = `${IMAGE_PATH}${baseId}_shiny.png`;
-        let type1Image = `${TYPE_ICON_PATH}${type1}.png`;
-        let type2Image = type2 ? `${TYPE_ICON_PATH}${type2}.png` : null;
+        const regularImage = `${IMAGE_PATH}${baseId}.png`;
+        const shinyImage = `${IMAGE_PATH}${baseId}_shiny.png`;
+        const type1Image = `${TYPE_ICON_PATH}${type1}.png`;
+        const type2Image = type2 ? `${TYPE_ICON_PATH}${type2}.png` : null;
 
         const pokemonCard = document.createElement("div");
         pokemonCard.classList.add("pokemon");
 
-        // Stamp data attributes for filtering
         pokemonCard.dataset.name = pokemon.name.toLowerCase();
-        pokemonCard.dataset.types = pokemon.types.map(t => t).join(',');
+        pokemonCard.dataset.types = pokemon.types.join(',');
 
-        container.appendChild(pokemonCard);
+        // Set stagger delay only for this card (fixes O(n²) re-loop)
+        const randomDelay = (Math.random() * 0.4).toFixed(2);
+        pokemonCard.style.setProperty('--animation-delay', `${randomDelay}s`);
 
-        document.querySelectorAll('.pokemon').forEach((element) => {
-            const randomDelay = (Math.random() * 0.4).toFixed(2);
-            element.style.setProperty('--animation-delay', `${randomDelay}s`);
-        });
-
-        const observer = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add("slide-in");
-                    // Reset the stagger delay once the card has finished animating in,
-                    // so subsequent hover transitions are instant (no inherited delay).
-                    entry.target.addEventListener('transitionend', () => {
-                        entry.target.style.setProperty('--animation-delay', '0s');
-                    }, { once: true });
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, {
-            root: null,
-            threshold: 0.1
-        });
-
-        observer.observe(pokemonCard);
-
-        pokemonCard.addEventListener("click", () => {
-            window.location.href = `cardPage.html?pokemonNumber=${pokemon.num}`;
-        });
-
-        let displayName = '';
-        if (pokemon.num < 3000) {
-            displayName = `#${pokemon.num - 1999} ${displayTileName}`
-        } else {
-            displayName = `${displayTileName}`
-        }
+        const displayName = pokemon.num < 3000
+            ? `#${pokemon.num - 1999} ${displayTileName}`
+            : displayTileName;
 
         pokemonCard.innerHTML = `
             <img src="${regularImage}"
                 alt="${pokemon.name}"
                 class="pokemon-image"
-                id="pokemonCardImage${pokemon.num}">
-
+                loading="lazy">
             <div class="name">${displayName}</div>
-
             <div class="types">
-                <img src="${type1Image}" alt="${type1}" class="type-image">
-                ${type2Image ? `<img src="${type2Image}" alt="${type2}" class="type-image">` : ""}
+                <img src="${type1Image}" alt="${type1}" class="type-image" loading="lazy">
+                ${type2Image ? `<img src="${type2Image}" alt="${type2}" class="type-image" loading="lazy">` : ""}
             </div>
         `;
 
-        const cardImage = document.getElementById(`pokemonCardImage${pokemon.num}`);
+        // Use pokemonCard.querySelector instead of document.getElementById
+        const cardImage = pokemonCard.querySelector('.pokemon-image');
         if (cardImage) {
-            cardImage.addEventListener("mouseover", () => {
-                cardImage.src = shinyImage;
-            });
-            cardImage.addEventListener("mouseout", () => {
-                cardImage.src = regularImage;
-            });
+            cardImage.addEventListener("mouseover", () => { cardImage.src = shinyImage; });
+            cardImage.addEventListener("mouseout", () => { cardImage.src = regularImage; });
         }
+
+        pokemonCard.addEventListener("click", () => {
+            window.location.href = `cardPage.html?pokemonNumber=${pokemon.num}`;
+        });
+
+        container.appendChild(pokemonCard);
+        observer.observe(pokemonCard);
     });
 }
 

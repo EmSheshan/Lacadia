@@ -114,7 +114,7 @@ p {
     background-color: var(--bg1);
     background-image: url('assets/Bg_Light.svg');
     overflow-y: scroll;
-
+    transition: background-color 0.4s ease, color 0.4s ease;
 }
 
 .container {
@@ -476,6 +476,7 @@ body.hyper-pokemon .pokemon-ability:hover, .pokemon-ability:focus {
     border-radius: 2rem;
     padding: 0.2rem 0.7rem;
     filter: drop-shadow(1px 1px 3px var(--shadow));
+    transition: background-color 0.4s ease, border-color 0.4s ease;
 }
 
 /* ==========================
@@ -570,12 +571,12 @@ body.hyper-pokemon .pokemon-ability:hover, .pokemon-ability:focus {
 
 .circle-background {
     display: flex;
-    width: 32rem; /* Adjust size as needed */
-    height: 32rem; /* Adjust size as needed */
-    border: 5rem solid var(--bg3); /* Border color */
+    width: 32rem;
+    height: 32rem;
+    border: 5rem solid var(--bg3);
     border-radius: 50%;
     overflow: hidden;
-    z-index: -1; /* Ensure the circle is behind the images */
+    z-index: -1;
 }
 
 
@@ -583,6 +584,7 @@ body.hyper-pokemon .pokemon-ability:hover, .pokemon-ability:focus {
     font-size: 1.2em;
     font-weight: bold;
     color: var(--main-text);
+    transition: color 0.4s ease;
 }
 
 
@@ -608,16 +610,15 @@ body.hyper-pokemon .pokemon-ability:hover, .pokemon-ability:focus {
     margin-top: 0;
     margin-left: 1rem;
     position: relative;
-
+    transition: color 0.4s ease;
 }
 
 
 .pokemon-description {
-    display: block; /* make it behave like a true box */
-    width: 80%; /* always take up 80% of parent width */
-    text-align: center; /* keep text centered */
-    box-sizing: border-box; /* padding + border included in width */
-
+    display: block;
+    width: 80%;
+    text-align: center;
+    box-sizing: border-box;
     padding: 1.4rem;
     color: var(--second-text);
     font-size: 1.2rem;
@@ -626,7 +627,7 @@ body.hyper-pokemon .pokemon-ability:hover, .pokemon-ability:focus {
     border-radius: 2rem;
     border: 0.8rem solid var(--bg2);
     filter: drop-shadow(5px 5px 10px var(--shadow));
-
+    transition: background-color 0.4s ease, border-color 0.4s ease, color 0.4s ease;
 }
 
 .pokemon-sigmove {
@@ -636,13 +637,13 @@ body.hyper-pokemon .pokemon-ability:hover, .pokemon-ability:focus {
     color: var(--main-text);
     font-weight: bold;
     font-size: 1.2rem;
-
     background-color: var(--bg3);
-    border-radius: 2rem; /* Rounded corners */
-    border: 0.8rem solid var(--accent5); /* Border with color */
+    border-radius: 2rem;
+    border: 0.8rem solid var(--accent5);
     display: flex;
     flex-direction: column;
     filter: drop-shadow(5px 5px 10px var(--shadow));
+    transition: background-color 0.4s ease, border-color 0.4s ease, color 0.4s ease;
 }
 
 
@@ -731,6 +732,7 @@ body.hyper-pokemon .pokemon-ability:hover, .pokemon-ability:focus {
     background-color: var(--bg3);
     border-radius: 1rem;
     overflow: hidden;
+    transition: background-color 0.4s ease;
 }
 
 .bar-fill {
@@ -1001,6 +1003,7 @@ body.dark-mode {
     align-items: center;
     box-shadow: 2px 2px 12px var(--shadow);
     margin: 4rem 3rem;
+    transition: background-color 0.4s ease, border-color 0.4s ease;
 }
 
 
