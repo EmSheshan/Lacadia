@@ -168,8 +168,16 @@ function displaySelectedPokemon(formIndex = 0) {
     document.getElementById("pokemonCardLeft").innerHTML = `
         <div class="pokemon-images-container">
             <div class="circle-background">
-                <img src="${regularImage}" class="pokemon-image-large" id="pokemonMainImage"  alt=""/>
+                <img src="${regularImage}" class="pokemon-image-large" id="pokemonMainImage" alt=""/>
             </div>
+            <button class="card-shiny-toggle" id="cardShinyToggle" title="Toggle Shiny">
+                <svg class="sparkle-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+                    <!-- large sparkle -->
+                    <path d="M10 5 L11.8 12.2 L19 14 L11.8 15.8 L10 23 L8.2 15.8 L1 14 L8.2 12.2 Z"/>
+                    <!-- small sparkle offset top-right -->
+                    <path d="M20 2 L20.7 4.3 L23 5 L20.7 5.7 L20 8 L19.3 5.7 L17 5 L19.3 4.3 Z"/>
+                </svg>
+            </button>
         </div>
         <div class="pokemon-description">
             <p>${selectedPokemon.description ? selectedPokemon.description[0] : "No description available."}<br><br>
@@ -177,11 +185,17 @@ function displaySelectedPokemon(formIndex = 0) {
         </div>
     `;
 
-    // Shiny Hover Logic
+    // Shiny Toggle Logic
     const mainImage = document.getElementById("pokemonMainImage");
-    if (mainImage) {
-        mainImage.addEventListener('mouseover', () => { mainImage.src = shinyImage; });
-        mainImage.addEventListener('mouseout', () => { mainImage.src = regularImage; });
+    const shinyBtn = document.getElementById("cardShinyToggle");
+    let isShiny = false;
+
+    if (mainImage && shinyBtn) {
+        shinyBtn.addEventListener('click', () => {
+            isShiny = !isShiny;
+            mainImage.src = isShiny ? shinyImage : regularImage;
+            shinyBtn.classList.toggle('shiny-active', isShiny);
+        });
     }
 
     document.getElementById("pokemonCardRight").innerHTML = `
