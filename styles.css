@@ -128,7 +128,7 @@ p {
     margin: 1rem;
 }
 
-#pokedex, #hyperdex {
+#pokedex {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
     gap: 1.5rem;
@@ -142,75 +142,6 @@ p {
 
 
 }
-
-#hyperdex {
-    grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
-    gap: 2rem;
-}
-
-body.hyper-pokemon h2 {
-    font-weight: 800;
-    background-size: 100% 100%;
-    background: linear-gradient(
-            110deg,
-            var(--accent1) 0%,
-            var(--accent2) 50%,
-            var(--accent5) 100%
-    ) 0 100%;
-
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-
-
-}
-
-
-
-body.hyper-pokemon .pokemon-image-large {
-    filter: drop-shadow(-0.2rem 0 0.3rem rgba(255, 0, 78, 0.8)) drop-shadow(0.2rem 0 0.3rem rgba(0, 155, 255, 0.8));
-    animation:
-            fadeInSlide 0.6s ease-out forwards,
-            hyperGlowPulse 5s ease-in-out infinite;
-
-}
-@keyframes hyperGlowPulse {
-    0% {
-        filter:
-                drop-shadow(-0.3rem 0.3rem 0.55rem rgba(255, 0, 78, 0.35))
-                drop-shadow( 0.3rem 0 0.3rem rgba(0, 155, 255, 0.55));
-    }
-    60% {
-        filter:
-                drop-shadow(-0.3rem 0 0.3rem rgba(0, 255, 191, 0.55))
-
-                drop-shadow( 0.3rem -0.3rem 0.55rem rgba(255, 0, 166, 0.35));
-    }
-    100% {
-        filter:
-                drop-shadow(-0.3rem 0.3rem 0.55rem rgba(255, 0, 78, 0.35))
-
-                drop-shadow( 0.3rem 0 0.3rem rgba(0, 155, 255, 0.55));
-    }
-}
-
-
-body.hyper-pokemon .ability-list {
-    background: var(--accent5);
-    border-radius: 1.2rem;
-    border: 0.8rem solid var(--accent2);
-
-
-}
-
-body.hyper-pokemon .lacadia-ability {
-    color: var(--bg1);
-}
-
-body.hyper-pokemon .pokemon-ability:hover, .pokemon-ability:focus {
-    background: var(--accent2);
-}
-
 
 
 .title-type-container {
@@ -300,7 +231,7 @@ body.hyper-pokemon .pokemon-ability:hover, .pokemon-ability:focus {
 
 .search-toggle-btn.active {
     color: var(--accent2);
-    background: rgba(255,255,255,0.15);
+    background: rgba(255, 255, 255, 0.15);
 }
 
 .search-wrapper {
@@ -785,14 +716,12 @@ body.hyper-pokemon .pokemon-ability:hover, .pokemon-ability:focus {
 
     background-image: repeating-linear-gradient(
             -60deg,
-            rgba(255,255,255,0.2) 0px,
-            rgba(255,255,255,0.2) 6px,
-            rgba(255,255,255,0.05) 6px,
-            rgba(255,255,255,0.05) 12px
+            rgba(255, 255, 255, 0.2) 0px,
+            rgba(255, 255, 255, 0.2) 6px,
+            rgba(255, 255, 255, 0.05) 6px,
+            rgba(255, 255, 255, 0.05) 12px
     );
-    }
-
-
+}
 
 
 .arrow-left {

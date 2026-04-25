@@ -1,7 +1,6 @@
 // index.js — loads and displays Pokémon data on the main page
 
 import {pokedex} from "./pokedex.js";
-import {hyperdex} from "./hyperdex.js";
 
 const IMAGE_PATH = "pokemonArt/";
 const TYPE_ICON_PATH = "typeIcons/";
@@ -31,13 +30,11 @@ function loadPokemonData() {
     }
 
     const pokemonList = Array.from(baseFormsMap.values());
-    const hyperList = Object.values(hyperdex);
 
     displayPokemonData(pokemonList, "pokedex");
-    displayPokemonData(hyperList, "hyperdex");
 
     // Build type filter buttons from all unique types across both lists
-    buildTypeFilters([...pokemonList, ...hyperList]);
+    buildTypeFilters([...pokemonList]);
 
     // Wire up search input
     const searchInput = document.getElementById('searchInput');
@@ -116,7 +113,7 @@ function filterCards() {
     updateResultCount(visibleCount);
 
     // Show no-results message if needed
-    ['pokedex', 'hyperdex'].forEach(id => {
+    ['pokedex'].forEach(id => {
         const container = document.getElementById(id);
         if (!container) return;
         let noResults = container.querySelector('.no-results');

@@ -2,7 +2,6 @@
 import {abilities} from './abilities.js';
 import {moves} from './moves.js';
 import {pokedex} from './pokedex.js';
-import {hyperdex} from './hyperdex.js';
 
 // Map where Key = Pokedex Number, Value = ARRAY of Pokémon Objects
 let pokemonNumMap = new Map();
@@ -10,7 +9,6 @@ let uniquePokedexNumbers = [];
 
 function initializePokemonData() {
     const rawData = Object.values(pokedex);
-    const hyperData = Object.values(hyperdex);
 
     rawData.forEach((pokemon) => {
         const num = parseInt(pokemon.num);
@@ -19,13 +17,6 @@ function initializePokemonData() {
             pokemonNumMap.set(num, []);
             uniquePokedexNumbers.push(num);
         }
-        pokemonNumMap.get(num).push(pokemon);
-    });
-
-    hyperData.forEach((pokemon) => {
-        const num = parseInt(pokemon.num);
-        pokemonNumMap.set(num, []);
-        uniquePokedexNumbers.push(num);
         pokemonNumMap.get(num).push(pokemon);
     });
 
@@ -81,10 +72,8 @@ function displaySelectedPokemon(formIndex = 0) {
     const currentFormIndex = formIndex % availableForms.length;
     const selectedPokemon = availableForms[currentFormIndex];
 
-    const isHyper = selectedPokemon.num >= 3000
 
 
-    document.body.classList.toggle("hyper-pokemon", isHyper);
 
     // --- Navigation Logic ---
     const currentSeqIndex = uniquePokedexNumbers.indexOf(pokemonNumber);
@@ -96,14 +85,14 @@ function displaySelectedPokemon(formIndex = 0) {
 
     // --- 1. TITLE FORMATTING (Yakoyza-Oni -> Yakoyza (Oni)) ---
     let displayName = selectedPokemon.name;
-    if (displayName.includes("-") && !isHyper) {
+    if (displayName.includes("-")) {
         const parts = displayName.split("-");
         // "Yakoyza" + " (" + "Oni" + ")"
         displayName = `${parts[0]} (${parts[1]})`;
     }
 
     // --- Set Page Title & Nav ---
-    document.title = isHyper ? displayName : `#${pokemonNumber - 1999} ${displayName}`;
+    document.title = `#${pokemonNumber - 1999} ${displayName}`;
 
     const navLabel = (p) => p?.num >= 3000
         ? { num: '', name: p.name }
@@ -218,7 +207,7 @@ function displaySelectedPokemon(formIndex = 0) {
         <div class="pokemon-abilities">
             <div class="ability-list">
                 ${[ability1, ability2, abilityh].filter(Boolean).map(a => {
-        const isLacadia = abilities[a]?.tag === 'lacadia' || abilities[a]?.tag === 'hyper';
+        const isLacadia = abilities[a]?.tag === 'lacadia';
         return `
                     <div class="pokemon-ability${isLacadia ? ' lacadia-ability' : ''}" tabindex="0">
                         ${isLacadia ? '◆ ' : ''}${a}${isLacadia ? ' ◆' : ''}
