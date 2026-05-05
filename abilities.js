@@ -339,7 +339,7 @@ export const abilities = {
   "Meltdown": { description: "This Pokémon will use the move Eruption immediately after being hit by a Fire-type move.", tag: "lacadia" },
   "Metal Eater": { description: "This Pokémon's moves become 30% more powerful when a Steel-type Pokémon is on the field.", tag: "lacadia" },
   "Momentum": { description: "This Pokémon's attack moves become more powerful each time they are used consecutively.", tag: "lacadia" },
-  "Hunter's Instincts": { description: "When this Pokémon or an opposing Pokémon enters the battle, the Pokémon reveals whether the opponent can be knocked out in one hit.", tag: "lacadia" },
+  "Hunter's Instincts": { description: "This Pokémon's critical hit ratio increases if the opponent's Pokemon HP is below 50%.", tag: "lacadia" },
   "Abrasive": { description: "When it enters battle, this Pokémon deals damage equal to one-eighth of the enemy's max HP.", tag: "lacadia" },
   "Lucky Star": { description: "This Pokémon's moves have a doubled chance of triggering secondary effects, while the opponent's moves have a half chance of triggering secondary effects on the user.", tag: "lacadia" },
   "Aspect Twist": { description: "This Pokémon's Physical moves use its Sp. Atk stat, while Special moves use the Atk stat.", tag: "lacadia" },

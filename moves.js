@@ -265,6 +265,14 @@ export const moves = {
         category: Category.STATUS,
         pp: 10,
         description: "The user transforms into a copy of the target, right down to having the same move set.",
+    },
+    "Rising Screamer": {
+        type: Type.ELECTRIC,
+        category: Category.PHYSICAL,
+        accuracy: 100,
+        power: 90,
+        pp: 10,
+        description: "Becomes a special move if that will deal more damage.",
     }
 
 };

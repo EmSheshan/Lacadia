@@ -1711,7 +1711,7 @@ export const pokedex = {
         kind: "Cyber",
         description: ["The technology embedded in its body is so sufficiently advanced, it would take humans 100 years of technological development to recreate it.",
             "It fights with a dark determination. Its believed it came from the future to prevent a terrible cataclysm from occurring."
-        ], "signatureMove": null
+        ], "signatureMove": "Rising Screamer"
     },
     sacrabellhymn: {
         num: 2099,
