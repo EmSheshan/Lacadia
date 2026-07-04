@@ -2,6 +2,14 @@
    :root Variables
    ========================== */
 :root {
+
+
+    /* Cap on the actual Pokémon artwork (not the decorative ring behind
+       it) so it always stays fully visible and centered on narrow
+       screens, even though the ring itself is allowed to bleed off the
+       edges of the page. */
+    --card-art-size: min(32rem, 100vw);
+
     /* Color Palette */
     --bg1: #f1e5da;
     --bg2: #e3d3c6;
@@ -26,13 +34,17 @@
 /* ==========================
    Global Styles
    ========================== */
+
+html {
+    overflow-x: hidden;
+}
 body {
     font-family: "Faculty Glyphic", sans-serif;
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-top: 8rem;
-    overflow-x: hidden;
+    overflow-x: clip;
     background-image: url('assets/Bg_Light.svg');
     background-repeat: repeat;
     transition: background-color 0.4s ease, color 0.4s ease;
@@ -80,6 +92,14 @@ p {
     align-items: flex-start;
     justify-content: center;
     margin-top: -4rem;
+    width: auto;
+    /* Flex items default to min-width:auto, which refuses to shrink below
+       the intrinsic width of content inside them (here, the decorative
+       circle-background, which is deliberately oversized and meant to
+       bleed off the page rather than push the whole layout wider). This
+       overrides that so the container can actually shrink to fit narrow
+       screens. */
+    min-width: 0;
 }
 
 
@@ -114,7 +134,6 @@ p {
     box-sizing: border-box;
     background-color: var(--bg1);
     background-image: url('assets/Bg_Light.svg');
-    overflow-y: scroll;
     transition: background-color 0.4s ease, color 0.4s ease;
 }
 
@@ -479,14 +498,12 @@ p {
 }
 
 .pokemon-image-large {
-    position: absolute;
-    width: 32rem;
-    height: 32rem;
     animation: fadeInSlide 0.6s ease-out forwards;
 
-
+    width: var(--card-art-size);
+    height: var(--card-art-size);
     filter: drop-shadow(20px 12px 10px var(--shadow)); /* Shadow */
-
+    margin: auto;
     transition: transform 0.3s ease; /* Smooth scaling transition */
     flex: 0 0 200px;
 }
@@ -545,11 +562,12 @@ p {
 
 .circle-background {
     display: flex;
+    justify-content: center;
+    align-items: center;
     width: 32rem;
     height: 32rem;
     border: 5rem solid var(--bg3);
     border-radius: 50%;
-    overflow: hidden;
     z-index: -1;
 }
 
@@ -743,7 +761,7 @@ p {
 
 .arrow {
     color: var(--bg3);
-    font-size: 1.7rem;
+    font-size: min(1.7rem, 7.5vw);
     cursor: pointer;
     transition: color 0.3s ease
 }
@@ -887,11 +905,11 @@ p {
 .banner-card {
     display: flex;
     align-items: center;
-    width: 100%;
     position: fixed;
     left: 0;
     z-index: 1000;
     box-shadow: 0 .5rem .5rem var(--shadow);
+    width: 99vw;
 }
 
 .banner-main {
@@ -1034,4 +1052,51 @@ body.dark-mode {
     transform: translateY(-50%) translateX(0);
 }
 
+@media (max-width: 600px) {
+    /* The prev/next Pokémon name no longer fits next to its number and
+       arrow icon at this width, and wrapping onto a second line inside
+       the fixed-height banner looked broken. Drop the number and keep just
+       the arrow + name. */
+    #previousPokemonNumber,
+    #nextPokemonNumber {
+        display: none;
+    }
 
+    .ability-description-popup,
+    .ability-description-popup.left {
+        right: auto;
+        left: 50%;
+        top: 100%;
+        transform: translateX(-50%) translateY(4px);
+        margin-right: 0;
+        margin-top: 0.4rem;
+        min-width: 200px;
+        max-width: 90vw;
+        clip-path: none; /* notch looks odd pointing sideways when it's now below */
+    }
+
+    .pokemon-ability:hover .ability-description-popup,
+    .pokemon-ability:focus .ability-description-popup,
+    .pokemon-ability:hover .ability-description-popup.left,
+    .pokemon-ability:focus .ability-description-popup.left {
+        transform: translateX(-50%) translateY(0);
+    }
+
+    .card-shiny-toggle {
+        top: 4.5rem;
+        right: 8.5rem;
+    }
+
+    .pokemon-description {
+        width: 120%;
+    }
+
+    .ability-list {
+        margin: 3rem -2rem;
+    }
+
+    .title-type-container {
+        margin: 3rem 0 0.5rem 1rem;
+    }
+
+}

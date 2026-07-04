@@ -162,30 +162,6 @@ export const moves = {
         pp: 10,
         description: "The user attacks by reciting a divine curse. Any Pokémon that hears this chant faints in three turns, unless it switches out of battle.",
     },
-    "Axe Kick": {
-        type: Type.FIGHTING,
-        category: Category.PHYSICAL,
-        accuracy: 90,
-        power: 120,
-        pp: 10,
-        description: "The user attacks by kicking up into the air and slamming its heel down upon the target. This may also confuse the target. If it misses, the user takes damage instead.",
-    },
-    "Tempus Glaciale": {
-        type: Type.ICE,
-        category: Category.SPECIAL,
-        accuracy: 75,
-        power: 100,
-        pp: 5,
-        description: "The user traps the target inside a raging blizzard that inflicts damage for four to five turns.",
-    },
-    "Revolutio Ignis": {
-        type: Type.FIRE,
-        category: Category.PHYSICAL,
-        accuracy: 100,
-        power: 80,
-        pp: 5,
-        description: "After making its attack, both the user and opponent are forced to switch places with a party Pokémon in waiting.",
-    },
     "Landscape of Thorns": {
         type: Type.POISON,
         category: Category.STATUS,
@@ -252,20 +228,6 @@ export const moves = {
         pp: 5,
         description: "The user drains the opponent's strength, eliminating their stat boosts and restoring 10% of the user's health for each boost removed.",
     },
-    "Snipe Shot": {
-        type: Type.WATER,
-        category: Category.SPECIAL,
-        accuracy: 100,
-        power: 80,
-        pp: 15,
-        description: "The user ignores the effects of opposing Pokémon’s moves and Abilities that draw in moves, allowing this move to hit the chosen target. It has a high critical-hit ratio.",
-    },
-    "Transform": {
-        type: Type.Normal,
-        category: Category.STATUS,
-        pp: 10,
-        description: "The user transforms into a copy of the target, right down to having the same move set.",
-    },
     "Rising Screamer": {
         type: Type.ELECTRIC,
         category: Category.PHYSICAL,
@@ -274,5 +236,4 @@ export const moves = {
         pp: 10,
         description: "Becomes a special move if that will deal more damage.",
     }
-
 };
