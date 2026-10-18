@@ -1,0 +1,203 @@
+{
+  "generated": "2026-10-18",
+  "resumesAfter": "Tortality",
+  "note": "Dex order. Edit or reorder by hand; the daily job takes the first entry with an unposted platform.",
+  "entries": [
+    {
+      "key": "kheprini",
+      "num": 2073,
+      "name": "Kheprini",
+      "image": "socialImages/kheprini.jpg",
+      "posted": {}
+    },
+    {
+      "key": "servankh",
+      "num": 2074,
+      "name": "Servankh",
+      "image": "socialImages/servankh.jpg",
+      "posted": {}
+    },
+    {
+      "key": "pharomancy",
+      "num": 2075,
+      "name": "Pharomancy",
+      "image": "socialImages/pharomancy.jpg",
+      "posted": {}
+    },
+    {
+      "key": "furnawurm",
+      "num": 2076,
+      "name": "Furnawurm",
+      "image": "socialImages/furnawurm.jpg",
+      "posted": {}
+    },
+    {
+      "key": "selky",
+      "num": 2077,
+      "name": "Selky",
+      "image": "socialImages/selky.jpg",
+      "posted": {}
+    },
+    {
+      "key": "lumajesty",
+      "num": 2078,
+      "name": "Lumajesty",
+      "image": "socialImages/lumajesty.jpg",
+      "posted": {}
+    },
+    {
+      "key": "shuckler",
+      "num": 2079,
+      "name": "Shuckler",
+      "image": "socialImages/shuckler.jpg",
+      "posted": {}
+    },
+    {
+      "key": "smeltmor",
+      "num": 2080,
+      "name": "Smeltmor",
+      "image": "socialImages/smeltmor.jpg",
+      "posted": {}
+    },
+    {
+      "key": "pyrant",
+      "num": 2081,
+      "name": "Pyrant",
+      "image": "socialImages/pyrant.jpg",
+      "posted": {}
+    },
+    {
+      "key": "patopod",
+      "num": 2082,
+      "name": "Patopod",
+      "image": "socialImages/patopod.jpg",
+      "posted": {}
+    },
+    {
+      "key": "nymphlora",
+      "num": 2083,
+      "name": "Nymphlora",
+      "image": "socialImages/nymphlora.jpg",
+      "posted": {}
+    },
+    {
+      "key": "idagon",
+      "num": 2084,
+      "name": "Idagon",
+      "image": "socialImages/idagon.jpg",
+      "posted": {}
+    },
+    {
+      "key": "libradon",
+      "num": 2085,
+      "name": "Libradon",
+      "image": "socialImages/libradon.jpg",
+      "posted": {}
+    },
+    {
+      "key": "suprion",
+      "num": 2086,
+      "name": "Suprion",
+      "image": "socialImages/suprion.jpg",
+      "posted": {}
+    },
+    {
+      "key": "larvos",
+      "num": 2087,
+      "name": "Larvos",
+      "image": "socialImages/larvos.jpg",
+      "posted": {}
+    },
+    {
+      "key": "syrinsect",
+      "num": 2088,
+      "name": "Syrinsect",
+      "image": "socialImages/syrinsect.jpg",
+      "posted": {}
+    },
+    {
+      "key": "stratoclysm",
+      "num": 2089,
+      "name": "Stratoclysm",
+      "image": "socialImages/stratoclysm.jpg",
+      "posted": {}
+    },
+    {
+      "key": "paracabra",
+      "num": 2090,
+      "name": "Paracabra",
+      "image": "socialImages/paracabra.jpg",
+      "posted": {}
+    },
+    {
+      "key": "saskrypt",
+      "num": 2091,
+      "name": "Saskrypt",
+      "image": "socialImages/saskrypt.jpg",
+      "posted": {}
+    },
+    {
+      "key": "devile",
+      "num": 2092,
+      "name": "Devile",
+      "image": "socialImages/devile.jpg",
+      "posted": {}
+    },
+    {
+      "key": "azamoth",
+      "num": 2093,
+      "name": "Azamoth",
+      "image": "socialImages/azamoth.jpg",
+      "posted": {}
+    },
+    {
+      "key": "albythos",
+      "num": 2094,
+      "name": "Albythos",
+      "image": "socialImages/albythos.jpg",
+      "posted": {}
+    },
+    {
+      "key": "xerasige",
+      "num": 2095,
+      "name": "Xerasige",
+      "image": "socialImages/xerasige.jpg",
+      "posted": {}
+    },
+    {
+      "key": "jeneosis",
+      "num": 2096,
+      "name": "Jeneosis",
+      "image": "socialImages/jeneosis.jpg",
+      "posted": {}
+    },
+    {
+      "key": "xophis",
+      "num": 2097,
+      "name": "Xophis",
+      "image": "socialImages/xophis.jpg",
+      "posted": {}
+    },
+    {
+      "key": "ravenger",
+      "num": 2098,
+      "name": "Ravenger",
+      "image": "socialImages/ravenger.jpg",
+      "posted": {}
+    },
+    {
+      "key": "sacrabelldirge",
+      "num": 2099,
+      "name": "Sacrabell-Dirge",
+      "image": "socialImages/sacrabelldirge.jpg",
+      "posted": {}
+    },
+    {
+      "key": "sacrabellhymn",
+      "num": 2099,
+      "name": "Sacrabell-Hymn",
+      "image": "socialImages/sacrabellhymn.jpg",
+      "posted": {}
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+# The daily workflow rewrites social/queue.json on Linux. Pin text files to LF
+# so that does not fight with autocrlf on Windows checkouts.
+*.mjs  text eol=lf
+*.js   text eol=lf
+*.json text eol=lf
+*.yml  text eol=lf
+*.md   text eol=lf
+*.png  binary
+*.jpg  binary

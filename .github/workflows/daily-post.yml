@@ -1,0 +1,100 @@
+name: Daily Lacadia post
+
+on:
+  schedule:
+    # 15:00 UTC daily. Change this to move the posting time.
+    # Note GitHub's scheduler can run a few minutes late under load.
+    - cron: '0 15 * * *'
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Render the post without sending it'
+        type: boolean
+        default: true
+      only:
+        description: 'Limit to one platform (bluesky or tumblr)'
+        type: string
+        default: ''
+
+# Never let two runs post at once.
+concurrency:
+  group: daily-post
+  cancel-in-progress: false
+
+permissions:
+  contents: write   # commit the updated queue back
+  issues: write     # tell the user when the queue runs dry
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      # --omit=dev skips `canvas`, which needs a native build and is only used
+      # by the local image-prep script.
+      - name: Install
+        run: npm ci --omit=dev
+
+      - name: Verify captions still render
+        run: node --test social/caption.test.mjs
+
+      - name: Post
+        id: post
+        env:
+          BLUESKY_HANDLE: ${{ secrets.BLUESKY_HANDLE }}
+          BLUESKY_APP_PASSWORD: ${{ secrets.BLUESKY_APP_PASSWORD }}
+          TUMBLR_CONSUMER_KEY: ${{ secrets.TUMBLR_CONSUMER_KEY }}
+          TUMBLR_CONSUMER_SECRET: ${{ secrets.TUMBLR_CONSUMER_SECRET }}
+          TUMBLR_TOKEN: ${{ secrets.TUMBLR_TOKEN }}
+          TUMBLR_TOKEN_SECRET: ${{ secrets.TUMBLR_TOKEN_SECRET }}
+          TUMBLR_BLOG: ${{ secrets.TUMBLR_BLOG }}
+        run: |
+          node scripts/post-daily.mjs \
+            ${{ (github.event_name == 'workflow_dispatch' && inputs.dry_run) && '--dry-run' || '' }} \
+            ${{ inputs.only != '' && format('--only {0}', inputs.only) || '' }}
+
+      # Runs even if posting failed, so partial successes are not lost.
+      - name: Record what was posted
+        if: always() && !(github.event_name == 'workflow_dispatch' && inputs.dry_run)
+        run: |
+          if git diff --quiet social/queue.json; then
+            echo "queue unchanged"
+            exit 0
+          fi
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add social/queue.json
+          git commit -m "Posted ${{ steps.post.outputs.pokemon }} [skip ci]"
+          git push
+
+      - name: Open an issue when the queue runs dry
+        if: steps.post.outputs.exhausted == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const title = 'Daily post queue is empty';
+            const existing = await github.rest.issues.listForRepo({
+              owner: context.repo.owner, repo: context.repo.repo,
+              state: 'open', labels: 'daily-post',
+            });
+            if (existing.data.some(i => i.title === title)) return;
+            await github.rest.issues.create({
+              owner: context.repo.owner, repo: context.repo.repo,
+              title,
+              labels: ['daily-post'],
+              body: [
+                'Every queued card has been posted, so the daily job is now idle.',
+                '',
+                'To queue more art:',
+                '1. Add the new PNGs to `sharablePokemonArt/` and add their `pokedex.js` entries',
+                '2. `node scripts/build-social-images.mjs`',
+                '3. `node scripts/build-queue.mjs --after <last posted name>`',
+                '4. Commit and push `socialImages/` and `social/queue.json`',
+              ].join('\n'),
+            });

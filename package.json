@@ -1,0 +1,18 @@
+{
+  "name": "lacadia",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build:images": "node scripts/build-social-images.mjs",
+    "build:queue": "node scripts/build-queue.mjs",
+    "post:dry": "node scripts/post-daily.mjs --dry-run",
+    "post": "node scripts/post-daily.mjs",
+    "test": "node --test social/*.test.mjs"
+  },
+  "dependencies": {
+    "tumblr.js": "^5.0.1"
+  },
+  "devDependencies": {
+    "canvas": "^3.2.0"
+  }
+}
