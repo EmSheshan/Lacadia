@@ -1,8 +1,71 @@
 {
-  "generated": "2026-10-18",
-  "resumesAfter": "Tortality",
-  "note": "Dex order. Edit or reorder by hand; the daily job takes the first entry with an unposted platform.",
+  "generated": "2026-10-22",
+  "resumesAfter": {
+    "bluesky": "Tortality",
+    "tumblr": "Monolithid"
+  },
+  "note": "Dex order, shared list, per-platform posted state. Each platform advances independently: one card per platform per day. Reorder by editing entries.",
   "entries": [
+    {
+      "key": "marazcal",
+      "num": 2069,
+      "name": "Marazcal",
+      "image": "socialImages/marazcal.jpg",
+      "posted": {
+        "bluesky": {
+          "backfilled": true,
+          "note": "posted by hand before automation"
+        }
+      }
+    },
+    {
+      "key": "iguavadon",
+      "num": 2070,
+      "name": "Iguavadon",
+      "image": "socialImages/iguavadon.jpg",
+      "posted": {
+        "bluesky": {
+          "backfilled": true,
+          "note": "posted by hand before automation"
+        }
+      }
+    },
+    {
+      "key": "tortarmapolar",
+      "num": 2071,
+      "name": "Tortarma-Polar",
+      "image": "socialImages/tortarmapolar.jpg",
+      "posted": {
+        "bluesky": {
+          "backfilled": true,
+          "note": "posted by hand before automation"
+        }
+      }
+    },
+    {
+      "key": "tortarmasolar",
+      "num": 2071,
+      "name": "Tortarma-Solar",
+      "image": "socialImages/tortarmasolar.jpg",
+      "posted": {
+        "bluesky": {
+          "backfilled": true,
+          "note": "posted by hand before automation"
+        }
+      }
+    },
+    {
+      "key": "tortality",
+      "num": 2072,
+      "name": "Tortality",
+      "image": "socialImages/tortality.jpg",
+      "posted": {
+        "bluesky": {
+          "backfilled": true,
+          "note": "posted by hand before automation"
+        }
+      }
+    },
     {
       "key": "kheprini",
       "num": 2073,

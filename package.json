@@ -5,8 +5,8 @@
   "scripts": {
     "build:images": "node scripts/build-social-images.mjs",
     "build:queue": "node scripts/build-queue.mjs",
-    "post:dry": "node scripts/post-daily.mjs --dry-run",
-    "post": "node scripts/post-daily.mjs",
+    "post:dry": "node --env-file-if-exists=.env scripts/post-daily.mjs --dry-run",
+    "post": "node --env-file-if-exists=.env scripts/post-daily.mjs",
     "test": "node --test social/*.test.mjs"
   },
   "dependencies": {
