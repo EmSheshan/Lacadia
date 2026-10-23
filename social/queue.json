@@ -31,6 +31,10 @@
         "bluesky": {
           "backfilled": true,
           "note": "posted by hand before automation"
+        },
+        "tumblr": {
+          "at": "2026-10-23T19:31:39.632Z",
+          "url": "https://emsh.tumblr.com/post/831294169956990976"
         }
       }
     },
@@ -87,7 +91,12 @@
       "num": 2074,
       "name": "Servankh",
       "image": "socialImages/servankh.jpg",
-      "posted": {}
+      "posted": {
+        "bluesky": {
+          "at": "2026-10-23T19:31:38.611Z",
+          "url": "https://bsky.app/profile/emsheshan.bsky.social/post/3mykw5qhcev2z"
+        }
+      }
     },
     {
       "key": "pharomancy",
