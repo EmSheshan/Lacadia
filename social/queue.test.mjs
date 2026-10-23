@@ -54,3 +54,25 @@ test('no entry is queued twice', () => {
     const keys = queue.entries.map((e) => e.key);
     assert.equal(new Set(keys).size, keys.length);
 });
+
+test('TUMBLR_BLOG accepts a name, a host, or either dashboard URL', async () => {
+    const { blogHost } = await import('./platforms/tumblr.mjs');
+
+    // what the user would type
+    assert.equal(blogHost('emsh'), 'emsh.tumblr.com');
+    assert.equal(blogHost('  emsh  '), 'emsh.tumblr.com');
+    assert.equal(blogHost('emsh.tumblr.com'), 'emsh.tumblr.com');
+
+    // what the address bar gives you
+    assert.equal(blogHost('https://www.tumblr.com/blog/emsh'), 'emsh.tumblr.com');
+    assert.equal(blogHost('https://www.tumblr.com/emsh'), 'emsh.tumblr.com');
+    assert.equal(blogHost('www.tumblr.com/blog/emsh'), 'emsh.tumblr.com');
+    assert.equal(blogHost('https://emsh.tumblr.com/'), 'emsh.tumblr.com');
+
+    // a custom domain must not get .tumblr.com bolted on
+    assert.equal(blogHost('art.example.com'), 'art.example.com');
+
+    // nothing usable
+    assert.equal(blogHost(''), '');
+    assert.equal(blogHost(undefined), '');
+});

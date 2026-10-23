@@ -12,8 +12,29 @@ const REQUIRED = [
     'TUMBLR_TOKEN', 'TUMBLR_TOKEN_SECRET', 'TUMBLR_BLOG',
 ];
 
+/**
+ * Normalises whatever the user put in TUMBLR_BLOG to a blog host.
+ *
+ * tumblr.js does no normalising at all -- it drops the string straight into
+ * /v2/blog/<id>/posts -- and the permalink reported back has to be a real host.
+ * Accepts the bare name, the host, or either dashboard URL form, since
+ * `https://www.tumblr.com/blog/emsh` is what the address bar gives you.
+ * Custom domains pass through untouched.
+ */
+export function blogHost(raw) {
+    let s = String(raw ?? '').trim().replace(/^https?:\/\//, '').replace(/\/+$/, '');
+    if (!s) return '';
+
+    // www.tumblr.com/blog/emsh  and  www.tumblr.com/emsh
+    const dashboard = s.match(/^(?:www\.)?tumblr\.com\/(?:blog\/)?([^/?#]+)/i);
+    if (dashboard) s = dashboard[1];
+
+    if (!s || s.includes('/')) return '';
+    return s.includes('.') ? s : `${s}.tumblr.com`;
+}
+
 export function isConfigured() {
-    return REQUIRED.every((k) => Boolean(process.env[k]));
+    return REQUIRED.every((k) => Boolean(process.env[k])) && Boolean(blogHost(process.env.TUMBLR_BLOG));
 }
 
 export function missingKeys() {
@@ -28,7 +49,9 @@ export async function post({ imagePath, body, alt, tags }) {
         token_secret: process.env.TUMBLR_TOKEN_SECRET,
     });
 
-    const blog = process.env.TUMBLR_BLOG;
+    const blog = blogHost(process.env.TUMBLR_BLOG);
+    if (!blog) throw new Error(`could not read a blog name from TUMBLR_BLOG="${process.env.TUMBLR_BLOG}"`);
+
     const absolute = path.resolve(imagePath);
     if (!fs.existsSync(absolute)) throw new Error(`image not found: ${absolute}`);
 
