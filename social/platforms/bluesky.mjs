@@ -5,15 +5,41 @@ const SERVICE = process.env.BLUESKY_SERVICE ?? 'https://bsky.social';
 
 export const name = 'bluesky';
 
+/**
+ * Normalises BLUESKY_HANDLE to something createSession accepts as an identifier.
+ * The API takes a full handle, a DID or an email, but NOT a bare username --
+ * which is the obvious thing to type. A leading @ is stripped and a profile URL
+ * unwrapped; DIDs, emails and custom-domain handles pass through untouched.
+ */
+export function normaliseHandle(raw) {
+    let s = String(raw ?? '').trim();
+    if (!s) return '';
+    if (/^did:/i.test(s)) return s;
+
+    s = s.replace(/^https?:\/\//, '').replace(/\/+$/, '');
+    const profile = s.match(/^bsky\.app\/profile\/([^/?#]+)/i);
+    if (profile) s = profile[1];
+
+    s = s.replace(/^@/, '');
+    if (s.includes('@')) return s; // an email identifier
+
+    if (!s || s.includes('/')) return '';
+    return s.includes('.') ? s : `${s}.bsky.social`;
+}
+
 export function isConfigured() {
-    return Boolean(process.env.BLUESKY_HANDLE && process.env.BLUESKY_APP_PASSWORD);
+    return Boolean(normaliseHandle(process.env.BLUESKY_HANDLE) && process.env.BLUESKY_APP_PASSWORD);
+}
+
+export function missingKeys() {
+    return ['BLUESKY_HANDLE', 'BLUESKY_APP_PASSWORD'].filter((k) => !process.env[k]);
 }
 
 async function xrpc(endpoint, { method = 'POST', token, body, contentType } = {}) {
     const res = await fetch(`${SERVICE}/xrpc/${endpoint}`, {
         method,
         headers: {
-            ...(contentType ? { 'Content-Type': contentType } : { 'Content-Type': 'application/json' }),
+            'Content-Type': contentType ?? 'application/json',
             ...(token ? { Authorization: `Bearer ${token}` } : {}),
         },
         body: contentType ? body : JSON.stringify(body),
@@ -57,11 +83,13 @@ export function hashtagFacets(text) {
 }
 
 export async function post({ text, image, alt, mimeType = 'image/jpeg', width, height }) {
+    const identifier = normaliseHandle(process.env.BLUESKY_HANDLE);
+    if (!identifier) {
+        throw new Error(`could not read a handle from BLUESKY_HANDLE="${process.env.BLUESKY_HANDLE}"`);
+    }
+
     const session = await xrpc('com.atproto.server.createSession', {
-        body: {
-            identifier: process.env.BLUESKY_HANDLE,
-            password: process.env.BLUESKY_APP_PASSWORD,
-        },
+        body: { identifier, password: process.env.BLUESKY_APP_PASSWORD },
     });
 
     const uploaded = await xrpc('com.atproto.repo.uploadBlob', {
@@ -94,6 +122,6 @@ export async function post({ text, image, alt, mimeType = 'image/jpeg', width, h
     const rkey = created.uri.split('/').pop();
     return {
         uri: created.uri,
-        url: `https://bsky.app/profile/${session.handle ?? process.env.BLUESKY_HANDLE}/post/${rkey}`,
+        url: `https://bsky.app/profile/${session.handle ?? identifier}/post/${rkey}`,
     };
 }

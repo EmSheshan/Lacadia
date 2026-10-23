@@ -76,3 +76,28 @@ test('TUMBLR_BLOG accepts a name, a host, or either dashboard URL', async () => 
     assert.equal(blogHost(''), '');
     assert.equal(blogHost(undefined), '');
 });
+
+test('BLUESKY_HANDLE accepts a username, a handle, an @tag or a profile URL', async () => {
+    const { normaliseHandle } = await import('./platforms/bluesky.mjs');
+
+    // the obvious thing to type, which the API would otherwise reject
+    assert.equal(normaliseHandle('emsh'), 'emsh.bsky.social');
+    assert.equal(normaliseHandle('@emsh'), 'emsh.bsky.social');
+    assert.equal(normaliseHandle('  emsh  '), 'emsh.bsky.social');
+
+    // the full handle, with and without the @
+    assert.equal(normaliseHandle('emsh.bsky.social'), 'emsh.bsky.social');
+    assert.equal(normaliseHandle('@emsh.bsky.social'), 'emsh.bsky.social');
+
+    // pasted from the address bar
+    assert.equal(normaliseHandle('https://bsky.app/profile/emsh.bsky.social'), 'emsh.bsky.social');
+    assert.equal(normaliseHandle('bsky.app/profile/@emsh.bsky.social'), 'emsh.bsky.social');
+
+    // these are valid identifiers already and must not be touched
+    assert.equal(normaliseHandle('did:plc:abc123'), 'did:plc:abc123');
+    assert.equal(normaliseHandle('me@example.com'), 'me@example.com');
+    assert.equal(normaliseHandle('lacadia.art'), 'lacadia.art');
+
+    assert.equal(normaliseHandle(''), '');
+    assert.equal(normaliseHandle(undefined), '');
+});
