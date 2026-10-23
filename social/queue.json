@@ -15,6 +15,10 @@
         "bluesky": {
           "backfilled": true,
           "note": "posted by hand before automation"
+        },
+        "tumblr": {
+          "at": "2026-10-23T18:11:13.190Z",
+          "url": "https://emsh.tumblr.com/post/831289109061550080"
         }
       }
     },
@@ -71,7 +75,12 @@
       "num": 2073,
       "name": "Kheprini",
       "image": "socialImages/kheprini.jpg",
-      "posted": {}
+      "posted": {
+        "bluesky": {
+          "at": "2026-10-23T18:11:12.293Z",
+          "url": "https://bsky.app/profile/emsheshan.bsky.social/post/3mykrnvp5mf2k"
+        }
+      }
     },
     {
       "key": "servankh",
