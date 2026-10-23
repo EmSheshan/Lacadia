@@ -11,7 +11,7 @@
 // and served by GitHub Pages.
 
 const HOST = process.env.IG_HOST ?? 'https://graph.instagram.com';
-const VERSION = process.env.IG_API_VERSION ?? 'v21.0';
+const VERSION = process.env.IG_API_VERSION ?? 'v26.0';
 
 // Where Meta fetches the card from. GitHub Pages serves the committed JPEGs.
 const IMAGE_BASE = (process.env.IG_IMAGE_BASE_URL

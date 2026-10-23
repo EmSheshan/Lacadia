@@ -55,13 +55,25 @@ professional account. A personal account cannot publish via the API at all.
 
 1. **[developers.facebook.com/apps](https://developers.facebook.com/apps)** →
    Create app → use the **Business** app type.
-2. Add the **Instagram** product, and pick **API setup with Instagram login**.
-3. Connect your Instagram account where it asks, and generate a token with
-   **`instagram_business_basic`** and **`instagram_business_content_publish`**.
-4. The same panel shows your **Instagram user ID**. Take both values.
+   The type **cannot be changed later** — a non-Business app means starting over.
+2. In the left menu: **Instagram → API setup with Instagram business login**.
+3. Click **Generate token** next to your Instagram account, log in, copy it.
+   This token is long-lived: valid 60 days. (Tokens from the Business Login
+   *flow* last only 1 hour — you want the App Dashboard one.)
+4. Get the user ID. **The panel does not show it**, and `/me` returns two
+   lookalike fields:
 
-Meta moves this console around regularly, so treat the click path as a guide and
-the two permission names as the thing that actually matters.
+   ```
+   node --env-file-if-exists=.env scripts/ig-whoami.mjs
+   ```
+
+   with `IG_ACCESS_TOKEN` set in `.env`. It prints `user_id`, which is what
+   `IG_USER_ID` wants. **Do not use the `id` field** — that one is app-scoped
+   and will not publish.
+
+Permissions needed are `instagram_business_basic` and
+`instagram_business_content_publish`. Meta moves this console around, so treat
+the click path as a guide and the permission names as what actually matters.
 
 Secrets to add:
 
