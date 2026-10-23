@@ -118,6 +118,10 @@ After that it runs itself at 15:00 UTC daily.
   (its 300-char limit cannot fit the full text). Tumblr gets the full text, with
   the ten hashtags in its real `tags` field where they're actually searchable.
   Full flavour text is the image alt on both.
+- **Alternate forms post together.** A species with several forms (Tortarma,
+  Sacrabell, Yakoyza) goes out as one multi-image post captioned with the base
+  species name, because the forms share their kind and description text and
+  separate posts would read as duplicates. Instagram uses a carousel.
 - **No double posts** — `social/queue.json` records each platform separately and is
   committed right after each success, so a retry resumes rather than repeats.
 - **One platform failing** never blocks the other.

@@ -41,7 +41,11 @@ export function missingKeys() {
     return REQUIRED.filter((k) => !process.env[k]);
 }
 
-export async function post({ imagePath, body, alt, tags }) {
+/**
+ * `imagePaths` is an array -- one path for a normal card, several when a
+ * species' alternate forms go out together. NPF takes one block per image.
+ */
+export async function post({ imagePaths, body, alt, tags }) {
     const client = new Client({
         consumer_key: process.env.TUMBLR_CONSUMER_KEY,
         consumer_secret: process.env.TUMBLR_CONSUMER_SECRET,
@@ -51,13 +55,20 @@ export async function post({ imagePath, body, alt, tags }) {
 
     const blog = blogHost(process.env.TUMBLR_BLOG);
     if (!blog) throw new Error(`could not read a blog name from TUMBLR_BLOG="${process.env.TUMBLR_BLOG}"`);
+    if (!imagePaths?.length) throw new Error('no images given');
 
-    const absolute = path.resolve(imagePath);
-    if (!fs.existsSync(absolute)) throw new Error(`image not found: ${absolute}`);
+    const absolutes = imagePaths.map((p) => path.resolve(p));
+    for (const a of absolutes) {
+        if (!fs.existsSync(a)) throw new Error(`image not found: ${a}`);
+    }
 
     const result = await client.createPost(blog, {
         content: [
-            { type: 'image', media: fs.createReadStream(absolute), alt_text: alt },
+            ...absolutes.map((a) => ({
+                type: 'image',
+                media: fs.createReadStream(a),
+                alt_text: alt,
+            })),
             { type: 'text', text: body },
         ],
         tags,

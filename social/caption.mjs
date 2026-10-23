@@ -83,3 +83,27 @@ export function renderAll(entry) {
         tags: tagList(),
     };
 }
+
+/** "Tortarma-Solar" -> "Tortarma". Alternate forms are hyphen-suffixed. */
+export function baseName(name) {
+    return String(name).split('-')[0];
+}
+
+/**
+ * Collapses several forms of one species into a single entry for a combined
+ * post. Forms share their kind and description text verbatim, so only the name
+ * needs collapsing -- every renderer above then works unchanged, and a post
+ * carrying both Tortarma forms reads "Tortarma, the Tortoise Pokemon!".
+ *
+ * A single-entry group is returned untouched.
+ */
+export function mergeForms(entries) {
+    if (!entries?.length) throw new Error('mergeForms needs at least one entry');
+    if (entries.length === 1) return entries[0];
+
+    const names = entries.map((e) => baseName(e.name));
+    if (new Set(names).size !== 1) {
+        throw new Error(`refusing to merge different species: ${entries.map((e) => e.name).join(', ')}`);
+    }
+    return { ...entries[0], name: names[0] };
+}

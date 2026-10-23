@@ -82,41 +82,54 @@ export function hashtagFacets(text) {
     return facets;
 }
 
-export async function post({ text, image, alt, mimeType = 'image/jpeg', width, height }) {
+export const MAX_IMAGES = 4;
+
+/**
+ * `images` is [{ bytes, alt }] -- one entry for a normal card, several when a
+ * species' alternate forms are posted together. Each blob uploads separately.
+ */
+export async function post({ text, images, width, height, mimeType = 'image/jpeg' }) {
     const identifier = normaliseHandle(process.env.BLUESKY_HANDLE);
     if (!identifier) {
         throw new Error(`could not read a handle from BLUESKY_HANDLE="${process.env.BLUESKY_HANDLE}"`);
+    }
+    if (!images?.length) throw new Error('no images given');
+    if (images.length > MAX_IMAGES) {
+        throw new Error(`bluesky takes at most ${MAX_IMAGES} images, got ${images.length}`);
     }
 
     const session = await xrpc('com.atproto.server.createSession', {
         body: { identifier, password: process.env.BLUESKY_APP_PASSWORD },
     });
 
-    const uploaded = await xrpc('com.atproto.repo.uploadBlob', {
-        token: session.accessJwt,
-        body: image,
-        contentType: mimeType,
-    });
-
-    const record = {
-        $type: 'app.bsky.feed.post',
-        text,
-        createdAt: new Date().toISOString(),
-        langs: ['en'],
-        facets: hashtagFacets(text),
-        embed: {
-            $type: 'app.bsky.embed.images',
-            images: [{
-                alt,
-                image: uploaded.blob,
-                ...(width && height ? { aspectRatio: { width, height } } : {}),
-            }],
-        },
-    };
+    const embedded = [];
+    for (const img of images) {
+        const uploaded = await xrpc('com.atproto.repo.uploadBlob', {
+            token: session.accessJwt,
+            body: img.bytes,
+            contentType: mimeType,
+        });
+        embedded.push({
+            alt: img.alt,
+            image: uploaded.blob,
+            ...(width && height ? { aspectRatio: { width, height } } : {}),
+        });
+    }
 
     const created = await xrpc('com.atproto.repo.createRecord', {
         token: session.accessJwt,
-        body: { repo: session.did, collection: 'app.bsky.feed.post', record },
+        body: {
+            repo: session.did,
+            collection: 'app.bsky.feed.post',
+            record: {
+                $type: 'app.bsky.feed.post',
+                text,
+                createdAt: new Date().toISOString(),
+                langs: ['en'],
+                facets: hashtagFacets(text),
+                embed: { $type: 'app.bsky.embed.images', images: embedded },
+            },
+        },
     });
 
     const rkey = created.uri.split('/').pop();

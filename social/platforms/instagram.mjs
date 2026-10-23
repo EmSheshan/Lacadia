@@ -76,23 +76,72 @@ async function waitForContainer(id, { attempts = 20, intervalMs = 3000 } = {}) {
     throw new Error(`container not ready after ${(attempts * intervalMs) / 1000}s`);
 }
 
-export async function post({ image, caption }) {
-    const igUser = process.env.IG_USER_ID;
-    const url = imageUrl(image);
+export const MIN_CAROUSEL = 2;
+export const MAX_CAROUSEL = 10;
 
-    // Fail early and clearly if the image is not actually reachable -- Meta's
-    // own error for this is opaque.
+/** Meta must be able to fetch the image; its own error for this is opaque. */
+async function assertReachable(url) {
     const head = await fetch(url, { method: 'HEAD' });
-    if (!head.ok) {
-        throw new Error(`image not publicly reachable (${head.status}): ${url}`);
+    if (!head.ok) throw new Error(`image not publicly reachable (${head.status}): ${url}`);
+}
+
+/**
+ * Instagram permalinks use a short code, not the numeric media id, so the URL
+ * has to be read back from the API rather than built from the id.
+ */
+async function permalinkOf(mediaId) {
+    try {
+        const { permalink } = await graph(mediaId, { fields: 'permalink' }, { method: 'GET' });
+        return permalink ?? null;
+    } catch {
+        return null; // never fail a successful post over a cosmetic link
+    }
+}
+
+/**
+ * `images` is an array of repo-relative paths -- one for a normal card,
+ * several when a species' alternate forms go out together. Two or more become
+ * a carousel, which is a different container flow: each child is built with
+ * is_carousel_item, then a parent container collects them.
+ */
+export async function post({ images, caption }) {
+    const igUser = process.env.IG_USER_ID;
+    if (!images?.length) throw new Error('no images given');
+    if (images.length > MAX_CAROUSEL) {
+        throw new Error(`instagram takes at most ${MAX_CAROUSEL} images, got ${images.length}`);
     }
 
-    const container = await graph(`${igUser}/media`, { image_url: url, caption });
-    await waitForContainer(container.id);
-    const published = await graph(`${igUser}/media_publish`, { creation_id: container.id });
+    const urls = images.map(imageUrl);
+    for (const u of urls) await assertReachable(u);
+
+    let creationId;
+    if (urls.length === 1) {
+        const container = await graph(`${igUser}/media`, { image_url: urls[0], caption });
+        await waitForContainer(container.id);
+        creationId = container.id;
+    } else {
+        // Children carry no caption; the parent carries it.
+        const children = [];
+        for (const image_url of urls) {
+            const child = await graph(`${igUser}/media`, { image_url, is_carousel_item: 'true' });
+            children.push(child.id);
+        }
+        for (const id of children) await waitForContainer(id);
+
+        const parent = await graph(`${igUser}/media`, {
+            media_type: 'CAROUSEL',
+            children: children.join(','),
+            caption,
+        });
+        await waitForContainer(parent.id);
+        creationId = parent.id;
+    }
+
+    const published = await graph(`${igUser}/media_publish`, { creation_id: creationId });
+    const permalink = await permalinkOf(published.id);
 
     return {
         id: published.id,
-        url: `https://www.instagram.com/p/${published.id}`,
+        url: permalink ?? `https://www.instagram.com/${process.env.IG_USERNAME ?? ''}`,
     };
 }

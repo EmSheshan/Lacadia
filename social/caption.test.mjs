@@ -56,3 +56,49 @@ test('every entry renders without throwing and has required fields', () => {
         assert.ok(longCaption(e).length > 0);
     }
 });
+
+test('baseName strips a form suffix and leaves plain names alone', async () => {
+    const { baseName } = await import('./caption.mjs');
+    assert.equal(baseName('Tortarma-Solar'), 'Tortarma');
+    assert.equal(baseName('Sacrabell-Dirge'), 'Sacrabell');
+    assert.equal(baseName('Kheprini'), 'Kheprini');
+});
+
+test('mergeForms collapses the name and keeps the shared text', async () => {
+    const { mergeForms, longCaption } = await import('./caption.mjs');
+    const forms = [pokedex.tortarmasolar, pokedex.tortarmapolar];
+    const merged = mergeForms(forms);
+
+    assert.equal(merged.name, 'Tortarma');
+    assert.equal(merged.kind, forms[0].kind);
+    assert.deepEqual(merged.description, forms[0].description);
+    assert.ok(longCaption(merged).startsWith('Tortarma, the Tortoise Pokemon!'));
+    assert.ok(!longCaption(merged).includes('-Solar'), 'form suffix must not leak into the caption');
+});
+
+test('mergeForms leaves a single entry untouched', async () => {
+    const { mergeForms } = await import('./caption.mjs');
+    assert.equal(mergeForms([pokedex.kheprini]).name, 'Kheprini');
+});
+
+test('mergeForms refuses to merge different species', async () => {
+    const { mergeForms } = await import('./caption.mjs');
+    assert.throws(() => mergeForms([pokedex.kheprini, pokedex.servankh]), /different species/);
+});
+
+test('every form group in the dex shares its kind and description', async () => {
+    const { baseName } = await import('./caption.mjs');
+    const groups = {};
+    for (const e of Object.values(pokedex)) {
+        if (!e.name.includes('-')) continue;
+        (groups[baseName(e.name)] ??= []).push(e);
+    }
+    // Merging only makes sense while this holds; if new art breaks it, the
+    // combined caption would silently drop one form's text.
+    for (const [base, list] of Object.entries(groups)) {
+        if (list.length < 2) continue;
+        assert.equal(new Set(list.map((e) => e.kind)).size, 1, `${base} forms share a kind`);
+        assert.equal(new Set(list.map((e) => JSON.stringify(e.description))).size, 1,
+            `${base} forms share description text`);
+    }
+});
