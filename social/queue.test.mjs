@@ -21,9 +21,13 @@ test('each platform resumes at the card after its last hand-posted one', () => {
     }
 });
 
-test('the two platforms are where the user said they are', () => {
-    assert.equal(firstUnposted('bluesky').name, 'Kheprini');
-    assert.equal(firstUnposted('tumblr').name, 'Marazcal');
+test('the queue starts where each platform needs it to', () => {
+    assert.equal(queue.entries[0].name, 'Marazcal',
+        'queue reaches back to the furthest-behind platform');
+
+    const firstForBluesky = queue.entries.find((e) => !e.posted?.bluesky?.backfilled);
+    assert.equal(firstForBluesky.name, 'Kheprini',
+        'bluesky picks up immediately after the backfilled gap');
 });
 
 test('queue is in ascending dex order', () => {
