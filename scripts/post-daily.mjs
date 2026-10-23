@@ -19,6 +19,7 @@ import { pokedex } from '../pokedex.js';
 import { renderAll } from '../social/caption.mjs';
 import * as bluesky from '../social/platforms/bluesky.mjs';
 import * as tumblr from '../social/platforms/tumblr.mjs';
+import * as instagram from '../social/platforms/instagram.mjs';
 
 const QUEUE_PATH = path.resolve('social/queue.json');
 const IMAGE_SIZE = 1080; // build-social-images.mjs guarantees square 1080
@@ -28,7 +29,7 @@ const DRY = argv.includes('--dry-run');
 const onlyIdx = argv.indexOf('--only');
 const ONLY = onlyIdx !== -1 ? argv[onlyIdx + 1] : null;
 
-const ALL_PLATFORMS = [bluesky, tumblr];
+const ALL_PLATFORMS = [bluesky, tumblr, instagram];
 
 function ghOutput(key, value) {
     if (process.env.GITHUB_OUTPUT) {
@@ -87,7 +88,7 @@ for (const platform of platforms) {
     }
 
     const caption = renderAll(dex);
-    const text = platform.name === 'bluesky' ? caption.short : caption.tumblrBody;
+    const text = { bluesky: caption.short, tumblr: caption.tumblrBody, instagram: caption.long }[platform.name];
     const imageBytes = fs.readFileSync(imagePath);
 
     console.log(`\n-- ${platform.name} -> ${entry.name} (#${entry.num}) --`);
@@ -103,14 +104,17 @@ for (const platform of platforms) {
     }
 
     try {
-        const res = platform.name === 'bluesky'
-            ? await platform.post({
+        const args = {
+            bluesky: () => ({
                 text, image: imageBytes, alt: caption.alt,
                 mimeType: 'image/jpeg', width: IMAGE_SIZE, height: IMAGE_SIZE,
-            })
-            : await platform.post({
-                imagePath, body: text, alt: caption.alt, tags: caption.tags,
-            });
+            }),
+            tumblr: () => ({ imagePath, body: text, alt: caption.alt, tags: caption.tags }),
+            // Meta fetches the image itself, so Instagram gets the repo-relative
+            // path to turn into a public URL, not the bytes.
+            instagram: () => ({ image: entry.image, caption: text }),
+        }[platform.name]();
+        const res = await platform.post(args);
 
         // Record immediately: a crash after this must not repost.
         entry.posted = entry.posted ?? {};

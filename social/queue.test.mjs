@@ -45,6 +45,10 @@ test('cards already posted by hand are marked, not re-queued', () => {
     assert.equal(blueskyBackfilled.length, 5);
     assert.deepEqual(blueskyBackfilled.map((e) => e.name),
         ['Marazcal', 'Iguavadon', 'Tortarma-Polar', 'Tortarma-Solar', 'Tortality']);
+
+    // Instagram was hand-posted to the same point as Bluesky, so the same gap.
+    const igBackfilled = queue.entries.filter((e) => e.posted?.instagram?.backfilled);
+    assert.deepEqual(igBackfilled.map((e) => e.name), blueskyBackfilled.map((e) => e.name));
 });
 
 test('every queued entry has a real pokedex record and an image on disk', () => {

@@ -41,13 +41,53 @@ Secrets to add:
 | `TUMBLR_TOKEN_SECRET` | token secret from the API console |
 | `TUMBLR_BLOG` | your blog host, e.g. `lacadia.tumblr.com` |
 
-## 3. Add them to GitHub
+
+## 3. Instagram (about 20 minutes)
+
+Uses the **Instagram Login** path (`graph.instagram.com`), which needs an
+Instagram User token only — **no Facebook Page and no Business Manager**. The
+older Facebook Login route does need a Page; don't follow guides that use
+`graph.facebook.com`.
+
+**Prerequisite:** the account must be an Instagram **professional** account
+(Business or Creator). In the app: Settings → Account type and tools → Switch to
+professional account. A personal account cannot publish via the API at all.
+
+1. **[developers.facebook.com/apps](https://developers.facebook.com/apps)** →
+   Create app → use the **Business** app type.
+2. Add the **Instagram** product, and pick **API setup with Instagram login**.
+3. Connect your Instagram account where it asks, and generate a token with
+   **`instagram_business_basic`** and **`instagram_business_content_publish`**.
+4. The same panel shows your **Instagram user ID**. Take both values.
+
+Meta moves this console around regularly, so treat the click path as a guide and
+the two permission names as the thing that actually matters.
+
+Secrets to add:
+
+| Secret | Value |
+|---|---|
+| `IG_USER_ID` | the numeric Instagram user ID |
+| `IG_ACCESS_TOKEN` | the long-lived token |
+
+**The token expires after about 60 days.** When it does, the Instagram post
+fails while Bluesky and Tumblr carry on. Generate a fresh one and update the
+secret. Auto-refreshing is possible but needs a personal access token with
+secrets write scope, which isn't set up.
+
+**How Instagram gets the image:** Meta fetches it by URL rather than accepting
+an upload, which is why `socialImages/` is committed and served by GitHub Pages
+at `https://emsheshan.github.io/Lacadia/socialImages/<name>.jpg`. If Pages is
+ever turned off, Instagram breaks and the other two don't. Override the base
+with `IG_IMAGE_BASE_URL` if the host changes.
+
+## 4. Add them to GitHub
 
 **Settings → Secrets and variables → Actions → New repository secret**, once per
 row above. Direct link:
 <https://github.com/EmSheshan/Lacadia/settings/secrets/actions>
 
-## 4. Test before going live
+## 5. Test before going live
 
 **Actions → Daily Lacadia post → Run workflow**, leaving *Run the post without
 sending it* **checked**. The log shows the exact text and image with nothing sent.
@@ -59,8 +99,10 @@ After that it runs itself at 15:00 UTC daily.
 
 ## How it behaves
 
-- **Order** — dex order from Kheprini (#2073). 28 cards, ending at Sacrabell-Hymn (#2099).
-- **Captions** — Bluesky gets the first flavour paragraph plus `#fakemon #lacadia`
+- **Order** — dex order, but each platform has its own cursor because they were
+  hand-posted to different points (see `social/start-points.json`). They post
+  different cards on the same day; that is intended.
+- **Captions** — Instagram gets the full template. Bluesky gets the first flavour paragraph plus `#fakemon #lacadia`
   (its 300-char limit cannot fit the full text). Tumblr gets the full text, with
   the ten hashtags in its real `tags` field where they're actually searchable.
   Full flavour text is the image alt on both.

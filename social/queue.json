@@ -1,8 +1,9 @@
 {
-  "generated": "2026-10-22",
+  "generated": "2026-10-23",
   "resumesAfter": {
     "bluesky": "Tortality",
-    "tumblr": "Monolithid"
+    "tumblr": "Monolithid",
+    "instagram": "Tortality"
   },
   "note": "Dex order, shared list, per-platform posted state. Each platform advances independently: one card per platform per day. Reorder by editing entries.",
   "entries": [
@@ -19,6 +20,10 @@
         "tumblr": {
           "at": "2026-10-23T18:11:13.190Z",
           "url": "https://emsh.tumblr.com/post/831289109061550080"
+        },
+        "instagram": {
+          "backfilled": true,
+          "note": "posted by hand before automation"
         }
       }
     },
@@ -35,6 +40,10 @@
         "tumblr": {
           "at": "2026-10-23T19:31:39.632Z",
           "url": "https://emsh.tumblr.com/post/831294169956990976"
+        },
+        "instagram": {
+          "backfilled": true,
+          "note": "posted by hand before automation"
         }
       }
     },
@@ -45,6 +54,10 @@
       "image": "socialImages/tortarmapolar.jpg",
       "posted": {
         "bluesky": {
+          "backfilled": true,
+          "note": "posted by hand before automation"
+        },
+        "instagram": {
           "backfilled": true,
           "note": "posted by hand before automation"
         }
@@ -59,6 +72,10 @@
         "bluesky": {
           "backfilled": true,
           "note": "posted by hand before automation"
+        },
+        "instagram": {
+          "backfilled": true,
+          "note": "posted by hand before automation"
         }
       }
     },
@@ -69,6 +86,10 @@
       "image": "socialImages/tortality.jpg",
       "posted": {
         "bluesky": {
+          "backfilled": true,
+          "note": "posted by hand before automation"
+        },
+        "instagram": {
           "backfilled": true,
           "note": "posted by hand before automation"
         }

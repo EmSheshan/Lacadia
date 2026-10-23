@@ -19,7 +19,7 @@ import { pokedex } from '../pokedex.js';
 const QUEUE_PATH = path.resolve('social/queue.json');
 const START_PATH = path.resolve('social/start-points.json');
 const IMAGE_DIR = 'socialImages';
-const PLATFORMS = ['bluesky', 'tumblr'];
+const PLATFORMS = ['bluesky', 'tumblr', 'instagram'];
 
 const startPoints = JSON.parse(fs.readFileSync(START_PATH, 'utf8'));
 

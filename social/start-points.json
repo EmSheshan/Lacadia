@@ -1,5 +1,6 @@
 {
   "_comment": "The last card posted BY HAND on each platform, before the automation took over. build-queue.mjs reads this to work out where each platform resumes. Platforms sit at different points and that is fine - each advances independently, one card per day.",
   "bluesky": "Tortality",
-  "tumblr": "Monolithid"
+  "tumblr": "Monolithid",
+  "instagram": "Tortality"
 }
