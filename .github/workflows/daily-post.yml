@@ -71,7 +71,7 @@ jobs:
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add social/queue.json
-          git commit -m "Posted ${{ steps.post.outputs.pokemon }} [skip ci]"
+          git commit -m "Posted ${{ steps.post.outputs.cards }} [skip ci]"
           git push
 
       - name: Open an issue when the queue runs dry
