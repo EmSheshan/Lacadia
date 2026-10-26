@@ -120,6 +120,10 @@
         "instagram": {
           "at": "2026-10-23T22:54:00.121Z",
           "url": "https://www.instagram.com/p/18092680907228428"
+        },
+        "tumblr": {
+          "at": "2026-10-26T20:43:58.354Z",
+          "url": "https://emsh.tumblr.com/post/831570510472151040"
         }
       }
     },
@@ -164,6 +168,10 @@
         "bluesky": {
           "at": "2026-10-25T18:32:51.300Z",
           "url": "https://bsky.app/profile/emsheshan.bsky.social/post/3myptsheyto23"
+        },
+        "instagram": {
+          "at": "2026-10-26T20:44:07.532Z",
+          "url": "https://www.instagram.com/p/De-K0jllGlx/"
         }
       }
     },
@@ -172,7 +180,12 @@
       "num": 2077,
       "name": "Selky",
       "image": "socialImages/selky.jpg",
-      "posted": {}
+      "posted": {
+        "bluesky": {
+          "at": "2026-10-26T20:43:57.601Z",
+          "url": "https://bsky.app/profile/emsheshan.bsky.social/post/3mysllsqdft2j"
+        }
+      }
     },
     {
       "key": "lumajesty",
