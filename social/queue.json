@@ -160,6 +160,10 @@
         "instagram": {
           "at": "2026-10-25T18:33:03.235Z",
           "url": "https://www.instagram.com/p/De7XBftGkXX/"
+        },
+        "tumblr": {
+          "at": "2026-10-28T20:32:24.921Z",
+          "url": "https://emsh.tumblr.com/post/831750977258405888"
         }
       }
     },
@@ -204,6 +208,10 @@
         "bluesky": {
           "at": "2026-10-27T20:13:48.603Z",
           "url": "https://bsky.app/profile/emsheshan.bsky.social/post/3myv2eswkcy25"
+        },
+        "instagram": {
+          "at": "2026-10-28T20:32:35.839Z",
+          "url": "https://www.instagram.com/p/DfDTFseAZR-/"
         }
       }
     },
@@ -212,7 +220,12 @@
       "num": 2079,
       "name": "Shuckler",
       "image": "socialImages/shuckler.jpg",
-      "posted": {}
+      "posted": {
+        "bluesky": {
+          "at": "2026-10-28T20:32:23.704Z",
+          "url": "https://bsky.app/profile/emsheshan.bsky.social/post/3myxluxvat523"
+        }
+      }
     },
     {
       "key": "smeltmor",
