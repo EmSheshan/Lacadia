@@ -180,6 +180,10 @@
         "instagram": {
           "at": "2026-10-26T20:44:07.532Z",
           "url": "https://www.instagram.com/p/De-K0jllGlx/"
+        },
+        "tumblr": {
+          "at": "2026-10-29T20:31:57.355Z",
+          "url": "https://emsh.tumblr.com/post/831841545338732544"
         }
       }
     },
@@ -224,6 +228,10 @@
         "bluesky": {
           "at": "2026-10-28T20:32:23.704Z",
           "url": "https://bsky.app/profile/emsheshan.bsky.social/post/3myxluxvat523"
+        },
+        "instagram": {
+          "at": "2026-10-29T20:32:15.377Z",
+          "url": "https://www.instagram.com/p/DfF31KQicYt/"
         }
       }
     },
@@ -232,7 +240,12 @@
       "num": 2080,
       "name": "Smeltmor",
       "image": "socialImages/smeltmor.jpg",
-      "posted": {}
+      "posted": {
+        "bluesky": {
+          "at": "2026-10-29T20:31:56.493Z",
+          "url": "https://bsky.app/profile/emsheshan.bsky.social/post/3mz24d3ezgw2q"
+        }
+      }
     },
     {
       "key": "pyrant",
