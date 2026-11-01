@@ -240,6 +240,10 @@
         "instagram": {
           "at": "2026-10-29T20:32:15.377Z",
           "url": "https://www.instagram.com/p/DfF31KQicYt/"
+        },
+        "tumblr": {
+          "at": "2026-11-01T19:53:04.552Z",
+          "url": "https://emsh.tumblr.com/post/832110890055761920"
         }
       }
     },
@@ -284,6 +288,10 @@
         "bluesky": {
           "at": "2026-10-31T19:31:49.834Z",
           "url": "https://bsky.app/profile/emsheshan.bsky.social/post/3mz6zvgtd4e2a"
+        },
+        "instagram": {
+          "at": "2026-11-01T19:53:15.865Z",
+          "url": "https://www.instagram.com/p/DfNhxCwiToL/"
         }
       }
     },
@@ -292,7 +300,12 @@
       "num": 2083,
       "name": "Nymphlora",
       "image": "socialImages/nymphlora.jpg",
-      "posted": {}
+      "posted": {
+        "bluesky": {
+          "at": "2026-11-01T19:53:03.572Z",
+          "url": "https://bsky.app/profile/emsheshan.bsky.social/post/3mzblkd35j623"
+        }
+      }
     },
     {
       "key": "idagon",
