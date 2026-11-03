@@ -280,6 +280,10 @@
         "instagram": {
           "at": "2026-10-31T19:32:03.800Z",
           "url": "https://www.instagram.com/p/DfK6ipNo5VS/"
+        },
+        "tumblr": {
+          "at": "2026-11-03T21:14:24.336Z",
+          "url": "https://emsh.tumblr.com/post/832297200743792640"
         }
       }
     },
@@ -332,7 +336,12 @@
       "num": 2085,
       "name": "Libradon",
       "image": "socialImages/libradon.jpg",
-      "posted": {}
+      "posted": {
+        "bluesky": {
+          "at": "2026-11-03T21:14:22.992Z",
+          "url": "https://bsky.app/profile/emsheshan.bsky.social/post/3mzgqzlar4j27"
+        }
+      }
     },
     {
       "key": "suprion",
