@@ -320,6 +320,10 @@
         "instagram": {
           "at": "2026-11-02T23:12:39.646Z",
           "url": "https://www.instagram.com/p/DfQdYbDGGdN/"
+        },
+        "tumblr": {
+          "at": "2026-11-05T21:33:21.087Z",
+          "url": "https://emsh.tumblr.com/post/832479586640150528"
         }
       }
     },
@@ -348,6 +352,10 @@
         "bluesky": {
           "at": "2026-11-03T21:14:22.992Z",
           "url": "https://bsky.app/profile/emsheshan.bsky.social/post/3mzgqzlar4j27"
+        },
+        "instagram": {
+          "at": "2026-11-05T21:33:32.266Z",
+          "url": "https://www.instagram.com/p/DfYAbAWjyxl/"
         }
       }
     },
@@ -368,7 +376,12 @@
       "num": 2087,
       "name": "Larvos",
       "image": "socialImages/larvos.jpg",
-      "posted": {}
+      "posted": {
+        "bluesky": {
+          "at": "2026-11-05T21:33:19.934Z",
+          "url": "https://bsky.app/profile/emsheshan.bsky.social/post/3mzlszcd7422d"
+        }
+      }
     },
     {
       "key": "syrinsect",
