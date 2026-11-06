@@ -340,6 +340,10 @@
         "instagram": {
           "at": "2026-11-04T21:28:43.036Z",
           "url": "https://www.instagram.com/p/DfVbE4tATVA/"
+        },
+        "tumblr": {
+          "at": "2026-11-06T21:02:15.120Z",
+          "url": "https://emsh.tumblr.com/post/832568227023437824"
         }
       }
     },
@@ -368,6 +372,10 @@
         "bluesky": {
           "at": "2026-11-04T21:28:31.712Z",
           "url": "https://bsky.app/profile/emsheshan.bsky.social/post/3mzjcbs5dxb2w"
+        },
+        "instagram": {
+          "at": "2026-11-06T21:02:23.749Z",
+          "url": "https://www.instagram.com/p/DfahqF3iU1d/"
         }
       }
     },
@@ -388,7 +396,12 @@
       "num": 2088,
       "name": "Syrinsect",
       "image": "socialImages/syrinsect.jpg",
-      "posted": {}
+      "posted": {
+        "bluesky": {
+          "at": "2026-11-06T21:02:13.552Z",
+          "url": "https://bsky.app/profile/emsheshan.bsky.social/post/3mzobqlyve426"
+        }
+      }
     },
     {
       "key": "stratoclysm",
