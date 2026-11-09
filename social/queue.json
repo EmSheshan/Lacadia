@@ -400,6 +400,10 @@
         "instagram": {
           "at": "2026-11-07T19:35:48.218Z",
           "url": "https://www.instagram.com/p/Dfc8izKFnAB/"
+        },
+        "tumblr": {
+          "at": "2026-11-09T23:51:00.362Z",
+          "url": "https://emsh.tumblr.com/post/832850634576429056"
         }
       }
     },
@@ -428,6 +432,10 @@
         "bluesky": {
           "at": "2026-11-07T19:35:39.796Z",
           "url": "https://bsky.app/profile/emsheshan.bsky.social/post/3mzqneqfdbk2t"
+        },
+        "instagram": {
+          "at": "2026-11-09T23:51:12.655Z",
+          "url": "https://www.instagram.com/p/DfijWv9Gc56/"
         }
       }
     },
@@ -448,7 +456,12 @@
       "num": 2091,
       "name": "Saskrypt",
       "image": "socialImages/saskrypt.jpg",
-      "posted": {}
+      "posted": {
+        "bluesky": {
+          "at": "2026-11-09T23:50:58.655Z",
+          "url": "https://bsky.app/profile/emsheshan.bsky.social/post/3mzw4l4ee5e2t"
+        }
+      }
     },
     {
       "key": "devile",
