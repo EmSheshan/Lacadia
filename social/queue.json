@@ -420,6 +420,10 @@
         "instagram": {
           "at": "2026-11-08T19:55:51.981Z",
           "url": "https://www.instagram.com/p/DffjoxjlPu6/"
+        },
+        "tumblr": {
+          "at": "2026-11-10T21:24:38.953Z",
+          "url": "https://emsh.tumblr.com/post/832932023921426432"
         }
       }
     },
@@ -468,7 +472,12 @@
       "num": 2092,
       "name": "Devile",
       "image": "socialImages/devile.jpg",
-      "posted": {}
+      "posted": {
+        "bluesky": {
+          "at": "2026-11-10T21:24:37.827Z",
+          "url": "https://bsky.app/profile/emsheshan.bsky.social/post/3mzyeudsfxs2c"
+        }
+      }
     },
     {
       "key": "azamoth",
