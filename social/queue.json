@@ -440,6 +440,10 @@
         "instagram": {
           "at": "2026-11-09T23:51:12.655Z",
           "url": "https://www.instagram.com/p/DfijWv9Gc56/"
+        },
+        "tumblr": {
+          "at": "2026-11-11T22:14:18.156Z",
+          "url": "https://emsh.tumblr.com/post/833025744983719936"
         }
       }
     },
@@ -484,7 +488,12 @@
       "num": 2093,
       "name": "Azamoth",
       "image": "socialImages/azamoth.jpg",
-      "posted": {}
+      "posted": {
+        "bluesky": {
+          "at": "2026-11-11T22:14:17.248Z",
+          "url": "https://bsky.app/profile/emsheshan.bsky.social/post/3n22y42qwk32z"
+        }
+      }
     },
     {
       "key": "albythos",
