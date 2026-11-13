@@ -472,6 +472,10 @@
         "bluesky": {
           "at": "2026-11-09T23:50:58.655Z",
           "url": "https://bsky.app/profile/emsheshan.bsky.social/post/3mzw4l4ee5e2t"
+        },
+        "tumblr": {
+          "at": "2026-11-13T21:35:27.826Z",
+          "url": "https://emsh.tumblr.com/post/833204495409414144"
         }
       }
     },
@@ -516,7 +520,12 @@
       "num": 2095,
       "name": "Xerasige",
       "image": "socialImages/xerasige.jpg",
-      "posted": {}
+      "posted": {
+        "bluesky": {
+          "at": "2026-11-13T21:35:27.031Z",
+          "url": "https://bsky.app/profile/emsheshan.bsky.social/post/3n27wugzsjh2z"
+        }
+      }
     },
     {
       "key": "jeneosis",
