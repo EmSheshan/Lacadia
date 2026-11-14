@@ -480,6 +480,10 @@
         "tumblr": {
           "at": "2026-11-13T21:35:27.826Z",
           "url": "https://emsh.tumblr.com/post/833204495409414144"
+        },
+        "instagram": {
+          "at": "2026-11-14T20:04:02.994Z",
+          "url": "https://www.instagram.com/p/DfvBVvpD8ly/"
         }
       }
     },
@@ -492,6 +496,10 @@
         "bluesky": {
           "at": "2026-11-10T21:24:37.827Z",
           "url": "https://bsky.app/profile/emsheshan.bsky.social/post/3mzyeudsfxs2c"
+        },
+        "tumblr": {
+          "at": "2026-11-14T20:03:54.948Z",
+          "url": "https://emsh.tumblr.com/post/833289332560461824"
         }
       }
     },
@@ -536,7 +544,12 @@
       "num": 2096,
       "name": "Jeneosis",
       "image": "socialImages/jeneosis.jpg",
-      "posted": {}
+      "posted": {
+        "bluesky": {
+          "at": "2026-11-14T20:03:54.096Z",
+          "url": "https://bsky.app/profile/emsheshan.bsky.social/post/3n2cc7oijbl2h"
+        }
+      }
     },
     {
       "key": "xophis",
