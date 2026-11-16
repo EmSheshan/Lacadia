@@ -2,10 +2,9 @@
 // page instead of a single square card:
 //
 //   1. Hero       -- the art, big
-//   2. Shiny      -- normal vs shiny side by side (when shiny art exists)
-//   3. Dex entry  -- number, kind, typing, size, abilities, flavour text
-//   4. Base stats -- one colour per stat + signature move
-//   5. Evolution  -- the whole line, this one highlighted (when it evolves)
+//   2. Dex entry  -- shiny art, number, kind, typing, size, abilities, flavour text
+//   3. Base stats -- one colour per stat + signature move
+//   4. Evolution  -- the whole line, this one highlighted (when it evolves)
 //
 // Why 4:5 (1080x1350): it is the tallest feed image Instagram allows, so it
 // takes ~25% more screen than a square, and the profile grid's 3:4 crop only
@@ -438,8 +437,17 @@ function slideHero(ctx, sl) {
 }
 
 function slideDex(ctx, sl) {
-    const { mon, art } = sl;
-    drawArt(ctx, sl, art, 50, 240, 560);
+    const { mon, art, shiny } = sl;
+    // The shiny gets its showing here rather than on a slide of its own.
+    drawArt(ctx, sl, shiny ?? art, 50, 240, 560);
+    if (shiny) {
+        ctx.font = FONT(40);
+        const t = '\u2605 Shiny';
+        const tw = ctx.measureText(t).width;
+        panel(ctx, 330 - tw / 2 - 28, 770, tw + 56, 60, 30);
+        ctx.fillStyle = GOLD;
+        ctx.fillText(t, 330 - tw / 2, 813);
+    }
 
     const px = 620, pw = W - px - 70, py = 245, ph = 580;
     panel(ctx, px, py, pw, ph);
@@ -551,28 +559,6 @@ function slideStats(ctx, sl) {
     }
 
     chrome(ctx, 'Base Stats', sl);
-}
-
-function slideShiny(ctx, sl) {
-    const { art, shiny } = sl;
-    const s = 610, y = 330;
-    drawArt(ctx, sl, art, -5, y, s);
-    drawArt(ctx, sl, shiny, W - s + 5, y, s);
-
-    ctx.font = FONT(64);
-    for (const [txt, cx, col] of [['Normal', W * 0.25, PAPER], ['Shiny', W * 0.75, GOLD]]) {
-        ctx.fillStyle = col;
-        ctx.fillText(txt, cx - ctx.measureText(txt).width / 2, y + s + 70);
-    }
-
-    const q = 'Which one are you catching?';
-    ctx.font = FONT(50);
-    const qw = ctx.measureText(q).width;
-    panel(ctx, (W - qw) / 2 - 50, 1120, qw + 100, 96, 48);
-    ctx.fillStyle = PAPER;
-    ctx.fillText(q, (W - qw) / 2, 1185);
-
-    chrome(ctx, 'Shiny', sl);
 }
 
 // ---------------------------------------------------------------- evolution
@@ -720,7 +706,6 @@ for (const key of keys) {
 
     const slides = [
         slideHero,
-        ...(sl.shiny ? [slideShiny] : []),
         slideDex,
         slideStats,
         ...(evolves ? [slideEvo] : []),
