@@ -994,11 +994,21 @@ function slideEvo(ctx, sl) {
             let fsz = Math.min(48, Math.max(26, size / 6));
             ctx.font = FONT(fsz);
             while (ctx.measureText(nm).width > cellW - 10 && fsz > 22) ctx.font = FONT(fsz -= 2);
+            ctx.save();
+            ctx.shadowColor = 'rgba(0,0,0,0.65)';           // readable on pale scenes
+            ctx.shadowBlur = 10;
+            ctx.shadowOffsetY = 2;
             ctx.fillStyle = isMe ? GOLD : PAPER;
             ctx.fillText(nm, x0 + size / 2 - ctx.measureText(nm).width / 2, y0 + size + fsz + 8);
+            ctx.restore();
         });
 
-        if (si < stages.length - 1) chevron(ctx, cx + colW / 2 + arrowW / 2, (top + bottom) / 2);
+        // Line the arrow up with the art (and the diamond), not the art+name block.
+        if (si < stages.length - 1) {
+            const artMid = (m) => (m.length === 1 ? (top + bottom) / 2 - nameH / 2 : (top + bottom) / 2);
+            const ay = stages[si].length === 1 ? artMid(stages[si]) : artMid(stages[si + 1]);
+            chevron(ctx, cx + colW / 2 + arrowW / 2, ay);
+        }
     });
 
     chrome(ctx, 'Evolution', sl);
