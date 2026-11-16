@@ -421,8 +421,11 @@ function typePills(ctx, types, x, y, w = 200) {
 
 // ---------------------------------------------------------------- slides
 
+/** Regional dex number: Springbun (#2000 internally) is #001. */
+const dexNo = (num) => `#${String(num - 1999).padStart(3, '0')}`;
+
 function slideHero(ctx, sl) {
-    const { mon, art } = sl;
+    const { mon, art } = sl.cur ?? sl;
     const s = 1080;
     drawArt(ctx, sl, art, (W - s) / 2, 250, s);
 
@@ -454,7 +457,7 @@ function slideDex(ctx, sl) {
     const ix = px + 34;
     ctx.font = FONT(64);
     ctx.fillStyle = GOLD;
-    ctx.fillText(`#${mon.num}`, ix, py + 76);
+    ctx.fillText(dexNo(mon.num), ix, py + 76);
     ctx.font = FONT(42);
     ctx.fillStyle = PAPER;
     ctx.fillText(`The ${mon.kind} Pokémon`, ix, py + 134);
@@ -501,7 +504,8 @@ function slideStats(ctx, sl) {
     ctx.font = FONT(150);
     ctx.fillStyle = PAPER;
     ctx.fillText(String(bst), 464, 458);
-    typePills(ctx, mon.types, 474, 482, 200);
+    // Forms sharing one stat block can differ in type, so don't claim one.
+    if (!(sl.forms?.length > 1)) typePills(ctx, mon.types, 474, 482, 200);
 
     const mv = moves[mon.signatureMove];
     const big = !mv;
@@ -559,6 +563,179 @@ function slideStats(ctx, sl) {
     }
 
     chrome(ctx, 'Base Stats', sl);
+}
+
+// ---------------------------------------------------------------- forms
+//
+// A species with alternate forms (Sacrabell, Tortarma, Yakoyza) is posted as
+// ONE carousel, so its shared text appears once and its forms sit side by side.
+
+const formName = (mon) => String(mon.name).split('-').slice(1).join('-') || mon.name;
+
+function fitText(ctx, text, maxW, size, min = 20) {
+    ctx.font = FONT(size);
+    while (ctx.measureText(text).width > maxW && size > min) ctx.font = FONT(size -= 2);
+    return size;
+}
+
+function slideDexForms(ctx, sl) {
+    const { forms, mon } = sl;
+    const n = forms.length;
+
+    ctx.font = FONT(60);
+    ctx.fillStyle = GOLD;
+    ctx.fillText(dexNo(mon.num), 80, 285);
+    const nw = ctx.measureText(dexNo(mon.num)).width;
+    ctx.font = FONT(44);
+    ctx.fillStyle = PAPER;
+    ctx.fillText(`The ${mon.kind} Pok\u00e9mon`, 80 + nw + 26, 285);
+    if (forms.some((f) => f.shiny)) {
+        ctx.font = FONT(34);
+        ctx.fillStyle = GOLD;
+        const t = '\u2605 Shiny';
+        ctx.fillText(t, W - 80 - ctx.measureText(t).width, 285);
+    }
+
+    // One info cell per form: wide rows for two forms, a 2x2 grid for four.
+    const fy = n > 2 ? 1040 : 1000;
+    const top = 315, gap = 20, cols = n > 2 ? 2 : 1, rows = Math.ceil(n / cols);
+    const cw = (W - 140 - gap * (cols - 1)) / cols;
+    const ch = (fy - 20 - top - gap * (rows - 1)) / rows;
+
+    forms.forEach((f, i) => {
+        const cx = 70 + (i % cols) * (cw + gap), cy = top + Math.floor(i / cols) * (ch + gap);
+        panel(ctx, cx, cy, cw, ch);
+        const ab = Object.values(f.mon.abilities ?? {}).join(' / ');
+        if (cols === 1) {
+            const s = ch - 30;
+            drawArt(ctx, { ...sl, mon: f.mon }, f.shiny ?? f.art, cx + 20, cy + 15, s);
+            const ix = cx + s + 50, iw = cw - s - 80;
+            fitText(ctx, formName(f.mon) + ' Form', iw, 54);
+            ctx.fillStyle = GOLD;
+            ctx.fillText(formName(f.mon) + ' Form', ix, cy + 72);
+            typePills(ctx, f.mon.types, ix, cy + 96, 190);
+            ctx.font = FONT(42);
+            ctx.fillStyle = PAPER;
+            ctx.fillText(`${f.mon.heightm} m   \u00b7   ${f.mon.weightkg} kg`, ix, cy + 196);
+            label(ctx, 'Ability', ix, cy + 252, 28);
+            fitText(ctx, ab, iw, 40);
+            ctx.fillStyle = PAPER;
+            ctx.fillText(ab, ix, cy + 296);
+        } else {
+            const s = Math.min(ch - 20, cw * 0.5);
+            drawArt(ctx, { ...sl, mon: f.mon }, f.shiny ?? f.art, cx + 8, cy + (ch - s) / 2, s);
+            const ix = cx + s + 22, iw = cw - s - 44;
+            fitText(ctx, formName(f.mon), iw, 50);
+            ctx.fillStyle = GOLD;
+            ctx.fillText(formName(f.mon), ix, cy + 70);
+            f.mon.types.forEach((t, ti) => typePills(ctx, [t], ix, cy + 92 + ti * 48, Math.min(iw, 200)));
+            const hy = cy + 92 + f.mon.types.length * 48 + 44;
+            fitText(ctx, `${f.mon.heightm} m \u00b7 ${f.mon.weightkg} kg`, iw, 36);
+            ctx.fillStyle = PAPER;
+            ctx.fillText(`${f.mon.heightm} m \u00b7 ${f.mon.weightkg} kg`, ix, hy);
+        }
+    });
+
+    const fh = H - 200 - fy;
+    panel(ctx, 70, fy, W - 140, fh);
+    textBox(ctx, (mon.description ?? []).join('\n\n'), 106, fy + 20, W - 212, fh - 40,
+        { max: 40, min: 24, lead: 1.25, center: true });
+
+    chrome(ctx, sl.base, sl);
+}
+
+function slideStatsForms(ctx, sl) {
+    const { forms } = sl;
+    const n = forms.length;
+
+    // Header: each form with its total.
+    const colW = (W - 140) / n;
+    const s = Math.min(colW - 120, 220);
+    forms.forEach((f, i) => {
+        const x = 70 + i * colW;
+        drawArt(ctx, { ...sl, mon: f.mon }, f.art, x + 4, 225, Math.min(s, 200));
+        const tx = x + Math.min(s, 200) + 14, tw = colW - Math.min(s, 200) - 24;
+        fitText(ctx, formName(f.mon), tw, 40);
+        ctx.fillStyle = GOLD;
+        ctx.fillText(formName(f.mon), tx, 290);
+        const bst = STATS.reduce((t, [k]) => t + f.mon.baseStats[k], 0);
+        fitText(ctx, String(bst), tw, 96);
+        ctx.fillStyle = PAPER;
+        ctx.fillText(String(bst), tx, 385);
+        label(ctx, 'Total', tx, 420, 26);
+    });
+
+    const top = 470, bottom = H - 200;
+    panel(ctx, 70, top, W - 140, bottom - top);
+    const groupH = (bottom - top - 30) / 6;
+    const barX = 420, barW = 520, icon = Math.min(44, (groupH - 24) / n);
+    const barH = Math.max(12, icon - 10);
+
+    STATS.forEach(([k, name], si) => {
+        const gy = top + 15 + si * groupH;
+        ctx.font = FONT(44);
+        ctx.fillStyle = PAPER;
+        ctx.fillText(name, 105, gy + groupH / 2 + 15);
+
+        forms.forEach((f, fi) => {
+            const v = f.mon.baseStats[k];
+            const rowY = gy + (groupH - n * icon) / 2 + fi * icon;
+            const by = rowY + (icon - barH) / 2;
+            const tag = formName(f.mon);
+            fitText(ctx, tag, 120, Math.max(22, barH + 12));
+            ctx.fillStyle = MUTED;
+            ctx.fillText(tag, barX - 16 - ctx.measureText(tag).width, by + barH / 2 + 9);
+            ctx.beginPath();
+            ctx.roundRect(barX, by, barW, barH, barH / 2);
+            ctx.fillStyle = 'rgba(255,255,255,0.10)';
+            ctx.fill();
+            ctx.beginPath();
+            ctx.roundRect(barX, by, Math.max(barH, barW * Math.min(v, 200) / 200), barH, barH / 2);
+            ctx.fillStyle = STAT_COLORS[k];
+            ctx.fill();
+            ctx.font = FONT(Math.max(24, barH + 14));
+            ctx.fillStyle = PAPER;
+            ctx.fillText(String(v), barX + barW + 24, by + barH / 2 + Math.max(24, barH + 14) * 0.36);
+        });
+    });
+
+    chrome(ctx, 'Base Stats', sl);
+}
+
+/** Abilities whose text says they change the Pokemon's form. */
+function formTrigger(forms) {
+    for (const f of forms) {
+        for (const a of Object.values(f.mon.abilities ?? {})) {
+            if (/\bform\b/i.test(abilityText(a))) return { name: a, text: abilityText(a) };
+        }
+    }
+    return null;
+}
+
+const sameStats = (forms) => forms.every((f) =>
+    STATS.every(([k]) => f.mon.baseStats[k] === forms[0].mon.baseStats[k]));
+
+function slideForms(ctx, sl) {
+    const { forms } = sl;
+    const s = 520, y = 260;
+    const xs = [40, W - s - 40];
+    forms.slice(0, 2).forEach((f, i) => {
+        drawArt(ctx, { ...sl, mon: f.mon }, f.art, xs[i], y, s);
+        const t = formName(f.mon) + ' Form';
+        ctx.font = FONT(56);
+        ctx.fillStyle = GOLD;
+        ctx.fillText(t, xs[i] + s / 2 - ctx.measureText(t).width / 2, y + s + 64);
+        typePills(ctx, f.mon.types, xs[i] + s / 2 - 100, y + s + 90, 200);
+    });
+    chevron(ctx, W / 2, y + s / 2);
+
+    const tr = sl.trigger;
+    const py = 1000, ph = H - 200 - py;
+    panel(ctx, 70, py, W - 140, ph);
+    label(ctx, tr.name, 108, py + 58, 40);
+    textBox(ctx, tr.text, 108, py + 76, W - 216, ph - 96, { max: 42, min: 26 });
+
+    chrome(ctx, 'Forms', sl);
 }
 
 // ---------------------------------------------------------------- evolution
@@ -624,7 +801,7 @@ function slideEvo(ctx, sl) {
             const blockH = rows === 1 ? size + nameH : cellH;
             const y0 = rows === 1 ? (top + bottom - blockH) / 2 : top + r * cellH;
             const img = sl.evoArt[k];
-            const isMe = k === sl.key;
+            const isMe = sl.keys.includes(k);
 
             if (isMe) {
                 ctx.save();
@@ -658,25 +835,41 @@ function slideEvo(ctx, sl) {
 async function render(sl, draw) {
     const c = createCanvas(W, H);
     const ctx = c.getContext('2d');
-    if (sl.photo) photoBackground(ctx, sl.photo, sl.mon);
-    else gradientBackground(ctx, sl.mon);
+    const bgMon = sl.cur?.mon ?? sl.mon;     // a form's own slide takes its own tint
+    if (sl.photo) photoBackground(ctx, sl.photo, bgMon);
+    else gradientBackground(ctx, bgMon);
     draw(ctx, sl);
     const out = createCanvas(EW, EH);
     out.getContext('2d').drawImage(c, 0, 0, EW, EH);
     return out.toBuffer('image/jpeg', { quality: QUALITY });
 }
 
+// Group every pokedex entry with art by species: forms share the name before
+// the hyphen ("Sacrabell-Hymn" -> "Sacrabell"), as in social/caption.mjs.
+const baseOf = (key) => String(pokedex[key].name).split('-')[0];
+const species = new Map();
+for (const k of Object.keys(pokedex).filter(hasArt)) {
+    const b = baseOf(k);
+    if (!species.has(b)) species.set(b, []);
+    species.get(b).push(k);
+}
+const outKey = (members) => (members.length > 1 ? norm(baseOf(members[0])) : members[0]);
+
+// Accept a pokedex key, a form's key, or a species name ("sacrabell").
 const wanted = process.argv.slice(2).map((s) => s.toLowerCase());
-const keys = (wanted.length ? wanted : Object.keys(pokedex))
-    .filter((k) => fs.existsSync(path.join(ART, `${k}.png`)));
+const groups = wanted.length
+    ? [...new Set(wanted.map((w) => [...species.values()].find((m) => m.includes(w) || outKey(m) === w))
+        .filter((m, i) => m || console.warn(`skip ${wanted[i]}: no art or pokedex entry`)))]
+    : [...species.values()];
 
 // node-canvas frees its pixel buffers lazily, so one process rendering every
 // card runs out of memory. A full run hands out small batches to child processes.
 if (!wanted.length) {
     const { spawnSync } = await import('node:child_process');
-    const BATCH = 6;
-    for (let i = 0; i < keys.length; i += BATCH) {
-        const r = spawnSync(process.execPath, [process.argv[1], ...keys.slice(i, i + BATCH)], { stdio: 'inherit' });
+    const BATCH = 5;
+    for (let i = 0; i < groups.length; i += BATCH) {
+        const r = spawnSync(process.execPath,
+            [process.argv[1], ...groups.slice(i, i + BATCH).map((m) => m[0])], { stdio: 'inherit' });
         if (r.status !== 0) process.exit(r.status ?? 1);
     }
     process.exit(0);
@@ -684,35 +877,54 @@ if (!wanted.length) {
 
 fs.mkdirSync(OUT, { recursive: true });
 
-for (const key of keys) {
-    const mon = pokedex[key];
-    if (!mon) { console.warn(`skip ${key}: no pokedex entry`); continue; }
-    const shinyPath = path.join(ART, `${key}_shiny.png`);
-    const envPath = envPathFor(key);
+for (const members of groups) {
+    const forms = [];
+    for (const key of members) {
+        const shinyPath = path.join(ART, `${key}_shiny.png`);
+        forms.push({
+            key,
+            mon: pokedex[key],
+            art: await loadImage(path.join(ART, `${key}.png`)),
+            shiny: fs.existsSync(shinyPath) ? await loadImage(shinyPath) : null,
+        });
+    }
+    const name = outKey(members);
+    const envPath = envPathFor(name) ?? members.map(envPathFor).find(Boolean);
     const sl = {
-        mon,
-        art: await loadImage(path.join(ART, `${key}.png`)),
-        shiny: fs.existsSync(shinyPath) ? await loadImage(shinyPath) : null,
+        forms,
+        keys: members,
+        base: baseOf(members[0]),
+        mon: forms[0].mon,
+        art: forms[0].art,
+        shiny: forms[0].shiny,
         photo: envPath ? await loadImage(envPath) : null,
+        trigger: formTrigger(forms),
     };
 
-    sl.key = key;
-    sl.evo = evoLine(key);
-    const evolves = sl.evo.flat().length > 1;
+    sl.evo = evoLine(members[0]);
+    const evolves = sl.evo.flat().filter((k) => !members.includes(k)).length > 0;
     if (evolves) {
         sl.evoArt = {};
         for (const k of sl.evo.flat()) sl.evoArt[k] = await loadImage(path.join(ART, `${k}.png`));
     }
 
+    // [draw, form it is about] -- hero slides are one per form.
+    const multi = forms.length > 1;
     const slides = [
-        slideHero,
-        slideDex,
-        slideStats,
-        ...(evolves ? [slideEvo] : []),
+        ...forms.map((f) => [slideHero, f]),
+        ...(multi ? [[slideDexForms]] : [[slideDex]]),
+        // Forms with identical stats (Yakoyza) need no comparison.
+        [multi && !sameStats(forms) ? slideStatsForms : slideStats],
+        ...(multi && sl.trigger ? [[slideForms]] : []),
+        ...(evolves ? [[slideEvo]] : []),
     ];
-    for (const [i, draw] of slides.entries()) {
-        sl.isLast = i === slides.length - 1;
-        fs.writeFileSync(path.join(OUT, `${key}-${i + 1}.jpg`), await render(sl, draw));
+    for (const old of fs.readdirSync(OUT).filter((f) => f.startsWith(`${name}-`))) {
+        fs.rmSync(path.join(OUT, old));
     }
-    console.log(`${key}: ${slides.length} slides${sl.photo ? ` (photo: ${path.basename(envPath)})` : ''}`);
+    for (const [i, [draw, cur]] of slides.entries()) {
+        sl.cur = cur ?? null;
+        sl.isLast = i === slides.length - 1;
+        fs.writeFileSync(path.join(OUT, `${name}-${i + 1}.jpg`), await render(sl, draw));
+    }
+    console.log(`${name}: ${slides.length} slides${multi ? ` (${forms.length} forms)` : ''}${sl.photo ? ` (photo: ${path.basename(envPath)})` : ''}`);
 }
