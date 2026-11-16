@@ -2,9 +2,10 @@
 // page instead of a single square card:
 //
 //   1. Hero       -- the art, big
-//   2. Dex entry  -- number, kind, typing, size, abilities, flavour text
-//   3. Base stats -- tiered stat bars + signature move
-//   4. Shiny      -- normal vs shiny side by side (when shiny art exists)
+//   2. Shiny      -- normal vs shiny side by side (when shiny art exists)
+//   3. Dex entry  -- number, kind, typing, size, abilities, flavour text
+//   4. Base stats -- one colour per stat + signature move
+//   5. Evolution  -- the whole line, this one highlighted (when it evolves)
 //
 // Why 4:5 (1080x1350): it is the tallest feed image Instagram allows, so it
 // takes ~25% more screen than a square, and the profile grid's 3:4 crop only
@@ -58,15 +59,11 @@ const STATS = [
     ['spa', 'Sp. Atk'], ['spd', 'Sp. Def'], ['spe', 'Speed'],
 ];
 
-// Stat tiers, best first: extremely high, high, decent, bad, extremely awful.
-const STAT_TIERS = [
-    [130, '#62d4ff'],
-    [100, '#5fdc6e'],
-    [70, '#ffd93b'],
-    [40, '#ff9442'],
-    [0, '#ff4f4f'],
-];
-const statColor = (v) => STAT_TIERS.find(([min]) => v >= min)[1];
+// One colour per stat, in rainbow order.
+const STAT_COLORS = {
+    hp: '#ff5252', atk: '#ff9a3c', def: '#ffd83b',
+    spa: '#4fa8ff', spd: '#5fdc6e', spe: '#ff7ec8',
+};
 
 const typeIcons = {}, typeBars = {}, moveIcons = {};
 for (const t of Object.keys(TYPE_COLORS)) {
@@ -332,7 +329,8 @@ function swipeHint(ctx) {
 }
 
 /** Everything drawn over the slide content: frame, banner, tag. */
-function chrome(ctx, title, { swipe = true } = {}) {
+function chrome(ctx, title, sl) {
+    const swipe = !sl.isLast;
     border(ctx);
     banner(ctx, title);
     watermark(ctx);
@@ -436,7 +434,7 @@ function slideHero(ctx, sl) {
         ctx.drawImage(img, x, H - 185, 96, 96);
         x += 112;
     }
-    chrome(ctx, mon.name);
+    chrome(ctx, mon.name, sl);
 }
 
 function slideDex(ctx, sl) {
@@ -483,7 +481,7 @@ function slideDex(ctx, sl) {
     textBox(ctx, (mon.description ?? []).join('\n\n'), 106, fy + 22, W - 212, fh - 44,
         { max: 46, min: 28, lead: 1.28, center: true });
 
-    chrome(ctx, mon.name);
+    chrome(ctx, mon.name, sl);
 }
 
 function slideStats(ctx, sl) {
@@ -516,7 +514,7 @@ function slideStats(ctx, sl) {
         ctx.fill();
         ctx.beginPath();
         ctx.roundRect(barX, mid - barH / 2, Math.max(barH, barW * Math.min(v, 200) / 200), barH, barH / 2);
-        ctx.fillStyle = statColor(v);
+        ctx.fillStyle = STAT_COLORS[k];
         ctx.fill();
 
         ctx.font = FONT(fs + 6);
@@ -552,7 +550,7 @@ function slideStats(ctx, sl) {
         textBox(ctx, mv.description, 108, my + 132, W - 216, mh - 146, { max: 34, min: 22, color: MUTED });
     }
 
-    chrome(ctx, 'Base Stats');
+    chrome(ctx, 'Base Stats', sl);
 }
 
 function slideShiny(ctx, sl) {
@@ -574,7 +572,99 @@ function slideShiny(ctx, sl) {
     ctx.fillStyle = PAPER;
     ctx.fillText(q, (W - qw) / 2, 1185);
 
-    chrome(ctx, 'Shiny', { swipe: false });
+    chrome(ctx, 'Shiny', sl);
+}
+
+// ---------------------------------------------------------------- evolution
+
+// pokedex.js only records forward evolutions by display name, so the line is
+// rebuilt by walking `evos`. A name with no exact entry (Nokoi -> "Yakoyza")
+// stands for every form of that species.
+const norm = (s) => String(s).toLowerCase().replace(/[^a-z0-9]/g, '');
+const keyByName = Object.fromEntries(Object.entries(pokedex).map(([k, v]) => [norm(v.name), k]));
+const hasArt = (k) => fs.existsSync(path.join(ART, `${k}.png`));
+
+function resolve(name) {
+    const exact = keyByName[norm(name)];
+    if (exact) return [exact];
+    return Object.entries(pokedex)
+        .filter(([, v]) => norm(String(v.name).split('-')[0]) === norm(name))
+        .map(([k]) => k);
+}
+
+const evosOf = (key) => (pokedex[key]?.evos ?? []).flatMap(resolve);
+const prevoOf = (key) => Object.keys(pokedex).find((k) => evosOf(k).includes(key)) ?? null;
+
+/** Stages of key's family, root first: [[root], [stage 2...], [stage 3...]]. */
+function evoLine(key) {
+    let root = key;
+    for (let p = prevoOf(root), guard = 0; p && guard < 5; p = prevoOf(root), guard++) root = p;
+    const stages = [[root]];
+    for (let guard = 0; guard < 5; guard++) {
+        const next = [...new Set(stages.at(-1).flatMap(evosOf))];
+        if (!next.length) break;
+        stages.push(next);
+    }
+    return stages.map((st) => st.filter(hasArt)).filter((st) => st.length);
+}
+
+function chevron(ctx, x, y) {
+    ctx.save();
+    ctx.fillStyle = GOLD;
+    ctx.beginPath();
+    ctx.moveTo(x - 16, y - 30); ctx.lineTo(x + 18, y); ctx.lineTo(x - 16, y + 30);
+    ctx.lineTo(x - 4, y); ctx.closePath();
+    ctx.fill();
+    ctx.restore();
+}
+
+function slideEvo(ctx, sl) {
+    const stages = sl.evo;
+    const arrowW = 60, left = 70, right = W - 70;
+    const colW = (right - left - arrowW * (stages.length - 1)) / stages.length;
+    const top = 250, bottom = H - 210, nameH = 64;
+
+    stages.forEach((members, si) => {
+        const cx = left + si * (colW + arrowW) + colW / 2;
+        // Several members in one stage (a branch) stack down the column.
+        const cols = members.length > 3 ? 2 : 1;
+        const rows = Math.ceil(members.length / cols);
+        const cellW = colW / cols, cellH = (bottom - top) / rows;
+        const size = Math.min(cellW - 10, cellH - nameH, 440);
+
+        members.forEach((k, mi) => {
+            const c = mi % cols, r = Math.floor(mi / cols);
+            const x0 = cx - colW / 2 + c * cellW + (cellW - size) / 2;
+            const blockH = rows === 1 ? size + nameH : cellH;
+            const y0 = rows === 1 ? (top + bottom - blockH) / 2 : top + r * cellH;
+            const img = sl.evoArt[k];
+            const isMe = k === sl.key;
+
+            if (isMe) {
+                ctx.save();
+                ctx.beginPath();
+                ctx.arc(x0 + size / 2, y0 + size / 2, size * 0.52, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(255,210,0,0.16)';
+                ctx.fill();
+                ctx.lineWidth = 4;
+                ctx.strokeStyle = 'rgba(255,210,0,0.8)';
+                ctx.stroke();
+                ctx.restore();
+            }
+            drawArt(ctx, sl, img, x0, y0, size);
+
+            const nm = pokedex[k].name;
+            let fsz = Math.min(48, Math.max(26, size / 6));
+            ctx.font = FONT(fsz);
+            while (ctx.measureText(nm).width > cellW - 10 && fsz > 22) ctx.font = FONT(fsz -= 2);
+            ctx.fillStyle = isMe ? GOLD : PAPER;
+            ctx.fillText(nm, x0 + size / 2 - ctx.measureText(nm).width / 2, y0 + size + fsz + 8);
+        });
+
+        if (si < stages.length - 1) chevron(ctx, cx + colW / 2 + arrowW / 2, (top + bottom) / 2);
+    });
+
+    chrome(ctx, 'Evolution', sl);
 }
 
 // ---------------------------------------------------------------- main
@@ -594,6 +684,18 @@ const wanted = process.argv.slice(2).map((s) => s.toLowerCase());
 const keys = (wanted.length ? wanted : Object.keys(pokedex))
     .filter((k) => fs.existsSync(path.join(ART, `${k}.png`)));
 
+// node-canvas frees its pixel buffers lazily, so one process rendering every
+// card runs out of memory. A full run hands out small batches to child processes.
+if (!wanted.length) {
+    const { spawnSync } = await import('node:child_process');
+    const BATCH = 6;
+    for (let i = 0; i < keys.length; i += BATCH) {
+        const r = spawnSync(process.execPath, [process.argv[1], ...keys.slice(i, i + BATCH)], { stdio: 'inherit' });
+        if (r.status !== 0) process.exit(r.status ?? 1);
+    }
+    process.exit(0);
+}
+
 fs.mkdirSync(OUT, { recursive: true });
 
 for (const key of keys) {
@@ -608,8 +710,23 @@ for (const key of keys) {
         photo: envPath ? await loadImage(envPath) : null,
     };
 
-    const slides = [slideHero, slideDex, slideStats, ...(sl.shiny ? [slideShiny] : [])];
+    sl.key = key;
+    sl.evo = evoLine(key);
+    const evolves = sl.evo.flat().length > 1;
+    if (evolves) {
+        sl.evoArt = {};
+        for (const k of sl.evo.flat()) sl.evoArt[k] = await loadImage(path.join(ART, `${k}.png`));
+    }
+
+    const slides = [
+        slideHero,
+        ...(sl.shiny ? [slideShiny] : []),
+        slideDex,
+        slideStats,
+        ...(evolves ? [slideEvo] : []),
+    ];
     for (const [i, draw] of slides.entries()) {
+        sl.isLast = i === slides.length - 1;
         fs.writeFileSync(path.join(OUT, `${key}-${i + 1}.jpg`), await render(sl, draw));
     }
     console.log(`${key}: ${slides.length} slides${sl.photo ? ` (photo: ${path.basename(envPath)})` : ''}`);
