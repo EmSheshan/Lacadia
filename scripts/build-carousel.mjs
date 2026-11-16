@@ -357,20 +357,32 @@ function watermark(ctx) {
     ctx.fillText('@EmSheshan', W - SAFE - ctx.measureText('@EmSheshan').width, y + 58);
 }
 
-function swipeHint(ctx) {
-    ctx.font = FONT(36);
-    ctx.fillStyle = 'rgba(255,255,255,0.88)';
-    const t = 'swipe →';
-    ctx.fillText(t, W - SAFE - ctx.measureText(t).width, 145);
+/** Page marker: one diamond per slide, this one filled -- tells people to swipe. */
+function pager(ctx, index, count) {
+    const r = 10, gap = 30, y = 134;
+    let x = W - SAFE - r - (count - 1) * gap;
+    for (let i = 0; i < count; i++, x += gap) {
+        if (i === index) {
+            diamond(ctx, x, y, r + 2, GOLD);
+        } else {
+            ctx.save();
+            ctx.beginPath();
+            ctx.moveTo(x, y - r); ctx.lineTo(x + r, y); ctx.lineTo(x, y + r); ctx.lineTo(x - r, y);
+            ctx.closePath();
+            ctx.lineWidth = 2.5;
+            ctx.strokeStyle = 'rgba(255,255,255,0.8)';
+            ctx.stroke();
+            ctx.restore();
+        }
+    }
 }
 
-/** Everything drawn over the slide content: frame, banner, tag. */
+/** Everything drawn over the slide content: frame, banner, tag, page marker. */
 function chrome(ctx, title, sl) {
-    const swipe = !sl.isLast;
     border(ctx);
     banner(ctx, title);
     watermark(ctx);
-    if (swipe) swipeHint(ctx);
+    if (sl.count > 1) pager(ctx, sl.index, sl.count);
 }
 
 // ---------------------------------------------------------------- helpers
@@ -417,28 +429,38 @@ function textBox(ctx, text, x, y, w, h, { max = 44, min = 24, lead = 1.3, color 
 }
 
 /**
- * A liquid-glass panel: the slide behind it is frosted (blurred and lifted),
- * tinted just enough to keep light text readable, with a soft drop shadow, a
- * sheen across the top and a bright specular rim that fades down the sides.
+ * A liquid-glass panel, in the clear modern style rather than glossy Aero:
+ * the slide behind is frosted, the edges refract it like a lens, the tint is
+ * only as dark as the backdrop needs for white text, and a hairline rim
+ * catches light at two opposite corners. No sheen gradient.
  */
 function panel(ctx, x, y, w, h, r = 26) {
     x = Math.round(x); y = Math.round(y); w = Math.round(w); h = Math.round(h);
-    const path = () => { ctx.beginPath(); ctx.roundRect(x, y, w, h, r); };
+    const path = (inset = 0) => {
+        ctx.beginPath();
+        ctx.roundRect(x + inset, y + inset, w - inset * 2, h - inset * 2, Math.max(2, r - inset));
+    };
 
-    // Frost: blur what is already on the canvas under the panel.
-    const pad = 24;
+    const pad = 40;
     const sx = Math.max(0, x - pad), sy = Math.max(0, y - pad);
     const sw = Math.min(W - sx, w + pad * 2), sh = Math.min(H - sy, h + pad * 2);
     const under = createCanvas(sw, sh);
     under.getContext('2d').drawImage(ctx.canvas, sx, sy, sw, sh, 0, 0, sw, sh);
-    const frost = blurred(under, sw, sh, 16);
+    const frost = blurred(under, sw, sh, 12);
 
-    ctx.save();
-    ctx.shadowColor = 'rgba(0,0,0,0.35)';
-    ctx.shadowBlur = 30;
-    ctx.shadowOffsetY = 10;
+    // How bright is what we're sitting on? Tint just enough for white text.
+    const px = frost.getContext('2d').getImageData(0, 0, sw, sh).data;
+    let lum = 0;
+    for (let i = 0; i < px.length; i += 64) lum += (0.299 * px[i] + 0.587 * px[i + 1] + 0.114 * px[i + 2]) / 255;
+    lum /= px.length / 64;
+    const tint = Math.min(0.62, Math.max(0.16, (lum - 0.28) / Math.max(lum, 0.01) + 0.12));
+
+    ctx.save();                                           // soft contact shadow
+    ctx.shadowColor = 'rgba(0,0,0,0.22)';
+    ctx.shadowBlur = 24;
+    ctx.shadowOffsetY = 6;
     path();
-    ctx.fillStyle = 'rgba(14,16,34,0.01)';
+    ctx.fillStyle = 'rgba(0,0,0,0.01)';
     ctx.fill();
     ctx.restore();
 
@@ -446,26 +468,41 @@ function panel(ctx, x, y, w, h, r = 26) {
     path();
     ctx.clip();
     ctx.drawImage(frost, sx, sy);
-    ctx.fillStyle = 'rgba(14, 16, 36, 0.52)';           // legibility tint
-    ctx.fillRect(x, y, w, h);
-    const sheen = ctx.createLinearGradient(0, y, 0, y + Math.min(h, 160));
-    sheen.addColorStop(0, 'rgba(255,255,255,0.16)');
-    sheen.addColorStop(1, 'rgba(255,255,255,0)');
-    ctx.fillStyle = sheen;
+    // Lens: the rim band shows the backdrop magnified, so it bends at the edge.
+    const band = 16, zoom = 1.1;
+    ctx.save();
+    ctx.beginPath();
+    ctx.roundRect(x, y, w, h, r);
+    ctx.roundRect(x + band, y + band, w - band * 2, h - band * 2, Math.max(2, r - band));
+    ctx.clip('evenodd');
+    const cx = x + w / 2, cy = y + h / 2;
+    ctx.translate(cx, cy);
+    ctx.scale(zoom, zoom);
+    ctx.translate(-cx, -cy);
+    ctx.drawImage(frost, sx, sy);
+    ctx.restore();
+    ctx.fillStyle = `rgba(12,14,26,${tint.toFixed(3)})`;
     ctx.fillRect(x, y, w, h);
     ctx.restore();
 
+    // Faint inner light along the edge, then the hairline rim.
     ctx.save();
+    path(3);
+    ctx.lineWidth = 6;
+    ctx.strokeStyle = 'rgba(255,255,255,0.03)';
+    ctx.stroke();
     path();
-    const rim = ctx.createLinearGradient(0, y, 0, y + h);
-    rim.addColorStop(0, 'rgba(255,255,255,0.75)');
-    rim.addColorStop(0.35, 'rgba(255,255,255,0.22)');
-    rim.addColorStop(0.75, 'rgba(255,255,255,0.12)');
-    rim.addColorStop(1, 'rgba(255,255,255,0.35)');
-    ctx.lineWidth = 2;
-    ctx.strokeStyle = rim;
+    const spec = ctx.createLinearGradient(x, y, x + w, y + h);
+    spec.addColorStop(0, 'rgba(255,255,255,0.42)');
+    spec.addColorStop(0.2, 'rgba(255,255,255,0.10)');
+    spec.addColorStop(0.5, 'rgba(255,255,255,0.05)');
+    spec.addColorStop(0.8, 'rgba(255,255,255,0.10)');
+    spec.addColorStop(1, 'rgba(255,255,255,0.32)');
+    ctx.lineWidth = 1.2;
+    ctx.strokeStyle = spec;
     ctx.stroke();
     ctx.restore();
+
 }
 
 /**
@@ -487,9 +524,11 @@ function drawArt(ctx, slide, img, x, y, s) {
 }
 
 function label(ctx, text, x, y, size = 34) {
+    const d = Math.max(5, size * 0.2);
+    diamond(ctx, x + d, y - size * 0.34, d, GOLD);
     ctx.font = FONT(size);
     ctx.fillStyle = GOLD;
-    ctx.fillText(text.toUpperCase(), x, y);
+    ctx.fillText(text.toUpperCase(), x + d * 2 + 10, y);
 }
 
 function typePills(ctx, types, x, y, w = 200) {
@@ -564,9 +603,21 @@ function abilityPanel(ctx, names, y, draw = true) {
         cy += bl.h;
     }
     if (official.length) {
-        fitText(ctx, official.join('  ·  '), iw, 44);
+        // Names separated by small diamonds; measure with spaces standing in.
+        const size = fitText(ctx, official.join('     '), iw, 44);
         ctx.fillStyle = PAPER;
-        ctx.fillText(official.join('  ·  '), ix, cy + 46);
+        let ax = ix;
+        official.forEach((a, i) => {
+            if (i) {
+                diamond(ctx, ax + size * 0.38, cy + 46 - size * 0.32, size * 0.14, GOLD);
+                ax += size * 0.76;
+            }
+            ctx.fillStyle = PAPER;
+            ctx.fillText(a, ax, cy + 46);
+            ax += ctx.measureText(a).width;
+        });
+        ctx.fillStyle = PAPER;
+
     }
     return h;
 }
@@ -924,8 +975,12 @@ function slideEvo(ctx, sl) {
 
             if (isMe) {
                 ctx.save();
+                // Diamond behind the one this post is about.
+                const dc = size * 0.5, mx = x0 + size / 2, my = y0 + size / 2;
                 ctx.beginPath();
-                ctx.arc(x0 + size / 2, y0 + size / 2, size * 0.52, 0, Math.PI * 2);
+                ctx.moveTo(mx, my - dc); ctx.lineTo(mx + dc, my); ctx.lineTo(mx, my + dc); ctx.lineTo(mx - dc, my);
+                ctx.closePath();
+                ctx.lineJoin = 'round';
                 ctx.fillStyle = 'rgba(255,210,0,0.16)';
                 ctx.fill();
                 ctx.lineWidth = 4;
@@ -1056,6 +1111,8 @@ for (const members of groups) {
     for (const [i, [draw, cur]] of slides.entries()) {
         sl.cur = cur ?? null;
         sl.isLast = i === slides.length - 1;
+        sl.index = i;
+        sl.count = slides.length;
         fs.writeFileSync(path.join(OUT, `${name}-${i + 1}.jpg`), await render(sl, draw));
     }
     console.log(`${name}: ${slides.length} slides${multi ? ` (${forms.length} forms)` : ''}${envPath ? ` [photo ${path.basename(envPath)}]` : ` [${scene}]`}`);
