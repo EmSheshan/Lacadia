@@ -27,6 +27,7 @@ import path from 'node:path';
 import { pokedex } from '../pokedex.js';
 import { abilities } from '../abilities.js';
 import { moves } from '../moves.js';
+import { pickHabitat, paintHabitat, HABITATS } from './habitats.mjs';
 
 const BASE = path.resolve();
 registerFont(path.join(BASE, 'assets', 'SmileySans-Oblique.otf'), { family: 'SmileyOblique' });
@@ -75,15 +76,27 @@ for (const c of ['Physical', 'Special', 'Status']) {
     moveIcons[c] = await loadImage(path.join(BASE, 'moveIcons', `${c}.png`));
 }
 
-// environments/map.json lets several Pokemon share one photo:
-//   { "stratoclysm": "sky.jpg", "larvos": "forest.jpg" }
-// A file named <key>.jpg/.png in environments/ is picked up without a mapping.
+// environments/map.json picks a backdrop per Pokemon (or species name):
+//   { "stratoclysm": "space", "larvos": "forest.jpg", "bitbyte": "gradient" }
+// A value is a photo in environments/, a painted habitat name (see
+// scripts/habitats.mjs), or "gradient" for the plain type gradient.
+// A photo named <key>.jpg/.png is picked up without a mapping. With no
+// mapping or photo, a habitat is chosen from the flavour text and type.
 const envMap = fs.existsSync(path.join(ENV, 'map.json'))
     ? JSON.parse(fs.readFileSync(path.join(ENV, 'map.json'), 'utf8')) : {};
 
 function envPathFor(key) {
     const candidates = [envMap[key], `${key}.jpg`, `${key}.jpeg`, `${key}.png`].filter(Boolean);
-    return candidates.map((f) => path.join(ENV, f)).find((p) => fs.existsSync(p)) ?? null;
+    return candidates.map((f) => path.join(ENV, f)).find((p) => fs.existsSync(p) && fs.statSync(p).isFile()) ?? null;
+}
+
+/** 'gradient', a habitat name, or null when only a photo would do. */
+function mappedScene(keys) {
+    for (const k of keys) {
+        const v = envMap[k];
+        if (v === 'gradient' || HABITATS.includes(v)) return v;
+    }
+    return null;
 }
 
 // ---------------------------------------------------------------- colour
@@ -140,10 +153,20 @@ function photoBackground(ctx, photo, mon) {
     sharp.getContext('2d').drawImage(photo, (W - pw) / 2, (H - ph) / 2, pw, ph);
     ctx.drawImage(blurred(sharp, W, H, 32), 0, 0);
 
-    // A whisper of the type colour, then a dim + vignette for legibility.
-    ctx.fillStyle = css(hexRgb(TYPE_COLORS[mon.types[0]] ?? '#888888'), 0.10);
+    // Blend the type gradient through it so every card keeps the house
+    // colours, then dim + vignette so text and art stand off the scene.
+    ctx.save();
+    ctx.globalCompositeOperation = 'soft-light';
+    ctx.globalAlpha = 0.5;
+    ctx.fillStyle = typeGradient(ctx, mon);
     ctx.fillRect(0, 0, W, H);
-    ctx.fillStyle = 'rgba(10,12,24,0.22)';
+    ctx.restore();
+    ctx.save();
+    ctx.globalAlpha = 0.12;
+    ctx.fillStyle = typeGradient(ctx, mon);
+    ctx.fillRect(0, 0, W, H);
+    ctx.restore();
+    ctx.fillStyle = 'rgba(10,12,24,0.16)';
     ctx.fillRect(0, 0, W, H);
     const v = ctx.createRadialGradient(W / 2, H / 2, W * 0.35, W / 2, H / 2, W * 0.95);
     v.addColorStop(0, 'rgba(0,0,0,0)');
@@ -152,26 +175,40 @@ function photoBackground(ctx, photo, mon) {
     ctx.fillRect(0, 0, W, H);
 }
 
+const smooth = (t) => t * t * (3 - 2 * t);
+
 /**
- * No photo: the original navy -> dusk -> slate -> navy sweep, pulled toward
- * the primary type at the top and the secondary at the bottom.
+ * The original navy -> dusk -> slate -> navy sweep, tinted by type. The tint
+ * slides continuously from the primary type at the top to the secondary at
+ * the bottom, so the two types blend instead of meeting in a band.
  */
+function typeGradient(ctx, mon) {
+    const [t1, t2 = t1] = mon.types;
+    const top = hexRgb(TYPE_COLORS[t1] ?? '#888888');
+    const bot = hexRgb(TYPE_COLORS[t2] ?? '#888888');
+    const base = [[0, [30, 30, 52]], [0.22, [70, 58, 84]], [0.48, [92, 96, 124]],
+        [0.62, [80, 98, 134]], [0.84, [42, 56, 98]], [1, [26, 30, 62]]];
+    const baseAt = (p) => {
+        const i = base.findIndex(([q]) => q >= p);
+        if (i <= 0) return base[0][1];
+        const [q0, c0] = base[i - 1], [q1, c1] = base[i];
+        return mix(c0, c1, smooth((p - q0) / (q1 - q0)));
+    };
+    const g = ctx.createLinearGradient(0, 0, 0, H);
+    for (let i = 0; i <= 24; i++) {
+        const p = i / 24;
+        const tint = mix(top, bot, smooth(Math.min(1, Math.max(0, (p - 0.15) / 0.7))));
+        const amt = 0.26 + 0.1 * Math.sin(p * Math.PI);
+        g.addColorStop(p, css(mix(baseAt(p), tint, amt)));
+    }
+    return g;
+}
+
 function gradientBackground(ctx, mon) {
     const [t1, t2 = t1] = mon.types;
     const top = hexRgb(TYPE_COLORS[t1] ?? '#888888');
     const bot = hexRgb(TYPE_COLORS[t2] ?? '#888888');
-
-    const stops = [
-        [0.00, [30, 30, 52], top, 0.22],
-        [0.22, [70, 58, 84], top, 0.38],
-        [0.45, [96, 98, 122], top, 0.30],
-        [0.60, [80, 102, 138], bot, 0.30],
-        [0.82, [42, 56, 98], bot, 0.36],
-        [1.00, [26, 30, 62], bot, 0.22],
-    ];
-    const g = ctx.createLinearGradient(0, 0, 0, H);
-    for (const [p, base, tint, amt] of stops) g.addColorStop(p, css(mix(base, tint, amt)));
-    ctx.fillStyle = g;
+    ctx.fillStyle = typeGradient(ctx, mon);
     ctx.fillRect(0, 0, W, H);
 
     const grain = ctx.getImageData(0, 0, W, H);
@@ -379,14 +416,54 @@ function textBox(ctx, text, x, y, w, h, { max = 44, min = 24, lead = 1.3, color 
     lines.forEach((l, i) => ctx.fillText(l, x, y0 + size + i * size * lead - size * 0.15));
 }
 
+/**
+ * A liquid-glass panel: the slide behind it is frosted (blurred and lifted),
+ * tinted just enough to keep light text readable, with a soft drop shadow, a
+ * sheen across the top and a bright specular rim that fades down the sides.
+ */
 function panel(ctx, x, y, w, h, r = 26) {
+    x = Math.round(x); y = Math.round(y); w = Math.round(w); h = Math.round(h);
+    const path = () => { ctx.beginPath(); ctx.roundRect(x, y, w, h, r); };
+
+    // Frost: blur what is already on the canvas under the panel.
+    const pad = 24;
+    const sx = Math.max(0, x - pad), sy = Math.max(0, y - pad);
+    const sw = Math.min(W - sx, w + pad * 2), sh = Math.min(H - sy, h + pad * 2);
+    const under = createCanvas(sw, sh);
+    under.getContext('2d').drawImage(ctx.canvas, sx, sy, sw, sh, 0, 0, sw, sh);
+    const frost = blurred(under, sw, sh, 16);
+
     ctx.save();
-    ctx.beginPath();
-    ctx.roundRect(x, y, w, h, r);
-    ctx.fillStyle = 'rgba(12, 14, 34, 0.76)';
+    ctx.shadowColor = 'rgba(0,0,0,0.35)';
+    ctx.shadowBlur = 30;
+    ctx.shadowOffsetY = 10;
+    path();
+    ctx.fillStyle = 'rgba(14,16,34,0.01)';
     ctx.fill();
-    ctx.lineWidth = 2.5;
-    ctx.strokeStyle = 'rgba(255, 210, 0, 0.55)';
+    ctx.restore();
+
+    ctx.save();
+    path();
+    ctx.clip();
+    ctx.drawImage(frost, sx, sy);
+    ctx.fillStyle = 'rgba(14, 16, 36, 0.52)';           // legibility tint
+    ctx.fillRect(x, y, w, h);
+    const sheen = ctx.createLinearGradient(0, y, 0, y + Math.min(h, 160));
+    sheen.addColorStop(0, 'rgba(255,255,255,0.16)');
+    sheen.addColorStop(1, 'rgba(255,255,255,0)');
+    ctx.fillStyle = sheen;
+    ctx.fillRect(x, y, w, h);
+    ctx.restore();
+
+    ctx.save();
+    path();
+    const rim = ctx.createLinearGradient(0, y, 0, y + h);
+    rim.addColorStop(0, 'rgba(255,255,255,0.75)');
+    rim.addColorStop(0.35, 'rgba(255,255,255,0.22)');
+    rim.addColorStop(0.75, 'rgba(255,255,255,0.12)');
+    rim.addColorStop(1, 'rgba(255,255,255,0.35)');
+    ctx.lineWidth = 2;
+    ctx.strokeStyle = rim;
     ctx.stroke();
     ctx.restore();
 }
@@ -397,11 +474,10 @@ function panel(ctx, x, y, w, h, r = 26) {
  */
 function drawArt(ctx, slide, img, x, y, s) {
     if (slide.photo) {
-        const tint = css(mix([255, 250, 235], hexRgb(TYPE_COLORS[slide.mon.types[0]] ?? '#ffffff'), 0.25));
-        const k = s / 1100;
-        ctx.drawImage(blurred(silhouette(img, x, y, s, tint, 16 * k), W, H, 8), 0, 0);
-        ctx.globalAlpha = 0.9;
-        ctx.drawImage(silhouette(img, x, y, s, tint, 7 * k), 0, 0);
+        // Solid white stroke around the art, at half opacity.
+        const k = Math.max(0.35, s / 1100);
+        ctx.globalAlpha = 0.5;
+        ctx.drawImage(silhouette(img, x, y, s, '#ffffff', 12 * k), 0, 0);
         ctx.globalAlpha = 1;
     } else {
         const off = Math.max(6, Math.round(12 * s / 1100));
@@ -879,8 +955,14 @@ async function render(sl, draw) {
     const c = createCanvas(W, H);
     const ctx = c.getContext('2d');
     const bgMon = sl.cur?.mon ?? sl.mon;     // a form's own slide takes its own tint
-    if (sl.photo) photoBackground(ctx, sl.photo, bgMon);
-    else gradientBackground(ctx, bgMon);
+    const id = bgMon.types.join('/');
+    if (!sl.bg.has(id)) {
+        const b = createCanvas(W, H);
+        if (sl.photo) photoBackground(b.getContext('2d'), sl.photo, bgMon);
+        else gradientBackground(b.getContext('2d'), bgMon);
+        sl.bg.set(id, b);
+    }
+    ctx.drawImage(sl.bg.get(id), 0, 0);
     draw(ctx, sl);
     const out = createCanvas(EW, EH);
     out.getContext('2d').drawImage(c, 0, 0, EW, EH);
@@ -933,6 +1015,12 @@ for (const members of groups) {
     }
     const name = outKey(members);
     const envPath = envPathFor(name) ?? members.map(envPathFor).find(Boolean);
+    const scene = envPath ? null : (mappedScene([name, ...members]) ?? pickHabitat(forms[0].mon));
+    let photo = envPath ? await loadImage(envPath) : null;
+    if (scene && scene !== 'gradient') {
+        // Painted small; photoBackground scales and blurs it like a photo.
+        photo = paintHabitat(scene, name);
+    }
     const sl = {
         forms,
         keys: members,
@@ -940,7 +1028,8 @@ for (const members of groups) {
         mon: forms[0].mon,
         art: forms[0].art,
         shiny: forms[0].shiny,
-        photo: envPath ? await loadImage(envPath) : null,
+        photo,
+        bg: new Map(),
         trigger: formTrigger(forms),
     };
 
@@ -969,5 +1058,5 @@ for (const members of groups) {
         sl.isLast = i === slides.length - 1;
         fs.writeFileSync(path.join(OUT, `${name}-${i + 1}.jpg`), await render(sl, draw));
     }
-    console.log(`${name}: ${slides.length} slides${multi ? ` (${forms.length} forms)` : ''}${sl.photo ? ` (photo: ${path.basename(envPath)})` : ''}`);
+    console.log(`${name}: ${slides.length} slides${multi ? ` (${forms.length} forms)` : ''}${envPath ? ` [photo ${path.basename(envPath)}]` : ` [${scene}]`}`);
 }
