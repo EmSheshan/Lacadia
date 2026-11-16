@@ -962,14 +962,16 @@ function slideEvo(ctx, sl) {
         // Several members in one stage (a branch) stack down the column.
         const cols = members.length > 3 ? 2 : 1;
         const rows = Math.ceil(members.length / cols);
-        const cellW = colW / cols, cellH = (bottom - top) / rows;
-        const size = Math.min(cellW - 10, cellH - nameH, 440);
+        const cellW = colW / cols;
+        const size = Math.min(cellW - 10, (bottom - top) / rows - nameH - 20, 440);
+        // Every stage shares one centre line (the arrows sit on it); a branch's
+        // rows are spaced evenly above and below it.
+        const axis = (top + bottom) / 2 - nameH / 2, pitch = size + nameH + 20;
 
         members.forEach((k, mi) => {
             const c = mi % cols, r = Math.floor(mi / cols);
             const x0 = cx - colW / 2 + c * cellW + (cellW - size) / 2;
-            const blockH = rows === 1 ? size + nameH : cellH;
-            const y0 = rows === 1 ? (top + bottom - blockH) / 2 : top + r * cellH;
+            const y0 = axis + (r - (rows - 1) / 2) * pitch - size / 2;
             const img = sl.evoArt[k];
             const isMe = sl.keys.includes(k);
 
@@ -1004,11 +1006,7 @@ function slideEvo(ctx, sl) {
         });
 
         // Line the arrow up with the art (and the diamond), not the art+name block.
-        if (si < stages.length - 1) {
-            const artMid = (m) => (m.length === 1 ? (top + bottom) / 2 - nameH / 2 : (top + bottom) / 2);
-            const ay = stages[si].length === 1 ? artMid(stages[si]) : artMid(stages[si + 1]);
-            chevron(ctx, cx + colW / 2 + arrowW / 2, ay);
-        }
+        if (si < stages.length - 1) chevron(ctx, cx + colW / 2 + arrowW / 2, (top + bottom) / 2 - nameH / 2);
     });
 
     chrome(ctx, 'Evolution', sl);
