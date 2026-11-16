@@ -343,6 +343,12 @@ function abilityText(name) {
     return typeof a === 'string' ? a : a?.description ?? '';
 }
 
+function fitText(ctx, text, maxW, size, min = 20) {
+    ctx.font = FONT(size);
+    while (ctx.measureText(text).width > maxW && size > min) ctx.font = FONT(size -= 2);
+    return size;
+}
+
 function wrap(ctx, text, maxWidth) {
     const lines = [];
     for (const para of String(text).split('\n')) {
@@ -439,58 +445,95 @@ function slideHero(ctx, sl) {
     chrome(ctx, mon.name, sl);
 }
 
+const isNewAbility = (name) => abilities[name]?.tag === 'lacadia';
+
+/**
+ * Abilities panel: everyone knows the official abilities, so those are just
+ * named; Lacadia's own get a NEW tag and their effect spelled out.
+ * Draws at y (or only measures, with draw=false) and returns the height used.
+ */
+function abilityPanel(ctx, names, y, draw = true) {
+    const x = 70, w = W - 140, ix = 108, iw = w - 76;
+    const official = names.filter((a) => !isNewAbility(a));
+    const fresh = names.filter(isNewAbility);
+    let h = 32 + 44;                                  // padding + heading
+    const blocks = fresh.map((a) => {
+        ctx.font = FONT(34);
+        const lines = wrap(ctx, abilityText(a), iw);
+        return { a, lines, h: 58 + lines.length * 42 };
+    });
+    for (const bl of blocks) h += bl.h;
+    if (official.length) h += 60;
+    h += 18;
+    if (!draw) return h;
+
+    panel(ctx, x, y, w, h);
+    label(ctx, names.length > 1 ? 'Abilities' : 'Ability', ix, y + 62, 32);
+    let cy = y + 76;
+    for (const bl of blocks) {
+        ctx.font = FONT(48);
+        ctx.fillStyle = PAPER;
+        ctx.fillText(bl.a, ix, cy + 44);
+        const tw = ctx.measureText(bl.a).width;
+        ctx.beginPath();
+        ctx.roundRect(ix + tw + 18, cy + 10, 78, 38, 19);
+        ctx.fillStyle = GOLD;
+        ctx.fill();
+        ctx.font = FONT(28);
+        ctx.fillStyle = '#111';
+        ctx.fillText('NEW', ix + tw + 30, cy + 39);
+        ctx.font = FONT(34);
+        ctx.fillStyle = MUTED;
+        bl.lines.forEach((l, i) => ctx.fillText(l, ix, cy + 58 + 34 + i * 42));
+        cy += bl.h;
+    }
+    if (official.length) {
+        fitText(ctx, official.join('  ·  '), iw, 44);
+        ctx.fillStyle = PAPER;
+        ctx.fillText(official.join('  ·  '), ix, cy + 46);
+    }
+    return h;
+}
+
 function slideDex(ctx, sl) {
     const { mon, art, shiny } = sl;
     // The shiny gets its showing here rather than on a slide of its own.
-    drawArt(ctx, sl, shiny ?? art, 50, 240, 560);
+    const s = 470;
+    drawArt(ctx, sl, shiny ?? art, 60, 225, s);
     if (shiny) {
-        ctx.font = FONT(40);
-        const t = '\u2605 Shiny';
+        ctx.font = FONT(36);
+        const t = '★ Shiny';
         const tw = ctx.measureText(t).width;
-        panel(ctx, 330 - tw / 2 - 28, 770, tw + 56, 60, 30);
+        panel(ctx, 60 + s / 2 - tw / 2 - 26, 225 + s - 10, tw + 52, 54, 27);
         ctx.fillStyle = GOLD;
-        ctx.fillText(t, 330 - tw / 2, 813);
+        ctx.fillText(t, 60 + s / 2 - tw / 2, 225 + s + 28);
     }
 
-    const px = 620, pw = W - px - 70, py = 245, ph = 580;
+    const px = 580, pw = W - px - 70, py = 245, ph = 380;
     panel(ctx, px, py, pw, ph);
     const ix = px + 34;
     ctx.font = FONT(64);
     ctx.fillStyle = GOLD;
     ctx.fillText(dexNo(mon.num), ix, py + 76);
-    ctx.font = FONT(42);
+    fitText(ctx, `The ${mon.kind} Pokémon`, pw - 68, 42);
     ctx.fillStyle = PAPER;
     ctx.fillText(`The ${mon.kind} Pokémon`, ix, py + 134);
-    typePills(ctx, mon.types, ix, py + 158, 210);
+    typePills(ctx, mon.types, ix, py + 158, Math.min(220, (pw - 84) / 2));
 
-    label(ctx, 'Height', ix, py + 264);
-    label(ctx, 'Weight', ix + 240, py + 264);
-    ctx.font = FONT(52);
+    label(ctx, 'Height', ix, py + 270);
+    label(ctx, 'Weight', ix + 250, py + 270);
+    ctx.font = FONT(56);
     ctx.fillStyle = PAPER;
-    ctx.fillText(`${mon.heightm} m`, ix, py + 320);
-    ctx.fillText(`${mon.weightkg} kg`, ix + 240, py + 320);
+    ctx.fillText(`${mon.heightm} m`, ix, py + 334);
+    ctx.fillText(`${mon.weightkg} kg`, ix + 250, py + 334);
 
-    const ab = Object.values(mon.abilities ?? {});
-    label(ctx, ab.length > 1 ? 'Abilities' : 'Ability', ix, py + 392);
-    if (ab.length === 1) {
-        ctx.font = FONT(48);
-        ctx.fillStyle = PAPER;
-        ctx.fillText(ab[0], ix, py + 444);
-        textBox(ctx, abilityText(ab[0]), ix, py + 456, pw - 68, 108, { max: 30, min: 20, color: MUTED });
-    } else {
-        let size = 46;
-        ctx.font = FONT(size);
-        while (size > 28 && Math.max(...ab.map((a) => ctx.measureText(a).width)) > pw - 68) {
-            ctx.font = FONT(size -= 2);
-        }
-        ctx.fillStyle = PAPER;
-        ab.forEach((a, i) => ctx.fillText(a, ix, py + 444 + i * (size + 10)));
-    }
+    const ay = 745;
+    const ah = abilityPanel(ctx, Object.values(mon.abilities ?? {}), ay);
 
-    const fy = 855, fh = H - 200 - fy;
+    const fy = ay + ah + 22, fh = H - 200 - fy;
     panel(ctx, 70, fy, W - 140, fh);
-    textBox(ctx, (mon.description ?? []).join('\n\n'), 106, fy + 22, W - 212, fh - 44,
-        { max: 46, min: 28, lead: 1.28, center: true });
+    textBox(ctx, (mon.description ?? []).join('\n\n'), 106, fy + 20, W - 212, fh - 40,
+        { max: 44, min: 24, lead: 1.26, center: true });
 
     chrome(ctx, mon.name, sl);
 }
@@ -572,11 +615,6 @@ function slideStats(ctx, sl) {
 
 const formName = (mon) => String(mon.name).split('-').slice(1).join('-') || mon.name;
 
-function fitText(ctx, text, maxW, size, min = 20) {
-    ctx.font = FONT(size);
-    while (ctx.measureText(text).width > maxW && size > min) ctx.font = FONT(size -= 2);
-    return size;
-}
 
 function slideDexForms(ctx, sl) {
     const { forms, mon } = sl;
@@ -636,10 +674,15 @@ function slideDexForms(ctx, sl) {
         }
     });
 
-    const fh = H - 200 - fy;
-    panel(ctx, 70, fy, W - 140, fh);
-    textBox(ctx, (mon.description ?? []).join('\n\n'), 106, fy + 20, W - 212, fh - 40,
-        { max: 40, min: 24, lead: 1.25, center: true });
+    let ty = fy;
+    const fresh = [...new Set(forms.flatMap((f) => Object.values(f.mon.abilities ?? {})))]
+        .filter((a) => isNewAbility(a) && a !== sl.trigger?.name);
+    if (fresh.length) ty += abilityPanel(ctx, fresh, fy) + 20;
+
+    const fh = H - 200 - ty;
+    panel(ctx, 70, ty, W - 140, fh);
+    textBox(ctx, (mon.description ?? []).join('\n\n'), 106, ty + 20, W - 212, fh - 40,
+        { max: 40, min: 22, lead: 1.25, center: true });
 
     chrome(ctx, sl.base, sl);
 }
