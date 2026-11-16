@@ -1,15 +1,24 @@
-// Builds extra carousel slides that ride along behind each share card, so a
-// post becomes a swipeable mini dex page instead of a single image:
+// Builds a 4:5 swipeable carousel per Pokemon, so a post becomes a mini dex
+// page instead of a single square card:
 //
-//   1. the existing share card (unchanged, from socialImages/)
-//   2. Dex entry  -- number, kind, typing, size, ability, flavour text
-//   3. Battle data -- base stat bars + signature move
-//   4. Shiny      -- normal vs shiny side by side
+//   1. Hero       -- the art, big
+//   2. Dex entry  -- number, kind, typing, size, abilities, flavour text
+//   3. Base stats -- tiered stat bars + signature move
+//   4. Shiny      -- normal vs shiny side by side (when shiny art exists)
 //
-// Output: socialCarousel/<key>-<slide>.jpg at 1080x1080, same look as the cards.
-// Local-only (needs `canvas`), like build-social-images.mjs.
+// Why 4:5 (1080x1350): it is the tallest feed image Instagram allows, so it
+// takes ~25% more screen than a square, and the profile grid's 3:4 crop only
+// trims ~37px per side -- the name banner is kept clear of that.
 //
-//   node scripts/build-carousel.mjs                 # every pokedex entry with art
+// Backgrounds, in order of preference:
+//   - a photo of the Pokemon's environment, blurred here (environments/, see
+//     environments/README.md) -- the art then gets a soft glow outline;
+//   - otherwise a type-tinted gradient, drawn here, with the gold offset shadow.
+// A detailed frame is drawn over every slide either way.
+//
+// Output: socialCarousel/<key>-<n>.jpg. Local-only (needs `canvas`).
+//
+//   node scripts/build-carousel.mjs                 # every entry with art
 //   node scripts/build-carousel.mjs stratoclysm     # just these keys
 
 import { createCanvas, loadImage, registerFont } from 'canvas';
@@ -24,16 +33,18 @@ registerFont(path.join(BASE, 'assets', 'SmileySans-Oblique.otf'), { family: 'Smi
 
 const OUT = path.join(BASE, 'socialCarousel');
 const ART = path.join(BASE, 'pokemonArt');
-const SIZE = 1200;          // draw at the card's native size...
-const EXPORT = 1080;        // ...export at Instagram's
-const QUALITY = 0.92;
+const ENV = path.join(BASE, 'environments');
+const W = 1200, H = 1500;              // draw size...
+const EW = 1080, EH = 1350;            // ...export size (Instagram 4:5)
+const QUALITY = 0.9;
+const SAFE = 90;                       // clear of the 3:4 grid crop (37px) with room to spare
 
 const GOLD = '#ffd200';
-const INK = '#14162b';
 const PAPER = '#f4f1e8';
+const MUTED = '#c9c7d8';
 const FONT = (px) => `${px}px "SmileyOblique"`;
 
-// Same palette as sharableImageGenerator.js so slides match the hero card.
+// Same palette as sharableImageGenerator.js.
 const TYPE_COLORS = {
     Normal: '#c3c29b', Fire: '#ff6320', Water: '#4b99ff', Electric: '#F7D02C',
     Grass: '#7AC74C', Ice: '#96D9D6', Fighting: '#ff2b23', Poison: '#a622a3',
@@ -47,15 +58,285 @@ const STATS = [
     ['spa', 'Sp. Atk'], ['spd', 'Sp. Def'], ['spe', 'Speed'],
 ];
 
-const bg = await loadImage(path.join(BASE, 'assets', 'SharableImageBg.png'));
-const typeBars = {};
+// Stat tiers, best first: extremely high, high, decent, bad, extremely awful.
+const STAT_TIERS = [
+    [130, '#62d4ff'],
+    [100, '#5fdc6e'],
+    [70, '#ffd93b'],
+    [40, '#ff9442'],
+    [0, '#ff4f4f'],
+];
+const statColor = (v) => STAT_TIERS.find(([min]) => v >= min)[1];
+
+const typeIcons = {}, typeBars = {}, moveIcons = {};
 for (const t of Object.keys(TYPE_COLORS)) {
-    const p = path.join(BASE, 'typeBars', `${t}.png`);
-    if (fs.existsSync(p)) typeBars[t] = await loadImage(p);
+    const i = path.join(BASE, 'typeIcons', `${t}.png`);
+    const b = path.join(BASE, 'typeBars', `${t}.png`);
+    if (fs.existsSync(i)) typeIcons[t] = await loadImage(i);
+    if (fs.existsSync(b)) typeBars[t] = await loadImage(b);
 }
-const moveIcons = {};
 for (const c of ['Physical', 'Special', 'Status']) {
     moveIcons[c] = await loadImage(path.join(BASE, 'moveIcons', `${c}.png`));
+}
+
+// environments/map.json lets several Pokemon share one photo:
+//   { "stratoclysm": "sky.jpg", "larvos": "forest.jpg" }
+// A file named <key>.jpg/.png in environments/ is picked up without a mapping.
+const envMap = fs.existsSync(path.join(ENV, 'map.json'))
+    ? JSON.parse(fs.readFileSync(path.join(ENV, 'map.json'), 'utf8')) : {};
+
+function envPathFor(key) {
+    const candidates = [envMap[key], `${key}.jpg`, `${key}.jpeg`, `${key}.png`].filter(Boolean);
+    return candidates.map((f) => path.join(ENV, f)).find((p) => fs.existsSync(p)) ?? null;
+}
+
+// ---------------------------------------------------------------- colour
+
+const hexRgb = (hex) => {
+    const n = parseInt(hex.slice(1), 16);
+    return [n >> 16, (n >> 8) & 255, n & 255];
+};
+const mix = (a, b, t) => a.map((c, i) => Math.round(c + (b[i] - c) * t));
+const css = ([r, g, b], a = 1) => `rgba(${r},${g},${b},${a})`;
+
+// ---------------------------------------------------------------- image ops
+
+/** node-canvas has no ctx.filter, so blur by shrinking and growing in steps. */
+function blurred(src, w, h, strength = 24) {
+    let cur = src, cw = w, ch = h;
+    const steps = [];
+    for (let f = 2; f <= strength; f *= 2) steps.push(f);
+    for (const f of steps) {
+        const c = createCanvas(Math.max(1, Math.round(w / f)), Math.max(1, Math.round(h / f)));
+        c.getContext('2d').drawImage(cur, 0, 0, cw, ch, 0, 0, c.width, c.height);
+        cur = c; cw = c.width; ch = c.height;
+    }
+    for (const f of steps.reverse().slice(1).concat(1)) {
+        const c = createCanvas(Math.round(w / f), Math.round(h / f));
+        c.getContext('2d').drawImage(cur, 0, 0, cw, ch, 0, 0, c.width, c.height);
+        cur = c; cw = c.width; ch = c.height;
+    }
+    return cur;
+}
+
+/** The art's silhouette in one flat colour, on a full-size layer. */
+function silhouette(img, x, y, s, color, spread = 0) {
+    const layer = createCanvas(W, H);
+    const l = layer.getContext('2d');
+    const n = spread ? 24 : 1;
+    for (let i = 0; i < n; i++) {
+        const a = (i / n) * Math.PI * 2;
+        l.drawImage(img, x + Math.cos(a) * spread, y + Math.sin(a) * spread, s, s);
+    }
+    l.globalCompositeOperation = 'source-in';
+    l.fillStyle = color;
+    l.fillRect(0, 0, W, H);
+    return layer;
+}
+
+// ---------------------------------------------------------------- background
+
+/** Photo, cover-fitted, blurred, and dimmed enough for text to sit on. */
+function photoBackground(ctx, photo, mon) {
+    const scale = Math.max(W / photo.width, H / photo.height) * 1.08; // overscan hides blur edges
+    const pw = photo.width * scale, ph = photo.height * scale;
+    const sharp = createCanvas(W, H);
+    sharp.getContext('2d').drawImage(photo, (W - pw) / 2, (H - ph) / 2, pw, ph);
+    ctx.drawImage(blurred(sharp, W, H, 32), 0, 0);
+
+    // A whisper of the type colour, then a dim + vignette for legibility.
+    ctx.fillStyle = css(hexRgb(TYPE_COLORS[mon.types[0]] ?? '#888888'), 0.10);
+    ctx.fillRect(0, 0, W, H);
+    ctx.fillStyle = 'rgba(10,12,24,0.22)';
+    ctx.fillRect(0, 0, W, H);
+    const v = ctx.createRadialGradient(W / 2, H / 2, W * 0.35, W / 2, H / 2, W * 0.95);
+    v.addColorStop(0, 'rgba(0,0,0,0)');
+    v.addColorStop(1, 'rgba(0,0,0,0.55)');
+    ctx.fillStyle = v;
+    ctx.fillRect(0, 0, W, H);
+}
+
+/**
+ * No photo: the original navy -> dusk -> slate -> navy sweep, pulled toward
+ * the primary type at the top and the secondary at the bottom.
+ */
+function gradientBackground(ctx, mon) {
+    const [t1, t2 = t1] = mon.types;
+    const top = hexRgb(TYPE_COLORS[t1] ?? '#888888');
+    const bot = hexRgb(TYPE_COLORS[t2] ?? '#888888');
+
+    const stops = [
+        [0.00, [30, 30, 52], top, 0.22],
+        [0.22, [70, 58, 84], top, 0.38],
+        [0.45, [96, 98, 122], top, 0.30],
+        [0.60, [80, 102, 138], bot, 0.30],
+        [0.82, [42, 56, 98], bot, 0.36],
+        [1.00, [26, 30, 62], bot, 0.22],
+    ];
+    const g = ctx.createLinearGradient(0, 0, 0, H);
+    for (const [p, base, tint, amt] of stops) g.addColorStop(p, css(mix(base, tint, amt)));
+    ctx.fillStyle = g;
+    ctx.fillRect(0, 0, W, H);
+
+    const grain = ctx.getImageData(0, 0, W, H);
+    for (let i = 0; i < grain.data.length; i += 4) {
+        const n = (Math.random() - 0.5) * 10;
+        grain.data[i] += n; grain.data[i + 1] += n; grain.data[i + 2] += n;
+    }
+    ctx.putImageData(grain, 0, 0);
+
+    const dots = (y0, dir, tint) => {
+        const rows = 6, gap = 82;
+        for (let r = 0; r < rows; r++) {
+            const y = y0 + dir * r * gap * 0.62;
+            const rad = 34 * (1 - r / rows) ** 1.4 + 3;
+            const off = (r % 2) * gap / 2;
+            ctx.fillStyle = css(mix([12, 14, 34], tint, 0.25), 0.55 - r * 0.07);
+            for (let x = -gap + off; x < W + gap; x += gap) {
+                ctx.beginPath();
+                ctx.arc(x, y, rad, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+    };
+    dots(18, 1, top);
+    dots(H - 18, -1, bot);
+}
+
+// ---------------------------------------------------------------- frame
+
+function diamond(ctx, x, y, r, fill) {
+    ctx.beginPath();
+    ctx.moveTo(x, y - r); ctx.lineTo(x + r, y); ctx.lineTo(x, y + r); ctx.lineTo(x - r, y);
+    ctx.closePath();
+    ctx.fillStyle = fill;
+    ctx.fill();
+}
+
+/**
+ * The detailed frame laid over the whole slide: a double gold rule, heavier
+ * corner brackets with a dot cluster, and diamond studs at the edge midpoints.
+ */
+function border(ctx) {
+    const o = 26, i2 = 40;               // outer and inner rule insets
+    ctx.save();
+
+    // Darken the margin outside the frame so it reads as a mount.
+    ctx.fillStyle = 'rgba(6,6,14,0.35)';
+    ctx.beginPath();
+    ctx.rect(0, 0, W, H);
+    ctx.roundRect(o, o, W - 2 * o, H - 2 * o, 18);
+    ctx.fill('evenodd');
+
+    ctx.strokeStyle = 'rgba(255,210,0,0.95)';
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.roundRect(o, o, W - 2 * o, H - 2 * o, 18);
+    ctx.stroke();
+
+    ctx.strokeStyle = 'rgba(255,226,120,0.45)';
+    ctx.lineWidth = 1.5;
+    ctx.setLineDash([2, 7]);
+    ctx.beginPath();
+    ctx.roundRect(i2, i2, W - 2 * i2, H - 2 * i2, 10);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    // Corner brackets.
+    const len = 92, t = 7;
+    ctx.fillStyle = GOLD;
+    for (const [cx, cy, sx, sy] of [[o, o, 1, 1], [W - o, o, -1, 1], [o, H - o, 1, -1], [W - o, H - o, -1, -1]]) {
+        ctx.fillRect(Math.min(cx, cx + sx * len), cy - (sy < 0 ? t : 0), len, t);
+        ctx.fillRect(cx - (sx < 0 ? t : 0), Math.min(cy, cy + sy * len), t, len);
+        diamond(ctx, cx + sx * 8, cy + sy * 8, 13, GOLD);
+        diamond(ctx, cx + sx * 8, cy + sy * 8, 5, '#1a1420');
+        for (let k = 0; k < 3; k++) {     // little halftone run off each bracket
+            const r = 4.5 - k * 1.3;
+            ctx.beginPath(); ctx.arc(cx + sx * (len + 14 + k * 14), cy + sy * 3.5, r, 0, Math.PI * 2); ctx.fill();
+            ctx.beginPath(); ctx.arc(cx + sx * 3.5, cy + sy * (len + 14 + k * 14), r, 0, Math.PI * 2); ctx.fill();
+        }
+    }
+
+    // Studs at the edge midpoints.
+    for (const [x, y] of [[W / 2, o], [W / 2, H - o], [o, H / 2], [W - o, H / 2]]) {
+        diamond(ctx, x, y, 11, GOLD);
+        diamond(ctx, x, y, 4, '#1a1420');
+    }
+    ctx.restore();
+}
+
+/** Yellow name banner with the halftone tail, like the original card. */
+function banner(ctx, title) {
+    const y = 70, h = 128;
+
+    let size = 92;
+    ctx.font = FONT(size);
+    while (ctx.measureText(title).width > 720 && size > 56) ctx.font = FONT(size -= 4);
+    const textW = ctx.measureText(title).width;
+    const solid = Math.max(520, SAFE + textW + 60);
+
+    ctx.fillStyle = 'rgba(0,0,0,0.35)';
+    ctx.beginPath();
+    ctx.moveTo(0, y + 12); ctx.lineTo(solid + 52, y + 12);
+    ctx.lineTo(solid + 12, y + h + 12); ctx.lineTo(0, y + h + 12);
+    ctx.fill();
+
+    const g = ctx.createLinearGradient(0, 0, solid, 0);
+    g.addColorStop(0, '#ffb800');
+    g.addColorStop(1, '#ffdf1a');
+    ctx.fillStyle = g;
+    ctx.beginPath();
+    ctx.moveTo(0, y); ctx.lineTo(solid + 40, y);
+    ctx.lineTo(solid, y + h); ctx.lineTo(0, y + h);
+    ctx.fill();
+
+    for (let col = 0; col < 9; col++) {
+        for (let row = 0; row < 7; row++) {
+            const cx = solid - 60 + col * 30 + (row % 2) * 15 + (h - row * 19) * 0.3;
+            const cy = y + 8 + row * 19;
+            const r = Math.max(0, 11 - col * 1.3 + (row % 3) * 0.6);
+            if (r < 1.5) continue;
+            ctx.fillStyle = col < 3 ? '#ffd21a' : '#ffe24a';
+            ctx.beginPath();
+            ctx.arc(cx, cy, r, 0, Math.PI * 2);
+            ctx.fill();
+        }
+    }
+
+    ctx.fillStyle = '#111';
+    ctx.fillText(title, SAFE, y + 94 - (92 - size) / 3);
+}
+
+function watermark(ctx) {
+    const h = 78, y = H - 168, x = W - 360;
+    for (let i = 0; i < 6; i++) {
+        for (let j = 0; j < 4; j++) {
+            ctx.fillStyle = 'rgba(8,8,16,0.9)';
+            ctx.beginPath();
+            ctx.arc(x - 70 + i * 13, y + 12 + j * 19 + (i % 2) * 9, 1.5 + i * 1.1, 0, Math.PI * 2);
+            ctx.fill();
+        }
+    }
+    ctx.fillStyle = 'rgba(8,8,16,0.92)';
+    ctx.fillRect(x, y, W - x, h);
+    ctx.font = FONT(54);
+    ctx.fillStyle = GOLD;
+    ctx.fillText('@EmSheshan', W - SAFE - ctx.measureText('@EmSheshan').width, y + 58);
+}
+
+function swipeHint(ctx) {
+    ctx.font = FONT(36);
+    ctx.fillStyle = 'rgba(255,255,255,0.88)';
+    const t = 'swipe →';
+    ctx.fillText(t, W - SAFE - ctx.measureText(t).width, 145);
+}
+
+/** Everything drawn over the slide content: frame, banner, tag. */
+function chrome(ctx, title, { swipe = true } = {}) {
+    border(ctx);
+    banner(ctx, title);
+    watermark(ctx);
+    if (swipe) swipeHint(ctx);
 }
 
 // ---------------------------------------------------------------- helpers
@@ -63,20 +344,6 @@ for (const c of ['Physical', 'Special', 'Status']) {
 function abilityText(name) {
     const a = abilities[name];
     return typeof a === 'string' ? a : a?.description ?? '';
-}
-
-/** Card background: type-coloured halves under the shared frame, like slide 1. */
-function frame(ctx, mon, title) {
-    const [t1, t2 = t1] = mon.types;
-    ctx.fillStyle = TYPE_COLORS[t1] ?? '#aaa';
-    ctx.fillRect(0, 0, SIZE, SIZE / 2);
-    ctx.fillStyle = TYPE_COLORS[t2] ?? '#aaa';
-    ctx.fillRect(0, SIZE / 2, SIZE, SIZE / 2);
-    ctx.drawImage(bg, 0, 0);
-
-    ctx.fillStyle = 'black';
-    ctx.font = FONT(90);
-    ctx.fillText(title, 70, 135);
 }
 
 function wrap(ctx, text, maxWidth) {
@@ -95,40 +362,48 @@ function wrap(ctx, text, maxWidth) {
     return lines;
 }
 
-/** Wrapped text, shrinking the font until it fits the box. Returns bottom y. */
-function textBox(ctx, text, x, y, w, h, { max = 44, min = 26, lead = 1.3, color = PAPER } = {}) {
+/** Wrapped text, shrinking until it fits, optionally centred in the box. */
+function textBox(ctx, text, x, y, w, h, { max = 44, min = 24, lead = 1.3, color = PAPER, center = false } = {}) {
     let size = max, lines;
     for (; size >= min; size -= 2) {
         ctx.font = FONT(size);
         lines = wrap(ctx, text, w);
         if (lines.length * size * lead <= h) break;
     }
+    const used = lines.length * size * lead;
+    const y0 = center ? y + (h - used) / 2 : y;
     ctx.fillStyle = color;
-    lines.forEach((l, i) => ctx.fillText(l, x, y + size + i * size * lead));
-    return y + lines.length * size * lead;
+    lines.forEach((l, i) => ctx.fillText(l, x, y0 + size + i * size * lead - size * 0.15));
 }
 
-function panel(ctx, x, y, w, h, r = 28) {
+function panel(ctx, x, y, w, h, r = 26) {
     ctx.save();
     ctx.beginPath();
     ctx.roundRect(x, y, w, h, r);
-    ctx.fillStyle = 'rgba(14, 16, 38, 0.72)';
+    ctx.fillStyle = 'rgba(12, 14, 34, 0.76)';
     ctx.fill();
-    ctx.lineWidth = 3;
+    ctx.lineWidth = 2.5;
     ctx.strokeStyle = 'rgba(255, 210, 0, 0.55)';
     ctx.stroke();
     ctx.restore();
 }
 
-/** Art with the gold offset silhouette the hero card uses. */
-function artWithShadow(ctx, img, x, y, s, offset = 10) {
-    const layer = createCanvas(SIZE, SIZE);
-    const l = layer.getContext('2d');
-    l.drawImage(img, x + offset, y + offset, s, s);
-    l.globalCompositeOperation = 'source-in';
-    l.fillStyle = GOLD;
-    l.fillRect(0, 0, SIZE, SIZE);
-    ctx.drawImage(layer, 0, 0);
+/**
+ * The art, outlined to suit the background: a soft light halo on a photo (as
+ * in the hand-made environment cards), the gold offset shadow on a gradient.
+ */
+function drawArt(ctx, slide, img, x, y, s) {
+    if (slide.photo) {
+        const tint = css(mix([255, 250, 235], hexRgb(TYPE_COLORS[slide.mon.types[0]] ?? '#ffffff'), 0.25));
+        const k = s / 1100;
+        ctx.drawImage(blurred(silhouette(img, x, y, s, tint, 16 * k), W, H, 8), 0, 0);
+        ctx.globalAlpha = 0.9;
+        ctx.drawImage(silhouette(img, x, y, s, tint, 7 * k), 0, 0);
+        ctx.globalAlpha = 1;
+    } else {
+        const off = Math.max(6, Math.round(12 * s / 1100));
+        ctx.drawImage(silhouette(img, x + off, y + off, s, GOLD), 0, 0);
+    }
     ctx.drawImage(img, x, y, s, s);
 }
 
@@ -142,188 +417,176 @@ function typePills(ctx, types, x, y, w = 200) {
     for (const t of types) {
         const img = typeBars[t];
         if (!img) continue;
-        const h = img.height * (w / img.width);
-        ctx.drawImage(img, x, y, w, h);
+        ctx.drawImage(img, x, y, w, img.height * (w / img.width));
         x += w + 16;
     }
 }
 
-function swipeHint(ctx, text = 'swipe') {
-    ctx.font = FONT(34);
-    ctx.fillStyle = 'rgba(255,255,255,0.85)';
-    const w = ctx.measureText(`${text} →`).width;
-    ctx.fillText(`${text} →`, SIZE - w - 60, 135);
-}
-
 // ---------------------------------------------------------------- slides
 
-function slideDex(ctx, mon, art) {
-    frame(ctx, mon, mon.name);
-    swipeHint(ctx);
+function slideHero(ctx, sl) {
+    const { mon, art } = sl;
+    const s = 1080;
+    drawArt(ctx, sl, art, (W - s) / 2, 250, s);
 
-    // Left column: the art, smaller, so the slide still reads as "this mon".
-    artWithShadow(ctx, art, 20, 230, 560);
+    let x = SAFE - 20;
+    for (const t of mon.types) {
+        const img = typeIcons[t];
+        if (!img) continue;
+        ctx.drawImage(img, x, H - 185, 96, 96);
+        x += 112;
+    }
+    chrome(ctx, mon.name);
+}
 
-    // Right column: the dex plate.
-    const px = 600, pw = 540;
-    panel(ctx, px, 230, pw, 545);
+function slideDex(ctx, sl) {
+    const { mon, art } = sl;
+    drawArt(ctx, sl, art, 50, 240, 560);
+
+    const px = 620, pw = W - px - 70, py = 245, ph = 580;
+    panel(ctx, px, py, pw, ph);
+    const ix = px + 34;
     ctx.font = FONT(64);
     ctx.fillStyle = GOLD;
-    ctx.fillText(`#${mon.num}`, px + 36, 305);
-    ctx.font = FONT(44);
+    ctx.fillText(`#${mon.num}`, ix, py + 76);
+    ctx.font = FONT(42);
     ctx.fillStyle = PAPER;
-    ctx.fillText(`The ${mon.kind} Pok\u00e9mon`, px + 36, 362);
-    typePills(ctx, mon.types, px + 36, 385, 220);
+    ctx.fillText(`The ${mon.kind} Pokémon`, ix, py + 134);
+    typePills(ctx, mon.types, ix, py + 158, 210);
 
-    label(ctx, 'Height', px + 36, 492);
-    label(ctx, 'Weight', px + 290, 492);
+    label(ctx, 'Height', ix, py + 264);
+    label(ctx, 'Weight', ix + 240, py + 264);
     ctx.font = FONT(52);
     ctx.fillStyle = PAPER;
-    ctx.fillText(`${mon.heightm} m`, px + 36, 548);
-    ctx.fillText(`${mon.weightkg} kg`, px + 290, 548);
+    ctx.fillText(`${mon.heightm} m`, ix, py + 320);
+    ctx.fillText(`${mon.weightkg} kg`, ix + 240, py + 320);
 
     const ab = Object.values(mon.abilities ?? {});
-    label(ctx, ab.length > 1 ? 'Abilities' : 'Ability', px + 36, 612);
+    label(ctx, ab.length > 1 ? 'Abilities' : 'Ability', ix, py + 392);
     if (ab.length === 1) {
         ctx.font = FONT(48);
         ctx.fillStyle = PAPER;
-        ctx.fillText(ab[0], px + 36, 664);
-        textBox(ctx, abilityText(ab[0]), px + 36, 674, pw - 72, 84, { max: 28, min: 20, color: '#c9c7d8' });
+        ctx.fillText(ab[0], ix, py + 444);
+        textBox(ctx, abilityText(ab[0]), ix, py + 456, pw - 68, 108, { max: 30, min: 20, color: MUTED });
     } else {
-        // One per line; shrink until the longest fits the plate.
-        let size = 44;
+        let size = 46;
         ctx.font = FONT(size);
-        while (size > 28 && Math.max(...ab.map((a) => ctx.measureText(a).width)) > pw - 72) {
+        while (size > 28 && Math.max(...ab.map((a) => ctx.measureText(a).width)) > pw - 68) {
             ctx.font = FONT(size -= 2);
         }
         ctx.fillStyle = PAPER;
-        ab.forEach((a, i) => ctx.fillText(a, px + 36, 660 + i * (size + 6)));
+        ab.forEach((a, i) => ctx.fillText(a, ix, py + 444 + i * (size + 10)));
     }
 
-    // Full-width flavour text.
-    panel(ctx, 60, 800, SIZE - 120, 255);
-    const flavour = (mon.description ?? []).join('\n');
-    textBox(ctx, flavour, 96, 812, SIZE - 192, 228, { max: 40, min: 28, lead: 1.25 });
+    const fy = 855, fh = H - 200 - fy;
+    panel(ctx, 70, fy, W - 140, fh);
+    textBox(ctx, (mon.description ?? []).join('\n\n'), 106, fy + 22, W - 212, fh - 44,
+        { max: 46, min: 28, lead: 1.28, center: true });
+
+    chrome(ctx, mon.name);
 }
 
-function readable(hex) {
-    const n = parseInt(hex.slice(1), 16);
-    let [r, g, b] = [n >> 16, (n >> 8) & 255, n & 255];
-    const lum = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
-    if (lum >= 0.45) return hex;
-    const t = Math.min(0.6, 0.45 - lum + 0.3);
-    [r, g, b] = [r, g, b].map((c) => Math.round(c + (255 - c) * t));
-    return `rgb(${r},${g},${b})`;
-}
+function slideStats(ctx, sl) {
+    const { mon, art } = sl;
 
-function slideStats(ctx, mon, art) {
-    frame(ctx, mon, 'Battle Data');
-    swipeHint(ctx);
+    drawArt(ctx, sl, art, 80, 225, 330);
+    const bst = STATS.reduce((n, [k]) => n + mon.baseStats[k], 0);
+    label(ctx, 'Base Stat Total', 470, 320, 38);
+    ctx.font = FONT(150);
+    ctx.fillStyle = PAPER;
+    ctx.fillText(String(bst), 464, 458);
+    typePills(ctx, mon.types, 474, 482, 200);
 
-    // Ghosted art in the corner keeps identity without fighting the numbers.
-    ctx.save();
-    ctx.globalAlpha = 0.18;
-    ctx.drawImage(art, 560, 200, 700, 700);
-    ctx.restore();
-
-    // Without a signature move the stats get the whole slide, bigger.
     const mv = moves[mon.signatureMove];
     const big = !mv;
-    const x = 70, top = 230, rowH = big ? 104 : 74, barX = 300, barW = 620;
-    const barH = big ? 52 : 40, fs = big ? 52 : 44;
-    panel(ctx, 40, 200, SIZE - 80, rowH * 7 + (big ? 70 : 70));
-    const color = readable(TYPE_COLORS[mon.types[0]]);
-    let bst = 0;
+    const top = 585, rowH = big ? 108 : 72, barH = big ? 52 : 38, fs = big ? 54 : 42;
+    const x = 110, barX = 340, barW = 600;
+    panel(ctx, 70, top, W - 140, rowH * 6 + 50);
 
     STATS.forEach(([k, name], i) => {
         const v = mon.baseStats[k];
-        bst += v;
-        const y = top + 30 + i * rowH;
-        const mid = y + 8 + barH / 2;
+        const mid = top + 25 + i * rowH + rowH / 2;
         ctx.font = FONT(fs);
         ctx.fillStyle = PAPER;
         ctx.fillText(name, x, mid + fs * 0.36);
 
         ctx.beginPath();
-        ctx.roundRect(barX, y + 8, barW, barH, barH / 2);
-        ctx.fillStyle = 'rgba(255,255,255,0.12)';
+        ctx.roundRect(barX, mid - barH / 2, barW, barH, barH / 2);
+        ctx.fillStyle = 'rgba(255,255,255,0.10)';
         ctx.fill();
         ctx.beginPath();
-        ctx.roundRect(barX, y + 8, Math.max(barH, barW * Math.min(v, 200) / 200), barH, barH / 2);
-        ctx.fillStyle = color;
+        ctx.roundRect(barX, mid - barH / 2, Math.max(barH, barW * Math.min(v, 200) / 200), barH, barH / 2);
+        ctx.fillStyle = statColor(v);
         ctx.fill();
 
-        ctx.font = FONT(fs + 4);
-        ctx.fillStyle = v >= 120 ? GOLD : PAPER;
+        ctx.font = FONT(fs + 6);
+        ctx.fillStyle = PAPER;
         ctx.fillText(String(v), barX + barW + 30, mid + fs * 0.38);
     });
 
-    const by = top + 30 + 6 * rowH + 8 + barH / 2;
-    ctx.font = FONT(fs + 8);
-    ctx.fillStyle = GOLD;
-    ctx.fillText('Total', x, by + fs * 0.4);
-    ctx.fillText(String(bst), barX + barW + 30, by + fs * 0.4);
+    if (mv) {
+        const my = top + rowH * 6 + 70, mh = H - 196 - my;
+        panel(ctx, 70, my, W - 140, mh);
+        label(ctx, 'Signature Move', 108, my + 52, 30);
+        ctx.font = FONT(60);
+        ctx.fillStyle = PAPER;
+        ctx.fillText(mon.signatureMove, 108, my + 116);
 
-    // Signature move card.
-    if (!mv) return;
-    const my = 800, mh = 250;
-    panel(ctx, 40, my, SIZE - 80, mh);
-    label(ctx, 'Signature Move', 76, my + 56, 32);
-    ctx.font = FONT(64);
-    ctx.fillStyle = PAPER;
-    ctx.fillText(mon.signatureMove, 76, my + 124);
+        const pillsX = 108 + ctx.measureText(mon.signatureMove).width + 28;
+        typePills(ctx, [mv.type], pillsX, my + 78, 160);
+        const icon = moveIcons[mv.category];
+        if (icon) {
+            const ih = 38;
+            ctx.drawImage(icon, pillsX + 174, my + 80, icon.width * (ih / icon.height), ih);
+        }
 
-    const pillsX = 76 + ctx.measureText(mon.signatureMove).width + 30;
-    typePills(ctx, [mv.type], pillsX, my + 82, 170);
-    const icon = moveIcons[mv.category];
-    if (icon) {
-        const ih = 40, iw = icon.width * (ih / icon.height);
-        ctx.drawImage(icon, pillsX + 186, my + 84, iw, ih);
+        const meta = [
+            mv.power ? `Pow ${mv.power}` : null,
+            mv.accuracy ? `Acc ${mv.accuracy === true ? '—' : mv.accuracy}` : null,
+            `PP ${mv.pp}`,
+        ].filter(Boolean).join('   ');
+        ctx.font = FONT(34);
+        ctx.fillStyle = GOLD;
+        ctx.fillText(meta, W - 108 - ctx.measureText(meta).width, my + 52);
+
+        textBox(ctx, mv.description, 108, my + 132, W - 216, mh - 146, { max: 34, min: 22, color: MUTED });
     }
 
-    const meta = [
-        mv.power ? `Pow ${mv.power}` : null,
-        mv.accuracy ? `Acc ${mv.accuracy === true ? '—' : mv.accuracy}` : null,
-        `PP ${mv.pp}`,
-    ].filter(Boolean).join('   ');
-    ctx.font = FONT(36);
-    ctx.fillStyle = GOLD;
-    const mw = ctx.measureText(meta).width;
-    ctx.fillText(meta, SIZE - 76 - mw, my + 56);
-
-    textBox(ctx, mv.description, 76, my + 140, SIZE - 152, 96, { max: 32, min: 22, color: '#c9c7d8' });
+    chrome(ctx, 'Base Stats');
 }
 
-function slideShiny(ctx, mon, art, shiny) {
-    frame(ctx, mon, 'Shiny');
-    const s = 600, y = 260;
-    artWithShadow(ctx, art, -10, y, s, 8);
-    artWithShadow(ctx, shiny, SIZE - s + 10, y, s, 8);
+function slideShiny(ctx, sl) {
+    const { art, shiny } = sl;
+    const s = 610, y = 330;
+    drawArt(ctx, sl, art, -5, y, s);
+    drawArt(ctx, sl, shiny, W - s + 5, y, s);
 
-    ctx.font = FONT(56);
-    for (const [txt, cx] of [['Normal', SIZE * 0.25], ['Shiny', SIZE * 0.75]]) {
-        const w = ctx.measureText(txt).width;
-        ctx.fillStyle = txt === 'Normal' ? PAPER : GOLD;
-        ctx.fillText(txt, cx - w / 2, y + s + 40);
+    ctx.font = FONT(64);
+    for (const [txt, cx, col] of [['Normal', W * 0.25, PAPER], ['Shiny', W * 0.75, GOLD]]) {
+        ctx.fillStyle = col;
+        ctx.fillText(txt, cx - ctx.measureText(txt).width / 2, y + s + 70);
     }
 
-    ctx.font = FONT(40);
-    ctx.fillStyle = PAPER;
     const q = 'Which one are you catching?';
-    ctx.fillText(q, (SIZE - ctx.measureText(q).width) / 2, 1000);
+    ctx.font = FONT(50);
+    const qw = ctx.measureText(q).width;
+    panel(ctx, (W - qw) / 2 - 50, 1120, qw + 100, 96, 48);
+    ctx.fillStyle = PAPER;
+    ctx.fillText(q, (W - qw) / 2, 1185);
+
+    chrome(ctx, 'Shiny', { swipe: false });
 }
 
 // ---------------------------------------------------------------- main
 
-async function render(draw) {
-    const c = createCanvas(SIZE, SIZE);
+async function render(sl, draw) {
+    const c = createCanvas(W, H);
     const ctx = c.getContext('2d');
-    await draw(ctx);
-    const out = createCanvas(EXPORT, EXPORT);
-    const o = out.getContext('2d');
-    o.fillStyle = '#fff';
-    o.fillRect(0, 0, EXPORT, EXPORT);
-    o.drawImage(c, 0, 0, EXPORT, EXPORT);
+    if (sl.photo) photoBackground(ctx, sl.photo, sl.mon);
+    else gradientBackground(ctx, sl.mon);
+    draw(ctx, sl);
+    const out = createCanvas(EW, EH);
+    out.getContext('2d').drawImage(c, 0, 0, EW, EH);
     return out.toBuffer('image/jpeg', { quality: QUALITY });
 }
 
@@ -336,17 +599,18 @@ fs.mkdirSync(OUT, { recursive: true });
 for (const key of keys) {
     const mon = pokedex[key];
     if (!mon) { console.warn(`skip ${key}: no pokedex entry`); continue; }
-    const art = await loadImage(path.join(ART, `${key}.png`));
     const shinyPath = path.join(ART, `${key}_shiny.png`);
-    const shiny = fs.existsSync(shinyPath) ? await loadImage(shinyPath) : null;
+    const envPath = envPathFor(key);
+    const sl = {
+        mon,
+        art: await loadImage(path.join(ART, `${key}.png`)),
+        shiny: fs.existsSync(shinyPath) ? await loadImage(shinyPath) : null,
+        photo: envPath ? await loadImage(envPath) : null,
+    };
 
-    const slides = [
-        ['2', (ctx) => slideDex(ctx, mon, art)],
-        ['3', (ctx) => slideStats(ctx, mon, art)],
-        ...(shiny ? [['4', (ctx) => slideShiny(ctx, mon, art, shiny)]] : []),
-    ];
-    for (const [n, draw] of slides) {
-        fs.writeFileSync(path.join(OUT, `${key}-${n}.jpg`), await render(draw));
+    const slides = [slideHero, slideDex, slideStats, ...(sl.shiny ? [slideShiny] : [])];
+    for (const [i, draw] of slides.entries()) {
+        fs.writeFileSync(path.join(OUT, `${key}-${i + 1}.jpg`), await render(sl, draw));
     }
-    console.log(`${key}: ${slides.length} slides`);
+    console.log(`${key}: ${slides.length} slides${sl.photo ? ` (photo: ${path.basename(envPath)})` : ''}`);
 }
