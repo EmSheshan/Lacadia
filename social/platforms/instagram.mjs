@@ -38,9 +38,10 @@ async function graph(pathname, params, { method = 'POST' } = {}) {
     const url = new URL(`${HOST}/${VERSION}/${pathname}`);
     const body = new URLSearchParams({ ...params, access_token: process.env.IG_ACCESS_TOKEN });
 
-    const res = await fetch(method === 'GET' ? `${url}?${body}` : url, {
+    const inQuery = method === 'GET' || method === 'DELETE';
+    const res = await fetch(inQuery ? `${url}?${body}` : url, {
         method,
-        ...(method === 'GET' ? {} : { body }),
+        ...(inQuery ? {} : { body }),
     });
 
     const text = await res.text();
@@ -144,4 +145,28 @@ export async function post({ images, caption }) {
         id: published.id,
         url: permalink ?? `https://www.instagram.com/${process.env.IG_USERNAME ?? ''}`,
     };
+}
+
+/**
+ * Every post on the account, newest first: id, caption, timestamp, type, link.
+ * Follows the API's paging cursor to the end.
+ */
+export async function listMedia() {
+    const igUser = process.env.IG_USER_ID;
+    const out = [];
+    let after = null;
+    for (let page = 0; page < 50; page++) {
+        const params = { fields: 'id,caption,timestamp,media_type,permalink', limit: '100' };
+        if (after) params.after = after;
+        const res = await graph(`${igUser}/media`, params, { method: 'GET' });
+        out.push(...(res.data ?? []));
+        after = res.paging?.cursors?.after;
+        if (!res.paging?.next || !after) break;
+    }
+    return out;
+}
+
+/** Deletes one post. Throws with Meta's message if the API refuses. */
+export async function deleteMedia(mediaId) {
+    await graph(mediaId, {}, { method: 'DELETE' });
 }

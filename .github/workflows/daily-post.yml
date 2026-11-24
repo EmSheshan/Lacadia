@@ -1,11 +1,8 @@
-name: Daily Lacadia post
+name: Daily Lacadia post (off)
 
+# Switched off: Bluesky and Tumblr posting has stopped, and Instagram is now
+# handled by instagram-carousel.yml. Kept for running by hand only.
 on:
-  schedule:
-    # 15:37 UTC daily. An odd minute on purpose: the top of the hour is the most
-    # contended slot and GitHub was running this 4+ hours late there.
-    # Note GitHub's scheduler can run a few minutes late under load.
-    - cron: '37 15 * * *'
   workflow_dispatch:
     inputs:
       dry_run:

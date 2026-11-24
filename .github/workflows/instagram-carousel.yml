@@ -1,0 +1,90 @@
+name: Instagram carousel
+
+# Replaces the old single-image Instagram posts with the new carousels: one
+# species every two days, in dex order. Runs daily; scripts/post-carousel.mjs
+# only posts when the last carousel is two days old. See that script.
+
+on:
+  schedule:
+    # 17:23 UTC. An odd minute on purpose: the top of the hour is the most
+    # contended slot on GitHub's scheduler.
+    - cron: '23 17 * * *'
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Show what would be posted and deleted, send nothing'
+        type: boolean
+        default: true
+      force:
+        description: 'Post now even if the last carousel is under two days old'
+        type: boolean
+        default: false
+
+concurrency:
+  group: instagram-carousel
+  cancel-in-progress: false
+
+permissions:
+  contents: write   # commit the updated queue back
+  issues: write     # flag old posts that need deleting by hand
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      # --omit=dev skips `canvas`: the slides are built locally and committed.
+      - name: Install
+        run: npm ci --omit=dev
+
+      - name: Tests
+        run: node --test social/caption.test.mjs social/match.test.mjs
+
+      - name: Post
+        id: post
+        env:
+          IG_USER_ID: ${{ secrets.IG_USER_ID }}
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+        run: |
+          node scripts/post-carousel.mjs \
+            ${{ (github.event_name == 'workflow_dispatch' && inputs.dry_run) && '--dry-run' || '' }} \
+            ${{ (github.event_name == 'workflow_dispatch' && inputs.force) && '--force' || '' }}
+
+      - name: Record what was posted
+        if: always() && !(github.event_name == 'workflow_dispatch' && inputs.dry_run)
+        run: |
+          if git diff --quiet -- social/carousel-queue.json && git ls-files --error-unmatch social/carousel-queue.json >/dev/null 2>&1; then
+            echo "queue unchanged"
+            exit 0
+          fi
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add social/carousel-queue.json
+          git commit -m "Instagram carousel: ${{ steps.post.outputs.posted }} [skip ci]"
+          git push
+
+      - name: Flag old posts that could not be deleted
+        if: steps.post.outputs.leftover != ''
+        uses: actions/github-script@v7
+        env:
+          LEFTOVER: ${{ steps.post.outputs.leftover }}
+          NAME: ${{ steps.post.outputs.posted }}
+        with:
+          script: |
+            await github.rest.issues.create({
+              owner: context.repo.owner, repo: context.repo.repo,
+              title: `Delete old Instagram post: ${process.env.NAME}`,
+              labels: ['instagram-carousel'],
+              body: [
+                `The new ${process.env.NAME} carousel is up, but the old post(s) were not deleted automatically.`,
+                'Delete these by hand in the Instagram app:',
+                '',
+                ...process.env.LEFTOVER.split(' ').map((u) => `- ${u}`),
+              ].join('\n'),
+            });
