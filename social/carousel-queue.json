@@ -1,0 +1,719 @@
+{
+  "note": "Instagram carousel replacements, one species every two days in dex order. posted = the new carousel; deleted = old posts removed; leftover = old posts to delete by hand.",
+  "entries": [
+    {
+      "name": "Springbun",
+      "keys": [
+        "springbun"
+      ],
+      "file": "springbun",
+      "posted": {
+        "at": "2026-11-24T15:53:07.171Z",
+        "id": "17907072897672515",
+        "url": "https://www.instagram.com/p/DgIUkUYmnkj/"
+      },
+      "deleted": [],
+      "leftover": [
+        "https://www.instagram.com/p/DSLC0btjs-m/"
+      ]
+    },
+    {
+      "name": "Snapbun",
+      "keys": [
+        "snapbun"
+      ],
+      "file": "snapbun"
+    },
+    {
+      "name": "Faestalk",
+      "keys": [
+        "faestalk"
+      ],
+      "file": "faestalk"
+    },
+    {
+      "name": "Basilly",
+      "keys": [
+        "basilly"
+      ],
+      "file": "basilly"
+    },
+    {
+      "name": "Knaviper",
+      "keys": [
+        "knaviper"
+      ],
+      "file": "knaviper"
+    },
+    {
+      "name": "Verkillion",
+      "keys": [
+        "verkillion"
+      ],
+      "file": "verkillion"
+    },
+    {
+      "name": "Purluxe",
+      "keys": [
+        "purluxe"
+      ],
+      "file": "purluxe"
+    },
+    {
+      "name": "Lyonite",
+      "keys": [
+        "lyonite"
+      ],
+      "file": "lyonite"
+    },
+    {
+      "name": "Enkidros",
+      "keys": [
+        "enkidros"
+      ],
+      "file": "enkidros"
+    },
+    {
+      "name": "Possolo",
+      "keys": [
+        "possolo"
+      ],
+      "file": "possolo"
+    },
+    {
+      "name": "Oposse",
+      "keys": [
+        "oposse"
+      ],
+      "file": "oposse"
+    },
+    {
+      "name": "Tirakitsu",
+      "keys": [
+        "tirakitsu"
+      ],
+      "file": "tirakitsu"
+    },
+    {
+      "name": "Asterbat",
+      "keys": [
+        "asterbat"
+      ],
+      "file": "asterbat"
+    },
+    {
+      "name": "Wittern",
+      "keys": [
+        "wittern"
+      ],
+      "file": "wittern"
+    },
+    {
+      "name": "Aerin",
+      "keys": [
+        "aerin"
+      ],
+      "file": "aerin"
+    },
+    {
+      "name": "Zephyrin",
+      "keys": [
+        "zephyrin"
+      ],
+      "file": "zephyrin"
+    },
+    {
+      "name": "Decaffin",
+      "keys": [
+        "decaffin"
+      ],
+      "file": "decaffin"
+    },
+    {
+      "name": "Espressurge",
+      "keys": [
+        "espressurge"
+      ],
+      "file": "espressurge"
+    },
+    {
+      "name": "Grubblo",
+      "keys": [
+        "grubblo"
+      ],
+      "file": "grubblo"
+    },
+    {
+      "name": "Tentrilo",
+      "keys": [
+        "tentrilo"
+      ],
+      "file": "tentrilo"
+    },
+    {
+      "name": "Rocadocio",
+      "keys": [
+        "rocadocio"
+      ],
+      "file": "rocadocio"
+    },
+    {
+      "name": "Nokoi",
+      "keys": [
+        "nokoi"
+      ],
+      "file": "nokoi"
+    },
+    {
+      "name": "Yakoyza",
+      "keys": [
+        "yakoyzatiger",
+        "yakoyzaink",
+        "yakoyzaryujin",
+        "yakoyzaoni"
+      ],
+      "file": "yakoyza"
+    },
+    {
+      "name": "Ribbeat",
+      "keys": [
+        "ribbeat"
+      ],
+      "file": "ribbeat"
+    },
+    {
+      "name": "Ventribbit",
+      "keys": [
+        "ventribbit"
+      ],
+      "file": "ventribbit"
+    },
+    {
+      "name": "Mochu",
+      "keys": [
+        "mochu"
+      ],
+      "file": "mochu"
+    },
+    {
+      "name": "Snochu",
+      "keys": [
+        "snochu"
+      ],
+      "file": "snochu"
+    },
+    {
+      "name": "Murkitty",
+      "keys": [
+        "murkitty"
+      ],
+      "file": "murkitty"
+    },
+    {
+      "name": "Tammalkin",
+      "keys": [
+        "tammalkin"
+      ],
+      "file": "tammalkin"
+    },
+    {
+      "name": "Velyger",
+      "keys": [
+        "velyger"
+      ],
+      "file": "velyger"
+    },
+    {
+      "name": "Lileef",
+      "keys": [
+        "lileef"
+      ],
+      "file": "lileef"
+    },
+    {
+      "name": "Citradily",
+      "keys": [
+        "citradily"
+      ],
+      "file": "citradily"
+    },
+    {
+      "name": "Krabuto",
+      "keys": [
+        "krabuto"
+      ],
+      "file": "krabuto"
+    },
+    {
+      "name": "Krabutops",
+      "keys": [
+        "krabutops"
+      ],
+      "file": "krabutops"
+    },
+    {
+      "name": "Filch",
+      "keys": [
+        "filch"
+      ],
+      "file": "filch"
+    },
+    {
+      "name": "Dodon",
+      "keys": [
+        "dodon"
+      ],
+      "file": "dodon"
+    },
+    {
+      "name": "Dodonodon",
+      "keys": [
+        "dodonodon"
+      ],
+      "file": "dodonodon"
+    },
+    {
+      "name": "Tuatot",
+      "keys": [
+        "tuatot"
+      ],
+      "file": "tuatot"
+    },
+    {
+      "name": "Tuatargon",
+      "keys": [
+        "tuatargon"
+      ],
+      "file": "tuatargon"
+    },
+    {
+      "name": "Balite",
+      "keys": [
+        "balite"
+      ],
+      "file": "balite"
+    },
+    {
+      "name": "Baleet",
+      "keys": [
+        "baleet"
+      ],
+      "file": "baleet"
+    },
+    {
+      "name": "Balaast",
+      "keys": [
+        "balaast"
+      ],
+      "file": "balaast"
+    },
+    {
+      "name": "Cryocone",
+      "keys": [
+        "cryocone"
+      ],
+      "file": "cryocone"
+    },
+    {
+      "name": "Cryoconda",
+      "keys": [
+        "cryoconda"
+      ],
+      "file": "cryoconda"
+    },
+    {
+      "name": "Cobblin",
+      "keys": [
+        "cobblin"
+      ],
+      "file": "cobblin"
+    },
+    {
+      "name": "Grumblock",
+      "keys": [
+        "grumblock"
+      ],
+      "file": "grumblock"
+    },
+    {
+      "name": "Ragnarock",
+      "keys": [
+        "ragnarock"
+      ],
+      "file": "ragnarock"
+    },
+    {
+      "name": "Battrey",
+      "keys": [
+        "battrey"
+      ],
+      "file": "battrey"
+    },
+    {
+      "name": "Vladibolt",
+      "keys": [
+        "vladibolt"
+      ],
+      "file": "vladibolt"
+    },
+    {
+      "name": "Phalankton",
+      "keys": [
+        "phalankton"
+      ],
+      "file": "phalankton"
+    },
+    {
+      "name": "Shardling",
+      "keys": [
+        "shardling"
+      ],
+      "file": "shardling"
+    },
+    {
+      "name": "Crucigem",
+      "keys": [
+        "crucigem"
+      ],
+      "file": "crucigem"
+    },
+    {
+      "name": "Scrithymn",
+      "keys": [
+        "scrithymn"
+      ],
+      "file": "scrithymn"
+    },
+    {
+      "name": "Blazephemy",
+      "keys": [
+        "blazephemy"
+      ],
+      "file": "blazephemy"
+    },
+    {
+      "name": "Ceraphinx",
+      "keys": [
+        "ceraphinx"
+      ],
+      "file": "ceraphinx"
+    },
+    {
+      "name": "Censerpent",
+      "keys": [
+        "censerpent"
+      ],
+      "file": "censerpent"
+    },
+    {
+      "name": "Roignon",
+      "keys": [
+        "roignon"
+      ],
+      "file": "roignon"
+    },
+    {
+      "name": "Scallahad",
+      "keys": [
+        "scallahad"
+      ],
+      "file": "scallahad"
+    },
+    {
+      "name": "Moosenge",
+      "keys": [
+        "moosenge"
+      ],
+      "file": "moosenge"
+    },
+    {
+      "name": "Bitbyte",
+      "keys": [
+        "bitbyte"
+      ],
+      "file": "bitbyte"
+    },
+    {
+      "name": "Cathogen",
+      "keys": [
+        "cathogen"
+      ],
+      "file": "cathogen"
+    },
+    {
+      "name": "Ramnant",
+      "keys": [
+        "ramnant"
+      ],
+      "file": "ramnant"
+    },
+    {
+      "name": "Logomorph",
+      "keys": [
+        "logomorph"
+      ],
+      "file": "logomorph"
+    },
+    {
+      "name": "Ornidrone",
+      "keys": [
+        "ornidrone"
+      ],
+      "file": "ornidrone"
+    },
+    {
+      "name": "Velostrike",
+      "keys": [
+        "velostrike"
+      ],
+      "file": "velostrike"
+    },
+    {
+      "name": "Gunraptor",
+      "keys": [
+        "gunraptor"
+      ],
+      "file": "gunraptor"
+    },
+    {
+      "name": "Jellien",
+      "keys": [
+        "jellien"
+      ],
+      "file": "jellien"
+    },
+    {
+      "name": "Encephid",
+      "keys": [
+        "encephid"
+      ],
+      "file": "encephid"
+    },
+    {
+      "name": "Monolithid",
+      "keys": [
+        "monolithid"
+      ],
+      "file": "monolithid"
+    },
+    {
+      "name": "Marazcal",
+      "keys": [
+        "marazcal"
+      ],
+      "file": "marazcal"
+    },
+    {
+      "name": "Iguavadon",
+      "keys": [
+        "iguavadon"
+      ],
+      "file": "iguavadon"
+    },
+    {
+      "name": "Tortarma",
+      "keys": [
+        "tortarmasolar",
+        "tortarmapolar"
+      ],
+      "file": "tortarma"
+    },
+    {
+      "name": "Tortality",
+      "keys": [
+        "tortality"
+      ],
+      "file": "tortality"
+    },
+    {
+      "name": "Kheprini",
+      "keys": [
+        "kheprini"
+      ],
+      "file": "kheprini"
+    },
+    {
+      "name": "Servankh",
+      "keys": [
+        "servankh"
+      ],
+      "file": "servankh"
+    },
+    {
+      "name": "Pharomancy",
+      "keys": [
+        "pharomancy"
+      ],
+      "file": "pharomancy"
+    },
+    {
+      "name": "Furnawurm",
+      "keys": [
+        "furnawurm"
+      ],
+      "file": "furnawurm"
+    },
+    {
+      "name": "Selky",
+      "keys": [
+        "selky"
+      ],
+      "file": "selky"
+    },
+    {
+      "name": "Lumajesty",
+      "keys": [
+        "lumajesty"
+      ],
+      "file": "lumajesty"
+    },
+    {
+      "name": "Shuckler",
+      "keys": [
+        "shuckler"
+      ],
+      "file": "shuckler"
+    },
+    {
+      "name": "Smeltmor",
+      "keys": [
+        "smeltmor"
+      ],
+      "file": "smeltmor"
+    },
+    {
+      "name": "Pyrant",
+      "keys": [
+        "pyrant"
+      ],
+      "file": "pyrant"
+    },
+    {
+      "name": "Patopod",
+      "keys": [
+        "patopod"
+      ],
+      "file": "patopod"
+    },
+    {
+      "name": "Nymphlora",
+      "keys": [
+        "nymphlora"
+      ],
+      "file": "nymphlora"
+    },
+    {
+      "name": "Idagon",
+      "keys": [
+        "idagon"
+      ],
+      "file": "idagon"
+    },
+    {
+      "name": "Libradon",
+      "keys": [
+        "libradon"
+      ],
+      "file": "libradon"
+    },
+    {
+      "name": "Suprion",
+      "keys": [
+        "suprion"
+      ],
+      "file": "suprion"
+    },
+    {
+      "name": "Larvos",
+      "keys": [
+        "larvos"
+      ],
+      "file": "larvos"
+    },
+    {
+      "name": "Syrinsect",
+      "keys": [
+        "syrinsect"
+      ],
+      "file": "syrinsect"
+    },
+    {
+      "name": "Stratoclysm",
+      "keys": [
+        "stratoclysm"
+      ],
+      "file": "stratoclysm"
+    },
+    {
+      "name": "Paracabra",
+      "keys": [
+        "paracabra"
+      ],
+      "file": "paracabra"
+    },
+    {
+      "name": "Saskrypt",
+      "keys": [
+        "saskrypt"
+      ],
+      "file": "saskrypt"
+    },
+    {
+      "name": "Devile",
+      "keys": [
+        "devile"
+      ],
+      "file": "devile"
+    },
+    {
+      "name": "Azamoth",
+      "keys": [
+        "azamoth"
+      ],
+      "file": "azamoth"
+    },
+    {
+      "name": "Albythos",
+      "keys": [
+        "albythos"
+      ],
+      "file": "albythos"
+    },
+    {
+      "name": "Xerasige",
+      "keys": [
+        "xerasige"
+      ],
+      "file": "xerasige"
+    },
+    {
+      "name": "Jeneosis",
+      "keys": [
+        "jeneosis"
+      ],
+      "file": "jeneosis"
+    },
+    {
+      "name": "Xophis",
+      "keys": [
+        "xophis"
+      ],
+      "file": "xophis"
+    },
+    {
+      "name": "Ravenger",
+      "keys": [
+        "ravenger"
+      ],
+      "file": "ravenger"
+    },
+    {
+      "name": "Sacrabell",
+      "keys": [
+        "sacrabellhymn",
+        "sacrabelldirge"
+      ],
+      "file": "sacrabell"
+    }
+  ]
+}
