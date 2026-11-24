@@ -24,12 +24,34 @@
 import { createCanvas, loadImage, registerFont } from 'canvas';
 import fs from 'node:fs';
 import path from 'node:path';
-import { pokedex } from '../pokedex.js';
-import { abilities } from '../abilities.js';
-import { moves } from '../moves.js';
+import os from 'node:os';
+import { spawnSync } from 'node:child_process';
 import { pickHabitat, paintHabitat, HABITATS } from './habitats.mjs';
 
 const BASE = path.resolve();
+
+// Data comes from the Emsh site (checked out next to this repo, or EMSH_DIR),
+// so posts always match the website: types, evolutions, habitat photos. Without
+// it, this repo's own (older) pokedex.js is used.
+const EMSH = [process.env.EMSH_DIR, '../emsh', '../Emsh'].filter(Boolean)
+    .map((d) => path.resolve(BASE, d)).find((d) => fs.existsSync(path.join(d, 'lacadia', 'data', 'pokedex.csv')));
+const SITE = EMSH && path.join(EMSH, 'lacadia', 'data');
+let pokedex, abilities, moves;
+const siteBg = {};
+if (SITE) {
+    const { parseCSV, buildDex } = await import(path.join(EMSH, 'shared', 'pokeData.js'));
+    const read = (f) => fs.existsSync(path.join(SITE, f)) ? parseCSV(fs.readFileSync(path.join(SITE, f), 'utf8')) : [];
+    pokedex = { ...buildDex(read('pokedex.csv'), { start: 1 }), ...buildDex(read('canondex.csv'), { external: true }) };
+    for (const m of Object.values(pokedex)) if (m.background) siteBg[m.id] = m.background;
+    ({ abilities } = await import(path.join(SITE, 'abilities.js')));
+    ({ moves } = await import(path.join(SITE, 'moves.js')));
+    console.log(`data: ${path.relative(BASE, SITE) || SITE}`);
+} else {
+    ({ pokedex } = await import(path.join(BASE, 'pokedex.js')));
+    ({ abilities } = await import(path.join(BASE, 'abilities.js')));
+    ({ moves } = await import(path.join(BASE, 'moves.js')));
+    console.log('data: pokedex.js (no Emsh checkout found)');
+}
 registerFont(path.join(BASE, 'assets', 'SmileySans-Oblique.otf'), { family: 'SmileyOblique' });
 
 const OUT = path.join(BASE, 'socialCarousel');
@@ -84,19 +106,6 @@ for (const c of ['Physical', 'Special', 'Status']) {
 // mapping or photo, a habitat is chosen from the flavour text and type.
 const envMap = fs.existsSync(path.join(ENV, 'map.json'))
     ? JSON.parse(fs.readFileSync(path.join(ENV, 'map.json'), 'utf8')) : {};
-
-// The Emsh site (checked out next to this repo, or EMSH_DIR) gives every
-// evolution line its own habitat photo; posts use the same one when it's there.
-const EMSH = [process.env.EMSH_DIR, '../emsh', '../Emsh'].filter(Boolean)
-    .map((d) => path.resolve(BASE, d)).find((d) => fs.existsSync(path.join(d, 'lacadia', 'data', 'pokedex.csv')));
-const siteBg = {};
-if (EMSH) {
-    const { parseCSV } = await import(path.join(EMSH, 'shared', 'pokeData.js'));
-    for (const f of ['pokedex.csv', 'megadex.csv']) {
-        const p = path.join(EMSH, 'lacadia', 'data', f);
-        if (fs.existsSync(p)) for (const r of parseCSV(fs.readFileSync(p, 'utf8'))) if (r.background) siteBg[r.id] = r.background;
-    }
-}
 
 function envPathFor(key) {
     const site = siteBg[key] && ['jpg', 'jpeg', 'png'].map((e) => path.join(EMSH, 'environments', `${siteBg[key]}.${e}`)).find((p) => fs.existsSync(p));
@@ -160,6 +169,27 @@ function silhouette(img, x, y, s, color, spread = 0) {
 
 // ---------------------------------------------------------------- background
 
+/**
+ * A neat halftone band: a regular offset grid of dots, biggest at the edge
+ * (y0) and shrinking row by row towards the middle (dir = 1 down, -1 up).
+ */
+function halftoneEdge(ctx, y0, dir, { rows = 9, gap = 30, maxR = 13, color = 'rgba(6,6,14,0.55)' } = {}) {
+    ctx.save();
+    ctx.fillStyle = color;
+    const pitch = gap * 0.866;                     // equilateral grid
+    for (let r = 0; r < rows; r++) {
+        const rad = maxR * (1 - r / rows) ** 1.25;
+        if (rad < 0.8) continue;
+        const y = y0 + dir * (r * pitch + gap / 2);
+        for (let x = (r % 2) * gap / 2; x < W + gap; x += gap) {
+            ctx.beginPath();
+            ctx.arc(x, y, rad, 0, Math.PI * 2);
+            ctx.fill();
+        }
+    }
+    ctx.restore();
+}
+
 /** Photo, cover-fitted, blurred, and dimmed enough for text to sit on. */
 function photoBackground(ctx, photo, mon) {
     const scale = Math.max(W / photo.width, H / photo.height) * 1.08; // overscan hides blur edges
@@ -188,6 +218,10 @@ function photoBackground(ctx, photo, mon) {
     v.addColorStop(1, 'rgba(0,0,0,0.55)');
     ctx.fillStyle = v;
     ctx.fillRect(0, 0, W, H);
+    // Dark halftone creeping in from the top and bottom edges: the scene and
+    // the art in the middle stay clear and bright.
+    halftoneEdge(ctx, 0, 1);
+    halftoneEdge(ctx, H, -1);
 }
 
 const smooth = (t) => t * t * (3 - 2 * t);
@@ -338,15 +372,18 @@ function banner(ctx, title) {
     ctx.lineTo(solid, y + h); ctx.lineTo(0, y + h);
     ctx.fill();
 
-    for (let col = 0; col < 9; col++) {
-        for (let row = 0; row < 7; row++) {
-            const cx = solid - 60 + col * 30 + (row % 2) * 15 + (h - row * 19) * 0.3;
-            const cy = y + 8 + row * 19;
-            const r = Math.max(0, 11 - col * 1.3 + (row % 3) * 0.6);
-            if (r < 1.5) continue;
-            ctx.fillStyle = col < 3 ? '#ffd21a' : '#ffe24a';
+    // Halftone tail: a tidy grid trailing off the slanted edge, dots shrinking
+    // column by column.
+    const gap = 22, rowsN = Math.floor(h / gap);
+    ctx.fillStyle = '#ffd21a';
+    for (let row = 0; row < rowsN; row++) {
+        const cy = y + gap / 2 + row * gap + (h - rowsN * gap) / 2;
+        const edgeX = solid + 40 - (cy - y) * (40 / h);   // the banner's slanted edge at this height
+        for (let col = 0; col < 10; col++) {
+            const r = 9.5 * (1 - col / 10) ** 1.3;
+            if (r < 1.2) continue;
             ctx.beginPath();
-            ctx.arc(cx, cy, r, 0, Math.PI * 2);
+            ctx.arc(edgeX + 6 + col * gap + (row % 2) * gap / 2, cy, r, 0, Math.PI * 2);
             ctx.fill();
         }
     }
@@ -357,11 +394,13 @@ function banner(ctx, title) {
 
 function watermark(ctx) {
     const h = 78, y = H - 168, x = W - 360;
-    for (let i = 0; i < 6; i++) {
-        for (let j = 0; j < 4; j++) {
-            ctx.fillStyle = 'rgba(8,8,16,0.9)';
+    ctx.fillStyle = 'rgba(8,8,16,0.92)';
+    for (let row = 0; row < 4; row++) {
+        for (let col = 0; col < 7; col++) {
+            const r = 8 * (1 - col / 7) ** 1.3;
+            if (r < 1.2) continue;
             ctx.beginPath();
-            ctx.arc(x - 70 + i * 13, y + 12 + j * 19 + (i % 2) * 9, 1.5 + i * 1.1, 0, Math.PI * 2);
+            ctx.arc(x - 12 - col * 19 - (row % 2) * 9.5, y + 10 + row * 19, r, 0, Math.PI * 2);
             ctx.fill();
         }
     }
@@ -558,7 +597,7 @@ function typePills(ctx, types, x, y, w = 200) {
 // ---------------------------------------------------------------- slides
 
 /** Regional dex number: Springbun (#2000 internally) is #001. */
-const dexNo = (num) => `#${String(num - 1999).padStart(3, '0')}`;
+const dexNo = (num) => `#${String(num >= 2000 ? num - 1999 : num).padStart(3, '0')}`;
 
 function slideHero(ctx, sl) {
     const { mon, art } = sl.cur ?? sl;
@@ -922,7 +961,21 @@ function slideForms(ctx, sl) {
 // stands for every form of that species.
 const norm = (s) => String(s).toLowerCase().replace(/[^a-z0-9]/g, '');
 const keyByName = Object.fromEntries(Object.entries(pokedex).map(([k, v]) => [norm(v.name), k]));
-const hasArt = (k) => fs.existsSync(path.join(ART, `${k}.png`));
+const CACHE = path.join(os.tmpdir(), 'lacadia-carousel-art');
+/** Full-size PNG from pokemonArt/, else the site's WebP converted to PNG (canvas can't read WebP). */
+function artFile(k) {
+    const png = path.join(ART, `${k}.png`);
+    if (fs.existsSync(png)) return png;
+    const webp = SITE && path.join(SITE, 'pokemonArt', `${k}.webp`);
+    if (!webp || !fs.existsSync(webp)) return null;
+    const out = path.join(CACHE, `${k}.png`);
+    if (!fs.existsSync(out)) {
+        fs.mkdirSync(CACHE, { recursive: true });
+        spawnSync('python3', ['-I', '-c', 'import sys;from PIL import Image;Image.open(sys.argv[1]).save(sys.argv[2])', webp, out]);
+    }
+    return fs.existsSync(out) ? out : null;
+}
+const hasArt = (k) => !!artFile(k);
 
 function resolve(name) {
     const exact = keyByName[norm(name)];
@@ -932,7 +985,9 @@ function resolve(name) {
         .map(([k]) => k);
 }
 
-const evosOf = (key) => (pokedex[key]?.evos ?? []).flatMap(resolve);
+const evosOf = (key) => pokedex[key]?.evo
+    ? pokedex[key].evo.filter((k) => pokedex[k])          // site data: ids
+    : (pokedex[key]?.evos ?? []).flatMap(resolve);
 const prevoOf = (key) => Object.keys(pokedex).find((k) => evosOf(k).includes(key)) ?? null;
 
 /** Stages of key's family, root first: [[root], [stage 2...], [stage 3...]]. */
@@ -1043,7 +1098,7 @@ async function render(sl, draw) {
 // the hyphen ("Sacrabell-Hymn" -> "Sacrabell"), as in social/caption.mjs.
 const baseOf = (key) => String(pokedex[key].name).split('-')[0];
 const species = new Map();
-for (const k of Object.keys(pokedex).filter(hasArt)) {
+for (const k of Object.keys(pokedex).filter((k) => !pokedex[k].isExternal && hasArt(k))) {
     const b = baseOf(k);
     if (!species.has(b)) species.set(b, []);
     species.get(b).push(k);
@@ -1079,7 +1134,7 @@ for (const members of groups) {
         forms.push({
             key,
             mon: pokedex[key],
-            art: await loadImage(path.join(ART, `${key}.png`)),
+            art: await loadImage(artFile(key)),
             shiny: fs.existsSync(shinyPath) ? await loadImage(shinyPath) : null,
         });
     }
@@ -1107,7 +1162,7 @@ for (const members of groups) {
     const evolves = sl.evo.flat().filter((k) => !members.includes(k)).length > 0;
     if (evolves) {
         sl.evoArt = {};
-        for (const k of sl.evo.flat()) sl.evoArt[k] = await loadImage(path.join(ART, `${k}.png`));
+        for (const k of sl.evo.flat()) sl.evoArt[k] = await loadImage(artFile(k));
     }
 
     // [draw, form it is about] -- hero slides are one per form.
