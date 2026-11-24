@@ -6,8 +6,8 @@
 //   node scripts/post-carousel.mjs --force       # ignore the two-day gap
 //
 // Each run:
-//   1. Does nothing if the last carousel went up less than two days ago (the
-//      workflow runs daily; this keeps the pace at one post per two days).
+//   1. Does nothing if the last carousel went up less than two days ago, or
+//      it's before 9am in Chicago (the workflow runs daily at two UTC hours).
 //   2. Posts the next species' carousel (socialCarousel/<name>-1.jpg, -2 ...),
 //      fetched by Meta from GitHub Pages, with the usual long caption.
 //   3. Only after that succeeds, finds the species' old post(s) -- captions
@@ -72,6 +72,16 @@ const last = queue.entries.filter((e) => e.posted).map((e) => Date.parse(e.poste
 const hoursSince = last ? (Date.now() - last) / 36e5 : Infinity;
 if (!FORCE && hoursSince < GAP_HOURS) {
     console.log(`not due: last carousel ${hoursSince.toFixed(1)}h ago (posting every ${GAP_HOURS + 1}h)`);
+    ghOutput('posted', 'none');
+    process.exit(0);
+}
+
+// Post at about 9am Chicago time (the workflow runs at two UTC hours to cover
+// daylight saving; the earlier one is 8am in winter and is skipped here).
+const POST_HOUR = 9, TZ = 'America/Chicago';
+const localHour = Number(new Intl.DateTimeFormat('en-US', { timeZone: TZ, hour: 'numeric', hourCycle: 'h23' }).format(new Date()));
+if (!FORCE && !DRY && localHour < POST_HOUR) {
+    console.log(`not yet: ${localHour}:00 in Chicago, posting from ${POST_HOUR}:00`);
     ghOutput('posted', 'none');
     process.exit(0);
 }

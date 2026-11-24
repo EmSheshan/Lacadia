@@ -6,9 +6,11 @@ name: Instagram carousel
 
 on:
   schedule:
-    # 17:23 UTC. An odd minute on purpose: the top of the hour is the most
-    # contended slot on GitHub's scheduler.
-    - cron: '23 17 * * *'
+    # Aim: 9am Chicago. GitHub schedules in UTC and Chicago shifts an hour with
+    # daylight saving, so run at both 14:07 and 15:07 UTC; the script posts
+    # only once it is 9am or later in Chicago (and two days since the last).
+    # Minute 7, not 0: the top of the hour is GitHub's most delayed slot.
+    - cron: '7 14,15 * * *'
   workflow_dispatch:
     inputs:
       dry_run:
