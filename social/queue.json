@@ -520,6 +520,10 @@
         "tumblr": {
           "at": "2026-11-15T20:32:04.491Z",
           "url": "https://emsh.tumblr.com/post/833381701130534912"
+        },
+        "instagram": {
+          "at": "2026-11-16T23:50:22.011Z",
+          "url": "https://www.instagram.com/p/Df0k084lCHE/"
         }
       }
     },
@@ -532,6 +536,14 @@
         "bluesky": {
           "at": "2026-11-12T21:54:24.462Z",
           "url": "https://bsky.app/profile/emsheshan.bsky.social/post/3n25hhgnglc2t"
+        },
+        "tumblr": {
+          "at": "2026-11-16T23:50:12.750Z",
+          "url": "https://emsh.tumblr.com/post/833484763929182208"
+        },
+        "instagram": {
+          "at": "2026-11-17T23:07:49.358Z",
+          "url": "https://www.instagram.com/p/Df3EvzUH2PX/"
         }
       }
     },
@@ -544,6 +556,14 @@
         "bluesky": {
           "at": "2026-11-13T21:35:27.031Z",
           "url": "https://bsky.app/profile/emsheshan.bsky.social/post/3n27wugzsjh2z"
+        },
+        "tumblr": {
+          "at": "2026-11-17T23:07:36.335Z",
+          "url": "https://emsh.tumblr.com/post/833572680025473024"
+        },
+        "instagram": {
+          "at": "2026-11-18T22:41:33.329Z",
+          "url": "https://www.instagram.com/p/Df5mi8dlvjK/"
         }
       }
     },
@@ -556,6 +576,14 @@
         "bluesky": {
           "at": "2026-11-14T20:03:54.096Z",
           "url": "https://bsky.app/profile/emsheshan.bsky.social/post/3n2cc7oijbl2h"
+        },
+        "tumblr": {
+          "at": "2026-11-18T22:41:25.662Z",
+          "url": "https://emsh.tumblr.com/post/833661630296506368"
+        },
+        "instagram": {
+          "at": "2026-11-19T22:45:00.666Z",
+          "url": "https://www.instagram.com/p/Df8Lu5CFqNb/"
         }
       }
     },
@@ -568,6 +596,14 @@
         "bluesky": {
           "at": "2026-11-15T20:32:03.606Z",
           "url": "https://bsky.app/profile/emsheshan.bsky.social/post/3n2euax4nir26"
+        },
+        "tumblr": {
+          "at": "2026-11-19T22:44:51.140Z",
+          "url": "https://emsh.tumblr.com/post/833752442688700416"
+        },
+        "instagram": {
+          "at": "2026-11-20T22:20:35.419Z",
+          "url": "https://www.instagram.com/p/Df-turbFkL5/"
         }
       }
     },
@@ -576,21 +612,60 @@
       "num": 2098,
       "name": "Ravenger",
       "image": "socialImages/ravenger.jpg",
-      "posted": {}
+      "posted": {
+        "bluesky": {
+          "at": "2026-11-16T23:50:11.951Z",
+          "url": "https://bsky.app/profile/emsheshan.bsky.social/post/3n2hps65hhe2j"
+        },
+        "tumblr": {
+          "at": "2026-11-20T22:20:23.917Z",
+          "url": "https://emsh.tumblr.com/post/833841501239902208"
+        },
+        "instagram": {
+          "at": "2026-11-21T21:05:02.904Z",
+          "url": "https://www.instagram.com/p/DgBJ4BFI0GM/"
+        }
+      }
     },
     {
       "key": "sacrabelldirge",
       "num": 2099,
       "name": "Sacrabell-Dirge",
       "image": "socialImages/sacrabelldirge.jpg",
-      "posted": {}
+      "posted": {
+        "bluesky": {
+          "at": "2026-11-17T23:07:35.012Z",
+          "url": "https://bsky.app/profile/emsheshan.bsky.social/post/3n2k5uuyhin27"
+        },
+        "tumblr": {
+          "at": "2026-11-21T21:04:49.204Z",
+          "url": "https://emsh.tumblr.com/post/833927343181578240"
+        },
+        "instagram": {
+          "at": "2026-11-22T21:13:54.962Z",
+          "url": "https://www.instagram.com/p/DgDvsAcgSVo/"
+        }
+      }
     },
     {
       "key": "sacrabellhymn",
       "num": 2099,
       "name": "Sacrabell-Hymn",
       "image": "socialImages/sacrabellhymn.jpg",
-      "posted": {}
+      "posted": {
+        "bluesky": {
+          "at": "2026-11-17T23:07:35.012Z",
+          "url": "https://bsky.app/profile/emsheshan.bsky.social/post/3n2k5uuyhin27"
+        },
+        "tumblr": {
+          "at": "2026-11-21T21:04:49.204Z",
+          "url": "https://emsh.tumblr.com/post/833927343181578240"
+        },
+        "instagram": {
+          "at": "2026-11-22T21:13:54.962Z",
+          "url": "https://www.instagram.com/p/DgDvsAcgSVo/"
+        }
+      }
     }
   ]
 }
