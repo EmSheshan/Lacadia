@@ -169,6 +169,29 @@ function silhouette(img, x, y, s, color, spread = 0) {
 
 // ---------------------------------------------------------------- background
 
+
+/**
+ * Lens-style chromatic aberration: red is sampled a touch further out from
+ * the centre and blue a touch further in, so colour fringes grow towards the
+ * edges and the middle stays sharp.
+ */
+function chromatic(ctx, amount = 0.012) {
+    const src = ctx.getImageData(0, 0, W, H), out = ctx.createImageData(W, H);
+    const s = src.data, d = out.data, cx = W / 2, cy = H / 2;
+    const at = (x, y) => (Math.min(H - 1, Math.max(0, Math.round(y))) * W + Math.min(W - 1, Math.max(0, Math.round(x)))) * 4;
+    for (let y = 0; y < H; y++) {
+        for (let x = 0; x < W; x++) {
+            const i = (y * W + x) * 4, dx = x - cx, dy = y - cy;
+            d[i] = s[at(cx + dx * (1 + amount), cy + dy * (1 + amount))];
+            d[i + 1] = s[i + 1];
+            d[i + 2] = s[at(cx + dx * (1 - amount), cy + dy * (1 - amount)) + 2];
+            d[i + 3] = 255;
+        }
+    }
+    ctx.putImageData(out, 0, 0);
+}
+
+
 /**
  * A neat halftone band: a regular offset grid of dots, biggest at the edge
  * (y0) and shrinking row by row towards the middle (dir = 1 down, -1 up).
@@ -190,6 +213,7 @@ function halftoneEdge(ctx, y0, dir, { rows = 9, gap = 30, maxR = 13, color = 'rg
     ctx.restore();
 }
 
+
 /** Photo, cover-fitted, blurred, and dimmed enough for text to sit on. */
 function photoBackground(ctx, photo, mon) {
     const scale = Math.max(W / photo.width, H / photo.height) * 1.08; // overscan hides blur edges
@@ -197,6 +221,7 @@ function photoBackground(ctx, photo, mon) {
     const sharp = createCanvas(W, H);
     sharp.getContext('2d').drawImage(photo, (W - pw) / 2, (H - ph) / 2, pw, ph);
     ctx.drawImage(blurred(sharp, W, H, 32), 0, 0);
+    chromatic(ctx, 0.028);
 
     // Blend the type gradient through it so every card keeps the house
     // colours, then dim + vignette so text and art stand off the scene.
@@ -283,6 +308,7 @@ function gradientBackground(ctx, mon) {
     };
     dots(18, 1, top);
     dots(H - 18, -1, bot);
+
 }
 
 // ---------------------------------------------------------------- frame
@@ -296,124 +322,109 @@ function diamond(ctx, x, y, r, fill) {
 }
 
 /**
- * The detailed frame laid over the whole slide: a double gold rule, heavier
- * corner brackets with a dot cluster, and diamond studs at the edge midpoints.
+ * The frame laid over the whole slide: a single gold rule, heavier
+ * rounded corners.
  */
 function border(ctx) {
-    const o = 26, i2 = 40;               // outer and inner rule insets
+    // One clean gold rule with short heavier corners.
+    const o = 28, r = 20;
     ctx.save();
-
-    // Darken the margin outside the frame so it reads as a mount.
-    ctx.fillStyle = 'rgba(6,6,14,0.35)';
+    ctx.strokeStyle = 'rgba(255,210,0,0.85)';
+    ctx.lineWidth = 2.5;
     ctx.beginPath();
-    ctx.rect(0, 0, W, H);
-    ctx.roundRect(o, o, W - 2 * o, H - 2 * o, 18);
-    ctx.fill('evenodd');
-
-    ctx.strokeStyle = 'rgba(255,210,0,0.95)';
-    ctx.lineWidth = 3;
-    ctx.beginPath();
-    ctx.roundRect(o, o, W - 2 * o, H - 2 * o, 18);
+    ctx.roundRect(o, o, W - 2 * o, H - 2 * o, r);
     ctx.stroke();
 
-    ctx.strokeStyle = 'rgba(255,226,120,0.45)';
-    ctx.lineWidth = 1.5;
-    ctx.setLineDash([2, 7]);
-    ctx.beginPath();
-    ctx.roundRect(i2, i2, W - 2 * i2, H - 2 * i2, 10);
-    ctx.stroke();
-    ctx.setLineDash([]);
-
-    // Corner brackets.
-    const len = 92, t = 7;
-    ctx.fillStyle = GOLD;
+    const len = 70;
+    ctx.lineWidth = 7;
+    ctx.lineCap = 'round';
+    ctx.strokeStyle = GOLD;
     for (const [cx, cy, sx, sy] of [[o, o, 1, 1], [W - o, o, -1, 1], [o, H - o, 1, -1], [W - o, H - o, -1, -1]]) {
-        ctx.fillRect(Math.min(cx, cx + sx * len), cy - (sy < 0 ? t : 0), len, t);
-        ctx.fillRect(cx - (sx < 0 ? t : 0), Math.min(cy, cy + sy * len), t, len);
-        diamond(ctx, cx + sx * 8, cy + sy * 8, 13, GOLD);
-        diamond(ctx, cx + sx * 8, cy + sy * 8, 5, '#1a1420');
-        for (let k = 0; k < 3; k++) {     // little halftone run off each bracket
-            const r = 4.5 - k * 1.3;
-            ctx.beginPath(); ctx.arc(cx + sx * (len + 14 + k * 14), cy + sy * 3.5, r, 0, Math.PI * 2); ctx.fill();
-            ctx.beginPath(); ctx.arc(cx + sx * 3.5, cy + sy * (len + 14 + k * 14), r, 0, Math.PI * 2); ctx.fill();
-        }
-    }
-
-    // Studs at the edge midpoints.
-    for (const [x, y] of [[W / 2, o], [W / 2, H - o], [o, H / 2], [W - o, H / 2]]) {
-        diamond(ctx, x, y, 11, GOLD);
-        diamond(ctx, x, y, 4, '#1a1420');
+        ctx.beginPath();
+        ctx.moveTo(cx, cy + sy * len);
+        ctx.lineTo(cx, cy + sy * r);
+        ctx.arcTo(cx, cy, cx + sx * r, cy, r);
+        ctx.lineTo(cx + sx * len, cy);
+        ctx.stroke();
     }
     ctx.restore();
 }
 
-/** Yellow name banner with the halftone tail, like the original card. */
-function banner(ctx, title) {
-    const y = 70, h = 128;
+const LEAN = 36;   // how far the banner and tag edges slant over their height
 
-    let size = 92;
+/** Yellow name banner with a slanted end, like the original card. */
+function banner(ctx, title) {
+    const y = 70, h = 124;
+    let size = 90;
     ctx.font = FONT(size);
     while (ctx.measureText(title).width > 720 && size > 56) ctx.font = FONT(size -= 4);
-    const textW = ctx.measureText(title).width;
-    const solid = Math.max(520, SAFE + textW + 60);
+    const solid = Math.max(480, SAFE + ctx.measureText(title).width + 56);
+    const edgeAt = (yy) => solid + LEAN * (1 - (yy - y) / h);
 
-    ctx.fillStyle = 'rgba(0,0,0,0.35)';
-    ctx.beginPath();
-    ctx.moveTo(0, y + 12); ctx.lineTo(solid + 52, y + 12);
-    ctx.lineTo(solid + 12, y + h + 12); ctx.lineTo(0, y + h + 12);
-    ctx.fill();
-
+    const shape = () => {
+        ctx.beginPath();
+        ctx.moveTo(0, y); ctx.lineTo(edgeAt(y), y); ctx.lineTo(edgeAt(y + h), y + h); ctx.lineTo(0, y + h);
+    };
+    ctx.save();
+    ctx.shadowColor = 'rgba(0,0,0,0.4)';           // slight drop shadow
+    ctx.shadowBlur = 6;
+    ctx.shadowOffsetX = 6;
+    ctx.shadowOffsetY = 7;
     const g = ctx.createLinearGradient(0, 0, solid, 0);
     g.addColorStop(0, '#ffb800');
-    g.addColorStop(1, '#ffdf1a');
+    g.addColorStop(1, '#ffdc14');
     ctx.fillStyle = g;
-    ctx.beginPath();
-    ctx.moveTo(0, y); ctx.lineTo(solid + 40, y);
-    ctx.lineTo(solid, y + h); ctx.lineTo(0, y + h);
+    shape();
     ctx.fill();
+    ctx.restore();
 
-    // Halftone tail: a tidy grid trailing off the slanted edge, dots shrinking
-    // column by column.
-    const gap = 22, rowsN = Math.floor(h / gap);
-    ctx.fillStyle = '#ffd21a';
-    for (let row = 0; row < rowsN; row++) {
-        const cy = y + gap / 2 + row * gap + (h - rowsN * gap) / 2;
-        const edgeX = solid + 40 - (cy - y) * (40 / h);   // the banner's slanted edge at this height
-        for (let col = 0; col < 10; col++) {
-            const r = 9.5 * (1 - col / 10) ** 1.3;
-            if (r < 1.2) continue;
+    // Very faint halftone in the yellow, dots growing towards the slanted end.
+    ctx.save();
+    shape();
+    ctx.clip();
+    ctx.fillStyle = 'rgba(200,110,0,0.13)';
+    const gap = 16;
+    for (let row = 0, yy = y + gap / 2; yy < y + h; row++, yy += gap * 0.866) {
+        for (let xx = (row % 2) * gap / 2; xx < solid + LEAN + gap; xx += gap) {
+            const r = 0.8 + 4.4 * (xx / (solid + LEAN)) ** 1.6;
             ctx.beginPath();
-            ctx.arc(edgeX + 6 + col * gap + (row % 2) * gap / 2, cy, r, 0, Math.PI * 2);
+            ctx.arc(xx, yy, r, 0, Math.PI * 2);
             ctx.fill();
         }
     }
+    ctx.restore();
 
+    // Optically centred: cap height sits in the middle of the band.
     ctx.fillStyle = '#111';
-    ctx.fillText(title, SAFE, y + 94 - (92 - size) / 3);
+    ctx.fillText(title, SAFE, y + h / 2 + size * 0.34);
 }
 
+/** The handle, as the banner's dark twin coming in from the bottom right. */
 function watermark(ctx) {
-    const h = 78, y = H - 168, x = W - 360;
-    ctx.fillStyle = 'rgba(8,8,16,0.92)';
-    for (let row = 0; row < 4; row++) {
-        for (let col = 0; col < 7; col++) {
-            const r = 8 * (1 - col / 7) ** 1.3;
-            if (r < 1.2) continue;
-            ctx.beginPath();
-            ctx.arc(x - 12 - col * 19 - (row % 2) * 9.5, y + 10 + row * 19, r, 0, Math.PI * 2);
-            ctx.fill();
-        }
-    }
-    ctx.fillStyle = 'rgba(8,8,16,0.92)';
-    ctx.fillRect(x, y, W - x, h);
-    ctx.font = FONT(54);
+    const h = 84, y = H - 178;
+    ctx.font = FONT(52);
+    const t = '@EmSheshan';
+    const tw = ctx.measureText(t).width;
+    const left = W - SAFE - tw - 40;
+    const edgeAt = (yy) => left + LEAN * 0.68 * (1 - (yy - y) / h) - LEAN * 0.68;
+
+    ctx.save();
+    ctx.shadowColor = 'rgba(0,0,0,0.4)';
+    ctx.shadowBlur = 18;
+    ctx.shadowOffsetY = 6;
+    ctx.fillStyle = 'rgba(10,10,18,0.94)';
+    ctx.beginPath();
+    ctx.moveTo(edgeAt(y), y); ctx.lineTo(W, y); ctx.lineTo(W, y + h); ctx.lineTo(edgeAt(y + h), y + h);
+    ctx.fill();
+    ctx.restore();
+
     ctx.fillStyle = GOLD;
-    ctx.fillText('@EmSheshan', W - SAFE - ctx.measureText('@EmSheshan').width, y + 58);
+    ctx.fillText(t, W - SAFE - tw, y + h / 2 + 52 * 0.34);
 }
 
 /** Page marker: one diamond per slide, this one filled -- tells people to swipe. */
 function pager(ctx, index, count) {
-    const r = 10, gap = 30, y = 134;
+    const r = 10, gap = 30, y = 74;
     let x = W - SAFE - r - (count - 1) * gap;
     for (let i = 0; i < count; i++, x += gap) {
         if (i === index) {
@@ -563,13 +574,28 @@ function panel(ctx, x, y, w, h, r = 26) {
  * The art, outlined to suit the background: a soft light halo on a photo (as
  * in the hand-made environment cards), the gold offset shadow on a gradient.
  */
-function drawArt(ctx, slide, img, x, y, s) {
-    if (slide.photo) {
-        // Solid white stroke around the art, at half opacity.
-        const k = Math.max(0.35, s / 1100);
-        ctx.globalAlpha = 0.5;
-        ctx.drawImage(silhouette(img, x, y, s, '#ffffff', 12 * k), 0, 0);
-        ctx.globalAlpha = 1;
+function drawArt(ctx, slide, img, x, y, s, { glow = true } = {}) {
+    if (slide.photo && !glow) {
+        // no glow: just the art
+    } else if (slide.photo) {
+        // A soft light-yellow glow behind the art, added (additive blend) and
+        // split into red / green / blue that sit slightly apart, so its edge
+        // fringes like a lens.
+        const k = Math.max(0.3, s / 1100);
+        const glow = blurred(silhouette(img, x, y, s, '#ffffff', 22 * k), W, H, s > 600 ? 64 : 32);
+        const shift = Math.max(3, Math.round(9 * k));
+        ctx.save();
+        ctx.globalCompositeOperation = 'lighter';
+        for (const [color, dx] of [['rgb(255,0,0)', -shift], ['rgb(0,236,0)', 0], ['rgb(0,0,150)', shift]]) {
+            const ch = createCanvas(W, H), c = ch.getContext('2d');
+            c.drawImage(glow, 0, 0);
+            c.globalCompositeOperation = 'source-in';
+            c.fillStyle = color;
+            c.fillRect(0, 0, W, H);
+            ctx.globalAlpha = 0.45;
+            ctx.drawImage(ch, dx, 0);
+        }
+        ctx.restore();
     } else {
         const off = Math.max(6, Math.round(12 * s / 1100));
         ctx.drawImage(silhouette(img, x + off, y + off, s, GOLD), 0, 0);
@@ -1037,22 +1063,7 @@ function slideEvo(ctx, sl) {
             const img = sl.evoArt[k];
             const isMe = sl.keys.includes(k);
 
-            if (isMe) {
-                ctx.save();
-                // Diamond behind the one this post is about.
-                const dc = size * 0.5, mx = x0 + size / 2, my = y0 + size / 2;
-                ctx.beginPath();
-                ctx.moveTo(mx, my - dc); ctx.lineTo(mx + dc, my); ctx.lineTo(mx, my + dc); ctx.lineTo(mx - dc, my);
-                ctx.closePath();
-                ctx.lineJoin = 'round';
-                ctx.fillStyle = 'rgba(255,210,0,0.16)';
-                ctx.fill();
-                ctx.lineWidth = 4;
-                ctx.strokeStyle = 'rgba(255,210,0,0.8)';
-                ctx.stroke();
-                ctx.restore();
-            }
-            drawArt(ctx, sl, img, x0, y0, size);
+            drawArt(ctx, sl, img, x0, y0, size, { glow: isMe });
 
             const nm = pokedex[k].name;
             let fsz = Math.min(48, Math.max(26, size / 6));
@@ -1067,7 +1078,7 @@ function slideEvo(ctx, sl) {
             ctx.restore();
         });
 
-        // Line the arrow up with the art (and the diamond), not the art+name block.
+        // Line the arrow up with the art, not the art+name block.
         if (si < stages.length - 1) chevron(ctx, cx + colW / 2 + arrowW / 2, (top + bottom) / 2 - nameH / 2);
     });
 
@@ -1159,6 +1170,8 @@ for (const members of groups) {
     };
 
     sl.evo = evoLine(members[0]);
+    // A species with forms shows all of them at its stage (Tortarma Solar and Polar).
+    if (members.length > 1) sl.evo = sl.evo.map((st) => (st.includes(members[0]) ? members.filter(hasArt) : st));
     const evolves = sl.evo.flat().filter((k) => !members.includes(k)).length > 0;
     if (evolves) {
         sl.evoArt = {};

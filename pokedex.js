@@ -1231,9 +1231,9 @@ export const pokedex = {
         color: "Green",
         eggGroups: ["Field", "Grass"],
         kind: "Agave",
-        description: [["Iguavadon bask during the day, using the sun's rays to roast and cook the agave nectar stored in their throat sacs.",
+        description: ["Iguavadon bask during the day, using the sun's rays to roast and cook the agave nectar stored in their throat sacs.",
             "The agave nectar they produce is slightly intoxicating, and Iguavadon will run in gangs to keep as much agave to themselves."]
-        ], "signatureMove": "Agave Shot"
+        , "signatureMove": "Agave Shot"
     },
     tortarmasolar: {
         num: 2071,
