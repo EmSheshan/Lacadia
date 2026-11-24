@@ -85,7 +85,22 @@ for (const c of ['Physical', 'Special', 'Status']) {
 const envMap = fs.existsSync(path.join(ENV, 'map.json'))
     ? JSON.parse(fs.readFileSync(path.join(ENV, 'map.json'), 'utf8')) : {};
 
+// The Emsh site (checked out next to this repo, or EMSH_DIR) gives every
+// evolution line its own habitat photo; posts use the same one when it's there.
+const EMSH = [process.env.EMSH_DIR, '../emsh', '../Emsh'].filter(Boolean)
+    .map((d) => path.resolve(BASE, d)).find((d) => fs.existsSync(path.join(d, 'lacadia', 'data', 'pokedex.csv')));
+const siteBg = {};
+if (EMSH) {
+    const { parseCSV } = await import(path.join(EMSH, 'shared', 'pokeData.js'));
+    for (const f of ['pokedex.csv', 'megadex.csv']) {
+        const p = path.join(EMSH, 'lacadia', 'data', f);
+        if (fs.existsSync(p)) for (const r of parseCSV(fs.readFileSync(p, 'utf8'))) if (r.background) siteBg[r.id] = r.background;
+    }
+}
+
 function envPathFor(key) {
+    const site = siteBg[key] && ['jpg', 'jpeg', 'png'].map((e) => path.join(EMSH, 'environments', `${siteBg[key]}.${e}`)).find((p) => fs.existsSync(p));
+    if (site) return site;
     const candidates = [envMap[key], `${key}.jpg`, `${key}.jpeg`, `${key}.png`].filter(Boolean);
     return candidates.map((f) => path.join(ENV, f)).find((p) => fs.existsSync(p) && fs.statSync(p).isFile()) ?? null;
 }
@@ -815,57 +830,49 @@ function slideDexForms(ctx, sl) {
 }
 
 function slideStatsForms(ctx, sl) {
+    // One block per form: its art, name and total, then its own six bars.
     const { forms } = sl;
-    const n = forms.length;
+    const n = forms.length, cols = n > 2 ? 2 : 1, rows = Math.ceil(n / cols), gap = 22;
+    const top = 225, bottom = H - 190;
+    const bw = (W - 140 - gap * (cols - 1)) / cols, bh = (bottom - top - gap * (rows - 1)) / rows;
 
-    // Header: each form with its total.
-    const colW = (W - 140) / n;
-    const s = Math.min(colW - 120, 220);
     forms.forEach((f, i) => {
-        const x = 70 + i * colW;
-        drawArt(ctx, { ...sl, mon: f.mon }, f.art, x + 4, 225, Math.min(s, 200));
-        const tx = x + Math.min(s, 200) + 14, tw = colW - Math.min(s, 200) - 24;
-        fitText(ctx, formName(f.mon), tw, 40);
+        const x = 70 + (i % cols) * (bw + gap), y = top + Math.floor(i / cols) * (bh + gap);
+        panel(ctx, x, y, bw, bh);
+        const head = Math.min(170, bh * 0.32), art = head - 20;
+        drawArt(ctx, { ...sl, mon: f.mon }, f.art, x + 18, y + 12, art);
+        const tx = x + art + 40;
+        ctx.font = FONT(52);
         ctx.fillStyle = GOLD;
-        ctx.fillText(formName(f.mon), tx, 290);
+        ctx.fillText(`${formName(f.mon)} Form`, tx, y + head * 0.45);
+        typePills(ctx, f.mon.types, tx, y + head * 0.55, 170);
         const bst = STATS.reduce((t, [k]) => t + f.mon.baseStats[k], 0);
-        fitText(ctx, String(bst), tw, 96);
+        ctx.font = FONT(110);
+        const bx = x + bw - 34 - ctx.measureText(String(bst)).width;
         ctx.fillStyle = PAPER;
-        ctx.fillText(String(bst), tx, 385);
-        label(ctx, 'Total', tx, 420, 26);
-    });
+        ctx.fillText(String(bst), bx, y + head * 0.7);
+        label(ctx, 'Total', bx, y + head * 0.7 + 38, 26);
 
-    const top = 470, bottom = H - 200;
-    panel(ctx, 70, top, W - 140, bottom - top);
-    const groupH = (bottom - top - 30) / 6;
-    const barX = 420, barW = 520, icon = Math.min(44, (groupH - 24) / n);
-    const barH = Math.max(12, icon - 10);
-
-    STATS.forEach(([k, name], si) => {
-        const gy = top + 15 + si * groupH;
-        ctx.font = FONT(44);
-        ctx.fillStyle = PAPER;
-        ctx.fillText(name, 105, gy + groupH / 2 + 15);
-
-        forms.forEach((f, fi) => {
-            const v = f.mon.baseStats[k];
-            const rowY = gy + (groupH - n * icon) / 2 + fi * icon;
-            const by = rowY + (icon - barH) / 2;
-            const tag = formName(f.mon);
-            fitText(ctx, tag, 120, Math.max(22, barH + 12));
-            ctx.fillStyle = MUTED;
-            ctx.fillText(tag, barX - 16 - ctx.measureText(tag).width, by + barH / 2 + 9);
+        const ry = y + head + 14, rowH = (bh - head - 30) / 6;
+        const lx = x + 36, barX = x + Math.min(240, bw * 0.34), valW = 90;
+        const barW = x + bw - 36 - valW - barX, barH = Math.min(30, rowH * 0.5);
+        const fs = Math.min(40, rowH * 0.66);
+        STATS.forEach(([k, name], si) => {
+            const v = f.mon.baseStats[k], mid = ry + si * rowH + rowH / 2;
+            ctx.font = FONT(fs);
+            ctx.fillStyle = PAPER;
+            ctx.fillText(name, lx, mid + fs * 0.36);
             ctx.beginPath();
-            ctx.roundRect(barX, by, barW, barH, barH / 2);
+            ctx.roundRect(barX, mid - barH / 2, barW, barH, barH / 2);
             ctx.fillStyle = 'rgba(255,255,255,0.10)';
             ctx.fill();
             ctx.beginPath();
-            ctx.roundRect(barX, by, Math.max(barH, barW * Math.min(v, 200) / 200), barH, barH / 2);
+            ctx.roundRect(barX, mid - barH / 2, Math.max(barH, barW * Math.min(v, 200) / 200), barH, barH / 2);
             ctx.fillStyle = STAT_COLORS[k];
             ctx.fill();
-            ctx.font = FONT(Math.max(24, barH + 14));
+            ctx.font = FONT(fs + 4);
             ctx.fillStyle = PAPER;
-            ctx.fillText(String(v), barX + barW + 24, by + barH / 2 + Math.max(24, barH + 14) * 0.36);
+            ctx.fillText(String(v), barX + barW + 22, mid + (fs + 4) * 0.36);
         });
     });
 
